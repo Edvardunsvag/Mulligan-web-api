@@ -23,7 +23,6 @@ namespace MulliganApi.Controllers
         }
 
         [HttpPost("register")]
-        [Route("/")]
         public async Task<IActionResult> Register(UserRegisterRequest request)
         {
             if (_context.Users.Any(u => u.Email == request.Email))
@@ -49,7 +48,6 @@ namespace MulliganApi.Controllers
         }
 
         [HttpPost("login")]
-        [Route("/")]
         public async Task<IActionResult> Login(UserLoginRequest request)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email);
