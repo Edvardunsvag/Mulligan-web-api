@@ -1,0 +1,36 @@
+﻿<Properties StartupConfiguration="{017881DA-5898-4A7D-90E3-7AAF1311BD49}|Default">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="MulliganApi/Program.cs">
+    <Files>
+      <File FileName="MulliganApi/Models/User.cs" />
+      <File FileName="MulliganApi/Data/DataContext.cs" />
+      <File FileName="MulliganApi/Program.cs" Line="29" Column="1" />
+      <File FileName="MulliganApi/Migrations/20230118184247_Inital.cs" />
+      <File FileName="MulliganApi/Models/UserRegisterRequest.cs" />
+      <File FileName="MulliganApi/Controllers/UserController.cs" />
+      <File FileName="MulliganApi/Models/UserLoginRequest.cs" />
+      <File FileName="MulliganApi/Migrations/20230118193814_Initial2.cs" />
+      <File FileName="MulliganApi/Migrations/20230118190557_Initial.cs" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="MulliganApi" expanded="True">
+            <Node name="MulliganApi" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Data" expanded="True" />
+              <Node name="Migrations" expanded="True" />
+              <Node name="Models" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.MulliganApi PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+</Properties>
