@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -32,8 +32,8 @@
     <None Remove="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
     <None Remove="Microsoft.EntityFrameworkCore.Sqlite" />
   </ItemGroup>
+
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Data\" />
+    <Folder Include="Database\Migrations\" />
   </ItemGroup>
 </Project>

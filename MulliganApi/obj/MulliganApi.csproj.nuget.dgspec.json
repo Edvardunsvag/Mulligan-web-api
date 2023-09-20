@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/edvardunsvag/Edvard-Dev/MulliganApi/MulliganApi/MulliganApi/MulliganApi.csproj": {}
+    "C:\\Users\\Edvard\\Source\\Repos\\Edvardunsvag\\Mulligan-web-api\\MulliganApi\\MulliganApi.csproj": {}
   },
   "projects": {
-    "/Users/edvardunsvag/Edvard-Dev/MulliganApi/MulliganApi/MulliganApi/MulliganApi.csproj": {
+    "C:\\Users\\Edvard\\Source\\Repos\\Edvardunsvag\\Mulligan-web-api\\MulliganApi\\MulliganApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/edvardunsvag/Edvard-Dev/MulliganApi/MulliganApi/MulliganApi/MulliganApi.csproj",
+        "projectUniqueName": "C:\\Users\\Edvard\\Source\\Repos\\Edvardunsvag\\Mulligan-web-api\\MulliganApi\\MulliganApi.csproj",
         "projectName": "MulliganApi",
-        "projectPath": "/Users/edvardunsvag/Edvard-Dev/MulliganApi/MulliganApi/MulliganApi/MulliganApi.csproj",
-        "packagesPath": "/Users/edvardunsvag/.nuget/packages/",
-        "outputPath": "/Users/edvardunsvag/Edvard-Dev/MulliganApi/MulliganApi/MulliganApi/obj/",
+        "projectPath": "C:\\Users\\Edvard\\Source\\Repos\\Edvardunsvag\\Mulligan-web-api\\MulliganApi\\MulliganApi.csproj",
+        "packagesPath": "C:\\Users\\Edvard\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Edvard\\Source\\Repos\\Edvardunsvag\\Mulligan-web-api\\MulliganApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/edvardunsvag/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Edvard\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -90,7 +92,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.102/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }
