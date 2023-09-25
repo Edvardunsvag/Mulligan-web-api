@@ -10,7 +10,7 @@ namespace MulliganApi.Database.Models
         public string CourseDescription { get; set; } = string.Empty;
 
 
-        //Helpers for EF
+        //Helpers for EF core
         public List<CourseHole> CourseHoles { get; set; } = new();
     }
 }
