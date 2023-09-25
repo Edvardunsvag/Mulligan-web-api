@@ -51,7 +51,7 @@ jobs:
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'mulligan-web-api'
+          app-name: 'mulligan-webapi'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_2E5E8DD6C82942A9A96E0C57E4ADF065 }}
           package: .
