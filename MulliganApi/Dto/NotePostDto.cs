@@ -1,9 +1,10 @@
 ﻿namespace MulliganApi.Dto
 {
-    public class NoteDto
+    public class NotePostDto
     {
+        public Guid UserId { get; set; }
         public string Content { get; set; }
-        public string CourseName { get; set; }
+        public Guid CourseId { get; set; }
         public int HoleNumber { get; set; }
     }
 }

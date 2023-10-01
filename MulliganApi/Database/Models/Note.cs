@@ -7,6 +7,5 @@
         public CourseHole CourseHole { get; set; }
         public DateTime? LastUpdated { get; set; }
         public string Content { get; set; }
-
     }
 }

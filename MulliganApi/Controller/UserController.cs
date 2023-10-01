@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using Azure.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MulliganApi.Data;
 using MulliganApi.Database.Models;
+using MulliganApi.Database.Repository;
 using MulliganApi.Dto;
+using MulliganApi.Service;
 
 namespace MulliganApi.Controller
 {
@@ -16,17 +19,21 @@ namespace MulliganApi.Controller
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly MulliganDbContext _context;
+        private readonly IMulliganService _service;
+        private readonly IMulliganRepository _repository;
 
-        public UserController(MulliganDbContext context)
+        public UserController(IMulliganService service, IMulliganRepository repository)
         {
-            _context = context;
+            _service = service;
+            _repository = repository;
         }
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterRequestDto request)
         {
-            if (_context.User.Any(u => u.Email == request.Email))
+            var registeredUsers = await _repository.GetAllUsers();
+
+            if (registeredUsers.Any(u => u.Email == request.Email))
             {
                 return BadRequest("User already exists");
             }
@@ -42,8 +49,7 @@ namespace MulliganApi.Controller
                 VerificationToken = CreateRandomToken()
             };
 
-            _context.User.Add(user);
-            await _context.SaveChangesAsync();
+            await _repository.AddUser(user);
 
             return Ok("User successfully created");
         }
@@ -51,7 +57,9 @@ namespace MulliganApi.Controller
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginRequestDto request)
         {
-            var user = await _context.User.FirstOrDefaultAsync(u => u.Email == request.Email);
+            var registeredUsers = await _repository.GetAllUsers();
+
+            var user = registeredUsers.FirstOrDefault(u => u.Email == request.Email);
             if (user == null)
             {
                 return BadRequest("User not found");
@@ -62,14 +70,37 @@ namespace MulliganApi.Controller
                 return BadRequest("Password is incorrect");
             }
 
-            //if (user.VerifiedAt == null)
-            //{
-            //    return BadRequest("Not verified!");
-            //}
 
             return Ok($"Welcome back, {user.Email}");
-
         }
+
+        [HttpGet("GetUserId")]
+        public async Task<IActionResult> GetUserId(string email)
+        {
+            var registeredUsers = await _repository.GetAllUsers();
+            var user = registeredUsers.FirstOrDefault(u => u.Email == email);
+
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+
+            return Ok(registeredUsers);
+        }
+
+        [HttpGet("GetAllUsers")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var registeredUsers = await _repository.GetAllUsers();
+            if(registeredUsers.Count == 0)
+            {
+                return BadRequest("No users");
+            }
+
+            return Ok(registeredUsers);
+        }
+
+
 
         private void CreatePasswordHash(string password,
             out byte[] passwordHash, out byte[] passwordSalt)

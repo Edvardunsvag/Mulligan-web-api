@@ -32,8 +32,4 @@
     <None Remove="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
     <None Remove="Microsoft.EntityFrameworkCore.Sqlite" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Database\Migrations\" />
-  </ItemGroup>
 </Project>

@@ -28,5 +28,14 @@ namespace MulliganApi.Controller
             var rounds = await _service.GetAllRoundsForUser(id);
             return rounds;
         }
+
+        [HttpGet("GetAllRounds")]
+        public async Task<List<RoundGetDto>> GetAllRounds()
+        {
+            var rounds = await _service.GetAllRounds();
+            return rounds;
+        }
+
+
     }
 }

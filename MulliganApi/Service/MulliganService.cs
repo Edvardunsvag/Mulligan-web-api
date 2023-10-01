@@ -58,6 +58,38 @@ namespace MulliganApi.Service
             return roundsDto;
         }
 
+        public async Task<List<RoundGetDto>> GetAllRounds()
+        {
+            var rounds = await _repository.GetAllRounds();
+            var roundsDto = rounds.Select(x => ToDto(x)).ToList();
+
+            return roundsDto;
+        }
+
+        public async Task<List<NoteDto>> GetAllNotesForUser(Guid userid)
+        {
+            var notes = await _repository.GetAllNotes(userid).ConfigureAwait(false);
+            var courses = await _repository.GetAllCourses().ConfigureAwait(false);
+            var notesDtos = notes.Select(x => ToDtoAsync(x, courses)).ToList();
+
+            return notesDtos;
+        }
+
+        public  NoteDto ToDtoAsync(Note note, List<Course> courses)
+        {
+            var connectedCourse = courses.FirstOrDefault(x => x.Id == note.CourseHole.CourseId);
+
+            var noteDto = new NoteDto()
+            {
+                Content = note.Content,
+                CourseName = connectedCourse?.CourseName ?? "",
+                HoleNumber = note.CourseHole.HoleNumber
+            };
+
+           return noteDto;
+        }
+
+
         public RoundGetDto ToDto(Round round)
         {
             var roundDto = new RoundGetDto()
