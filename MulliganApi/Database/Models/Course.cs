@@ -8,6 +8,9 @@ namespace MulliganApi.Database.Models
         public Guid Id { get; set; }
         public string CourseName { get; set; } = string.Empty;
         public string CourseDescription { get; set; } = string.Empty;
+        public int Par { get; set; }
+        public List<CourseTeeBox> TeeBoxes { get; set; } = new();
+
 
 
         //Helpers for EF core

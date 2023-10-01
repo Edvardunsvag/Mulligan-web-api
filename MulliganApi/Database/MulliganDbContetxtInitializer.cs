@@ -37,6 +37,13 @@ namespace MulliganApi.Database
                 new CourseHole {Id = Guid.NewGuid(), Par = 4, HoleNumber = 9, CourseId = courseId, Length = 330},
             };
 
+            var courseTeeBox = new CourseTeeBox
+            {
+                Id = Guid.NewGuid(),
+                CourseId = courseId,
+                TeeBox = TeeBoxEnum.Tee52  // Associate the TeeBoxEnum
+            };
+
             // Create Course entity and associate it with CourseHoles
             var course = new Course
             {
@@ -45,9 +52,12 @@ namespace MulliganApi.Database
                 CourseDescription = "Krokhol golfklubb description",
             };
 
+
             // Add Course and CourseHoles to the context
+            _builder.Entity<CourseTeeBox>().HasData(courseTeeBox);
             _builder.Entity<Course>().HasData(course);
             _builder.Entity<CourseHole>().HasData(courseHoles);
+
         }
 
         public void RoundInitialization(Guid courseId)

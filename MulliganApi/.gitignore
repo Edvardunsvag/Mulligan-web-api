@@ -1,9 +1,18 @@
 # User-specific files
 *.rsuser
 *.suo
+*.vs
 *.user
 *.userosscache
 *.sln.docstates
+
+# Ignore .NET build artifacts
+*.dll
+*.pdb
+
+# Ignore .NET project folders
+bin/
+obj/
 
 # User-specific files (Mono Auto Generated Files)
 mono_crash.*

@@ -18,7 +18,8 @@ namespace MulliganApi.Service
             var courseList = new List<CourseInfoDto>();
             foreach (var course in courses)
             {
-                courseList.Add(ToDto(course));
+                var teeBoxes = await _repository.GetTeeBoxes(course.Id);
+                courseList.Add(ToDto(course, teeBoxes));
             }
 
             return courseList;
@@ -102,18 +103,21 @@ namespace MulliganApi.Service
                     Score = x.Score,
                 }).ToList(),
             };
+
             return roundDto;
         }
 
 
 
-        public CourseInfoDto ToDto(Course course)
+        public CourseInfoDto ToDto(Course course, List<CourseTeeBox> teeBoxes)
         {
             var courseInfo = new CourseInfoDto()
             {
                 CourseDescription = course.CourseDescription,
                 CourseName = course.CourseName,
-            };
+                TeeBoxes = teeBoxes.Select(x => (int)x.TeeBox).ToList()
+        };
+
             return courseInfo;
         }
 
@@ -121,10 +125,8 @@ namespace MulliganApi.Service
         {
             var courses = await _repository.GetAllCourses();
             var courseIds = courses.Select(c => c.Id).ToList();
+
             return courseIds;
         }
     }
-
-
-
 }

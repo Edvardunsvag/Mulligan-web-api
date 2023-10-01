@@ -10,10 +10,20 @@ namespace MulliganApi.Database.Repository
         public MulliganRepository(MulliganDbContext dbContext) {
             _dbContext = dbContext;
         }
+
+        //Course
         public async Task<List<Course>> GetAllCourses()
         {
             var course = await _dbContext.Course.Include(x => x.CourseHoles).AsTracking().ToListAsync();
             return course;
+        }
+
+        public async Task<List<CourseTeeBox>> GetTeeBoxes(Guid courseId)
+        {
+            var teeBoxes = await _dbContext.TeeBoxes.Where(x => x.CourseId == courseId).ToListAsync();
+
+            return teeBoxes;
+
         }
 
         //Round

@@ -2,7 +2,7 @@
 {
     public enum TeeBoxEnum
     {
-        Tee52,
-        Tee47
+        Tee52 = 52,
+        Tee47 = 47
     }
 }
