@@ -67,24 +67,27 @@ namespace MulliganApi.Service
             return roundsDto;
         }
 
-        public async Task<List<NoteDto>> GetAllNotesForUser(Guid userid)
+        public async Task<List<CourseNoteDto>> GetAllNotesForUser(Guid userid)
         {
-            var notes = await _repository.GetAllNotes(userid).ConfigureAwait(false);
+            var notes = await _repository.GetAllCourseNotes(userid).ConfigureAwait(false);
             var courses = await _repository.GetAllCourses().ConfigureAwait(false);
-            var notesDtos = notes.Select(x => ToDtoAsync(x, courses)).ToList();
+            var notesDtos = courses.Select(course => ToDtoAsync(notes, course)).ToList();
 
             return notesDtos;
         }
 
-        public  NoteDto ToDtoAsync(Note note, List<Course> courses)
+        public CourseNoteDto ToDtoAsync(List<Note> notes, Course course)
         {
-            var connectedCourse = courses.FirstOrDefault(x => x.Id == note.CourseHole.CourseId);
+            var notesForCourse = notes.Where(x => x.CourseHole.CourseId == course.Id);
 
-            var noteDto = new NoteDto()
+            var holeNotesWithEmptyContentCount = notesForCourse
+                .Where(holeNote => holeNote.NoteText != "").Count();
+            string output = $"NumberOfHolesWithNotes = {holeNotesWithEmptyContentCount}/9";
+
+            var noteDto = new CourseNoteDto()
             {
-                Content = note.Content,
-                CourseName = connectedCourse?.CourseName ?? "",
-                HoleNumber = note.CourseHole.HoleNumber
+                NumberOfHolesWithNotes = output,
+                CourseName = course.CourseName
             };
 
            return noteDto;

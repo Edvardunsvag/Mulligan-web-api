@@ -14,6 +14,6 @@ namespace MulliganApi.Database.Models
 
 
         //Helpers for EF core
-        public List<CourseHole> CourseHoles { get; set; } = new();
+        public List<CourseHole> CourseHoles { get; set; }
     }
 }

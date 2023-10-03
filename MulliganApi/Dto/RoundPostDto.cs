@@ -9,7 +9,7 @@ namespace MulliganApi.Dto
         public int Strokes { get; set; }
         public List<RoundHoleDto> RoundHoles { get; set; }
 
-        public List<NoteDto> holeNotes { get; set; }
+        public List<CourseNoteDto> holeNotes { get; set; }
 
     }
 }

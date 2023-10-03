@@ -19,9 +19,8 @@ namespace MulliganApi.Controller
             _repository = repository;
         }
 
-        [HttpGet("GetAllNotesForUser")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<NoteDto>))]
-        public async Task<IResult> GetAllCourses(Guid userId)
+        [HttpGet("")]
+        public async Task<IResult> GetAllNotes(Guid userId)
         {
             var notesForCourse = await _service.GetAllNotesForUser(userId);
             return Results.Ok(notesForCourse);
@@ -30,18 +29,17 @@ namespace MulliganApi.Controller
         [HttpPost("AddNote")]
         public async Task<IResult> AddNote(NotePostDto note)
         {
-            
             //Get data
-            var courses = await _repository.GetAllCourses();
-            var connectedCourse = courses.Where(c => c.Id == note.CourseId);
+            var connectedHole = await _repository.GetHoleById(note.HoleId);
 
             //Create the note
             var newNote = new Note()
             {
-                Content = note.Content,
-                LastUpdated = DateTime.Now,
+                HoleId = connectedHole.Id,
+                LastUpdated = DateTime.UtcNow,
+                Id = Guid.NewGuid(),
+                NoteText = note.Content,
                 UserId = note.UserId,
-
             };
 
             //Add note

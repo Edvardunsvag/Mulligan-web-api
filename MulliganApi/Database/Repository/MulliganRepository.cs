@@ -26,6 +26,13 @@ namespace MulliganApi.Database.Repository
 
         }
 
+        //Hole
+        public async Task<CourseHole> GetHoleById(Guid id)
+        {
+            var hole = await _dbContext.CourseHole.Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync();
+            return hole;
+        }
+
         //Round
         public async Task<Round> AddRound(Round round)
         {
@@ -35,7 +42,7 @@ namespace MulliganApi.Database.Repository
 
         public async Task<List<Round>> GetAllRoundsForUser(Guid id)
         {
-            var rounds = await _dbContext.Round.Include(x => x.Holes).Where(x => x.UserId == id).ToListAsync();
+            var rounds = await _dbContext.Round.Include(x => x.Holes).Where(x => x.UserId == id).AsNoTracking().ToListAsync();
             return rounds;
         }
 
@@ -47,9 +54,9 @@ namespace MulliganApi.Database.Repository
         }
 
         //Note
-        public async Task<List<Note>> GetAllNotes(Guid userId)
+        public async Task<List<Note>> GetAllCourseNotes(Guid userId)
         {
-            var notes = await _dbContext.Note.Include(x => x.CourseHole).Where(x => x.UserId == userId).ToListAsync(); 
+            var notes = await _dbContext.Note.Include(x => x.CourseHole).Where(hole => hole.UserId == userId).ToListAsync();   
             return notes;
         }
 

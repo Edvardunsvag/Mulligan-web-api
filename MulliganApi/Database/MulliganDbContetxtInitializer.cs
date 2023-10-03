@@ -24,17 +24,21 @@ namespace MulliganApi.Database
         public void CourseInitialization(Guid courseId)
         {
 
+     
+
+            var emptyNoteList = new List<Note>();
+
             var courseHoles = new List<CourseHole>
             {
-                new CourseHole {Id = Guid.NewGuid(), Par = 3, HoleNumber = 1, CourseId = courseId, Length = 113},
-                new CourseHole {Id = Guid.NewGuid(), Par = 4, HoleNumber = 2, CourseId = courseId, Length = 295 },
-                new CourseHole {Id = Guid.NewGuid(), Par = 5, HoleNumber = 3, CourseId = courseId, Length = 439 },
-                new CourseHole {Id = Guid.NewGuid(), Par = 3, HoleNumber = 4, CourseId = courseId, Length = 128 },
-                new CourseHole {Id = Guid.NewGuid(), Par = 5, HoleNumber = 5, CourseId = courseId, Length = 506 },
-                new CourseHole {Id = Guid.NewGuid(), Par = 4, HoleNumber = 6, CourseId = courseId, Length = 227 },
-                new CourseHole {Id = Guid.NewGuid(), Par = 4, HoleNumber = 7, CourseId = courseId, Length = 270 },
-                new CourseHole {Id = Guid.NewGuid(), Par = 4, HoleNumber = 8, CourseId = courseId, Length = 298 },
-                new CourseHole {Id = Guid.NewGuid(), Par = 4, HoleNumber = 9, CourseId = courseId, Length = 330},
+                new CourseHole {Id = Guid.NewGuid(), Par = 3, HoleNumber = 1, CourseId = courseId, Length = 113, Notes = emptyNoteList},
+                new CourseHole {Id = Guid.NewGuid(), Par = 4, HoleNumber = 2, CourseId = courseId, Length = 295, Notes = emptyNoteList},
+                new CourseHole {Id = Guid.NewGuid(), Par = 5, HoleNumber = 3, CourseId = courseId, Length = 439, Notes = emptyNoteList },
+                new CourseHole {Id = Guid.NewGuid(), Par = 3, HoleNumber = 4, CourseId = courseId, Length = 128, Notes = emptyNoteList},
+                new CourseHole {Id = Guid.NewGuid(), Par = 5, HoleNumber = 5, CourseId = courseId, Length = 506, Notes = emptyNoteList },
+                new CourseHole {Id = Guid.NewGuid(), Par = 4, HoleNumber = 6, CourseId = courseId, Length = 227, Notes = emptyNoteList },
+                new CourseHole {Id = Guid.NewGuid(), Par = 4, HoleNumber = 7, CourseId = courseId, Length = 270, Notes = emptyNoteList },
+                new CourseHole {Id = Guid.NewGuid(), Par = 4, HoleNumber = 8, CourseId = courseId, Length = 298, Notes = emptyNoteList },
+                new CourseHole {Id = Guid.NewGuid(), Par = 4, HoleNumber = 9, CourseId = courseId, Length = 330, Notes = emptyNoteList},
             };
 
             var courseTeeBox = new CourseTeeBox
