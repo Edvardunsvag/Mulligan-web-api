@@ -13,6 +13,25 @@
 *.dll
 *.pdb
 
+# Ignore Visual Studio temporary files
+.vs/*.suo
+.vs/ProjectEvaluation/*.v7.bin
+
+# Ignore Visual Studio DesignTimeBuild directory
+.vs/MulliganApi/DesignTimeBuild/.dtbcache.v2
+.vs/MulliganApi/v17/.futdcache.v2
+
+# Ignore other unwanted files (modify as needed)
+.vs/* (or a specific file)
+
+# Ignore .NET build artifacts
+*.dll
+*.pdb
+
+# Ignore .NET project folders
+bin/
+obj/
+
 # Ignore .NET project folders
 bin/
 obj/
