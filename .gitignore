@@ -9,6 +9,8 @@
 *.userosscache
 *.sln.docstates
 
+.vs/**/*.suo
+
 # Ignore .NET build artifacts
 *.dll
 *.pdb
