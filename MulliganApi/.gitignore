@@ -13,6 +13,9 @@
 *.dll
 *.pdb
 
+.vs/**/*.suo
+
+
 # Ignore .NET project folders
 bin/
 obj/
