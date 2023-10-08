@@ -10,7 +10,7 @@ namespace MulliganApi.Database.Models
         public Guid UserId { get; set; }
         public Guid CourseId { get; set; }
         public int Strokes { get; set; }
-
+        public int Puts { get; set; }
 
 
         //Helpers for EF core

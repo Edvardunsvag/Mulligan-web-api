@@ -10,7 +10,8 @@ namespace MulliganApi.Database.Models
         public string CourseDescription { get; set; } = string.Empty;
         public int Par { get; set; }
         public List<CourseTeeBox> TeeBoxes { get; set; } = new();
-
+        public bool Has18Holes { get; set; }
+        public int Length { get; set; }
 
 
         //Helpers for EF core

@@ -23,11 +23,7 @@ namespace MulliganApi.Database
 
         public void CourseInitialization(Guid courseId)
         {
-
-     
-
             var emptyNoteList = new List<Note>();
-
             var courseHoles = new List<CourseHole>
             {
                 new CourseHole {Id = Guid.NewGuid(), Par = 3, HoleNumber = 1, CourseId = courseId, Length = 113, Notes = emptyNoteList},
@@ -54,6 +50,8 @@ namespace MulliganApi.Database
                 Id = courseId,
                 CourseName = "Krokhol",
                 CourseDescription = "Krokhol golfklubb description",
+                Has18Holes = false,
+                Length = courseHoles.Select(x => x.Length).Sum()
             };
 
 
@@ -73,6 +71,7 @@ namespace MulliganApi.Database
                 Strokes = 45,
                 RoundId = roundId,
                 UserId = Guid.NewGuid(),
+                Puts = 18
             };
 
             var roundHoles = new List<RoundHole>()
@@ -82,63 +81,72 @@ namespace MulliganApi.Database
                     HoleNumber = 1,
                     Id = Guid.NewGuid(),
                     RoundId = roundId,
-                    Score = 2
+                    Score = 2,
+                    Puts = 2
                 },
                  new RoundHole()
                 {
                     HoleNumber = 2,
                     Id = Guid.NewGuid(),
                     RoundId = roundId,
-                    Score = 6
+                    Score = 6,
+                    Puts = 2
                 },
                   new RoundHole()
                 {
                     HoleNumber = 3,
                     Id = Guid.NewGuid(),
                     RoundId = roundId,
-                    Score = 3
+                    Score = 3,
+                    Puts = 2
                 },
                    new RoundHole()
                 {
                     HoleNumber = 4,
                     Id = Guid.NewGuid(),
                     RoundId = roundId,
-                    Score = 3
+                    Score = 3,
+                    Puts = 2
                 },
                     new RoundHole()
                 {
                     HoleNumber = 5,
                     Id = Guid.NewGuid(),
                     RoundId = roundId,
-                    Score = 4
+                    Score = 4,
+                    Puts = 1
                 },
                      new RoundHole()
                 {
                     HoleNumber = 6,
                     Id = Guid.NewGuid(),
                     RoundId = roundId,
-                    Score = 4
+                    Score = 4,
+                    Puts = 2
                 },
                       new RoundHole()
                 {
                     HoleNumber = 7,
                     Id = Guid.NewGuid(),
                     RoundId = roundId,
-                    Score = 5
+                    Score = 5,
+                    Puts = 2
                 },
                        new RoundHole()
                 {
                     HoleNumber = 8,
                     Id = Guid.NewGuid(),
                     RoundId = roundId,
-                    Score = 2
+                    Score = 2,
+                    Puts = 2
                 },
                         new RoundHole()
                 {
                     HoleNumber = 9,
                     Id = Guid.NewGuid(),
                     RoundId = roundId,
-                    Score = 4
+                    Score = 4,
+                    Puts = 3
                 },
             };
 

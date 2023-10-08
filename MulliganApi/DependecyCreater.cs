@@ -1,4 +1,6 @@
-﻿using MulliganApi.Controller;
+﻿using Microsoft.EntityFrameworkCore;
+using MulliganApi.Controller;
+using MulliganApi.Database;
 using MulliganApi.Database.Repository;
 using MulliganApi.Service;
 
@@ -15,7 +17,6 @@ namespace MulliganApi
             builder.Services.AddScoped<CourseController>();
             builder.Services.AddScoped<MulliganService>();
             builder.Services.AddScoped<MulliganRepository>();
-
         }
     }
 }

@@ -14,7 +14,7 @@
 *.pdb
 
 .vs/**/*.suo
-
+.vs
 
 # Ignore .NET project folders
 bin/

@@ -27,26 +27,38 @@ namespace MulliganApi.Service
 
         public async Task<Round> AddRound(RoundPostDto dto)
         {
-            var roundHoles = new List<RoundHole>();
             var roundId = Guid.NewGuid();
-            dto.RoundHoles.Select((hole, index) => new RoundHole()
+            var roundHoles = dto.RoundHoles.Select((hole, index) => new RoundHole
             {
                 HoleNumber = hole.HoleNumber,
                 Id = Guid.NewGuid(),
                 RoundId = roundId,
-                Score = hole.Score
-            });
-            var round = new Round()
+                Score = hole.Score,
+                Puts = hole.Puts,
+            }).ToList();
+
+            var totalStrokes = roundHoles.Select(x => x.Score).Sum();
+            var totalPuts = roundHoles.Select(x => x.Puts).Sum();
+            var round = new Round
             {
                 RoundId = roundId,
-                Strokes = dto.Strokes,
+                Strokes = totalStrokes,
                 UserId = dto.UserId,
                 Holes = roundHoles,
-                CourseId = dto.CourseId
+                CourseId = dto.CourseId,
+                Puts = totalPuts
             };
 
-            await _repository.AddRound(round);
-            await _repository.Save();
+            try
+            {
+                await _repository.AddRound(round);
+                await _repository.Save();
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions (e.g., log the error)
+                throw new Exception("An error occurred while adding the round.", ex);
+            }
 
             return round;
         }
@@ -82,7 +94,7 @@ namespace MulliganApi.Service
 
             var holeNotesWithEmptyContentCount = notesForCourse
                 .Where(holeNote => holeNote.NoteText != "").Count();
-            string output = $"NumberOfHolesWithNotes = {holeNotesWithEmptyContentCount}/9";
+            string output = $"{holeNotesWithEmptyContentCount}/9";
 
             var noteDto = new CourseNoteDto()
             {
@@ -100,10 +112,12 @@ namespace MulliganApi.Service
             {
                 CourseId = round.CourseId,
                 Strokes = round.Strokes,
+                Puts = round.Puts,
                 Holes = round.Holes.Select(x => new RoundHoleDto()
                 {
                     HoleNumber = x.HoleNumber,
                     Score = x.Score,
+                    Puts = x.Puts,
                 }).ToList(),
             };
 
@@ -118,7 +132,9 @@ namespace MulliganApi.Service
             {
                 CourseDescription = course.CourseDescription,
                 CourseName = course.CourseName,
-                TeeBoxes = teeBoxes.Select(x => (int)x.TeeBox).ToList()
+                TeeBoxes = teeBoxes.Select(x => (int)x.TeeBox).ToList(),
+                Has18Holes = false,
+                Length = course.Length
         };
 
             return courseInfo;

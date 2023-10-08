@@ -4,5 +4,6 @@
     {
         public int HoleNumber { get; set; }
         public int Score { get; set; }
+        public int Puts { get; set; }
     }
 }
