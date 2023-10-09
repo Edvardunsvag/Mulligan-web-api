@@ -65,15 +65,6 @@ namespace MulliganApi.Database
         public void RoundInitialization(Guid courseId)
         {
             var roundId = Guid.NewGuid();
-            var round = new Round()
-            {
-                CourseId = courseId,
-                Strokes = 45,
-                RoundId = roundId,
-                UserId = Guid.NewGuid(),
-                Puts = 18
-            };
-
             var roundHoles = new List<RoundHole>()
             {
                 new RoundHole()
@@ -148,6 +139,15 @@ namespace MulliganApi.Database
                     Score = 4,
                     Puts = 3
                 },
+            };
+
+            var round = new Round()
+            {
+                CourseId = courseId,
+                Strokes = roundHoles.Select(x => x.Score).Sum(),
+                RoundId = roundId,
+                UserId = Guid.NewGuid(),
+                Puts = roundHoles.Select(x => x.Puts).Sum(),
             };
 
             //Add to tables
