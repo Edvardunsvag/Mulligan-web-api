@@ -10,7 +10,7 @@
 *.sln.docstates
 
 .vs/**/*.suo
-
+.vs/
 # Ignore .NET build artifacts
 *.dll
 *.pdb
