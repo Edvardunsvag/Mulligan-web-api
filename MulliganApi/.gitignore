@@ -19,6 +19,7 @@
 # Ignore .NET project folders
 bin/
 obj/
+.vs/
 
 # User-specific files (Mono Auto Generated Files)
 mono_crash.*
