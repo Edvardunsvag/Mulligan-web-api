@@ -15,6 +15,7 @@
 
 .vs/**/*.suo
 .vs
+.appsettings.json
 
 # Ignore .NET project folders
 bin/

@@ -17,7 +17,7 @@ namespace MulliganApi.Data
         {
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.
-                UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
+                UseSqlServer(_configuration.GetConnectionString("TestDb"));
         }
 
         public DbSet<User> User { get; set; }

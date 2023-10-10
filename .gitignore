@@ -15,6 +15,10 @@
 *.dll
 *.pdb
 
+# New stuff
+ MulliganApi/appsettings.json
+
+
 # Ignore Visual Studio temporary files
 .vs/*.suo
 .vs/ProjectEvaluation/*.v7.bin
