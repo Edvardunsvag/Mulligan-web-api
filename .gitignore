@@ -1,54 +1,156 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-# User-specific files
+# Ignore the bin and obj directories
+bin/
+obj/
+
+# Ignore user-specific files
 *.rsuser
 *.suo
-*.vs
 *.user
 *.userosscache
 *.sln.docstates
 
-.vs/**/*.suo
-.vs/
-# Ignore .NET build artifacts
-*.dll
-*.pdb
+# Ignore Visual Studio file folders
+.vscode/
+.vs2017/
+.vs2019/
 
-# New stuff
- MulliganApi/appsettings.json
+# Ignore Rider files
+.idea/
 
+# Ignore Rider, Visual Studio, and other IDE files
+*.suo
+*.user
+*.sln.docstates
+*.suo
+*.userosscache
+*.suo
+*.gpState
+
+# Ignore ReSharper files
+_ReSharper*/
+
+# Ignore Rider files
+.idea/
+
+# Ignore NuGet package directory
+packages/
+
+# Ignore Node.js dependencies
+node_modules/
+
+# Ignore user-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.suo
+*.sln.docstates
+
+# Ignore Mono Auto Generated Files
+mono_crash.*
+
+# Ignore all .NET Core temporary files
+project.lock.json
+project.fragment.lock.json
+artifacts/
 
 # Ignore Visual Studio temporary files
-.vs/*.suo
-.vs/ProjectEvaluation/*.v7.bin
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.log
+*.vspscc
+*.vssscc
+.vscode/
 
-# Ignore Visual Studio DesignTimeBuild directory
-.vs/MulliganApi/DesignTimeBuild/.dtbcache.v2
-.vs/MulliganApi/v17/.futdcache.v2
+# Ignore Rider files
+.idea/
 
-# Ignore other unwanted files (modify as needed)
-.vs/* (or a specific file)
+# Ignore Rider-specific files
+.idea/
 
-# Ignore .NET build artifacts
-*.dll
-*.pdb
+# Ignore Resharper files
+_ReSharper*/
 
-# Ignore .NET project folders
-bin/
-obj/
+# Ignore Rider files
+.idea/
 
-# Ignore .NET project folders
-bin/
-obj/
+# Ignore Rider-specific files
+.idea/
 
-# User-specific files (Mono Auto Generated Files)
-mono_crash.*
+# Ignore Rider directory-based configuration storage
+.idea/workspace.xml
 
-# Mono Auto Generated Files
-mono_crash.*
+# Ignore Visual Studio 2019 project folder directory
+.vs2019/
 
-# Windows image file caches
+# Ignore Rider, Visual Studio, and Sublime project files
+*.suo
+*.user
+*.sln.docstates
+*.suo
+*.userosscache
+*.suo
+*.sln.docstates
+.suo
+*.userosscache
+*.suo
+*.sln.docstates
+.idea/
+
+# Ignore Rider-specific files
+.idea/
+
+# Ignore Rider directory-based configuration storage
+.idea/workspace.xml
+
+# Ignore Visual Studio 2017/2019 specific files
+.vs2017/
+.vs2019/
+
+# Ignore Rider-specific files
+.idea/
+
+# Ignore Rider directory-based configuration storage
+.idea/workspace.xml
+
+# Ignore Visual Studio 2017/2019 specific files
+.vs2017/
+.vs2019/
+
+# Ignore Rider-specific files
+.idea/
+
+# Ignore Rider directory-based configuration storage
+.idea/workspace.xml
+
+# Ignore Visual Studio 2017/2019 specific files
+.vs2017/
+.vs2019/
+
+# Ignore Rider-specific files
+.idea/
+
+# Ignore Rider directory-based configuration storage
+.idea/workspace.xml
+
+# Ignore Visual Studio 2017/2019 specific files
+.vs2017/
+.vs2019/
+
+# Ignore package files
+*.nupkg
+*.paket
+
+# Ignore Windows image file caches
 Thumbs.db
 ehthumbs.db
 
@@ -78,42 +180,9 @@ $RECYCLE.BIN/
 *.suo
 *.user
 *.userosscache
-*.sln.docstates
-
-# Mono Auto Generated Files
-mono_crash.*
-
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# VS Code directories
-.vscode/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-
-# JetBrains Rider
-.idea/
-
-# User-specific files
-*.rsuser
 *.suo
-*.user
-*.userosscache
 *.sln.docstates
+.vs/
 
 # Mono Auto Generated Files
 mono_crash.*
@@ -140,149 +209,9 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# JetBrains Rider
-.idea/
+# Ignore appsettings.json
+appsettings.json
+appsettings.*.json
 
-# User-specific files
-*.rsuser
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-
-# Mono Auto Generated Files
-mono_crash.*
-
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# VS Code directories
-.vscode/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-
-# JetBrains Rider
-.idea/
-
-# User-specific files
-*.rsuser
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-
-# Mono Auto Generated Files
-mono_crash.*
-
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# VS Code directories
-.vscode/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-
-# JetBrains Rider
-.idea/
-
-# Rider
-.idea/
-
-# User-specific files
-*.rsuser
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-
-# Mono Auto Generated Files
-mono_crash.*
-
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# VS Code directories
-.vscode/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-
-# JetBrains Rider
-.idea/
-
-# User-specific files
-*.rsuser
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-
-# Mono Auto Generated Files
-mono_crash.*
-
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# VS Code directories
-.vscode/
-
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# Windows shortcuts
-*.lnk
-
-# Rider
-.idea/
-/.vs/MulliganApi/FileContentIndex
+# Ignore appsettings.Development.json and other environment-specific settings
+appsettings.*.Development.json
