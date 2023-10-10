@@ -209,9 +209,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Ignore appsettings.json
-appsettings.json
-appsettings.*.json
 
-# Ignore appsettings.Development.json and other environment-specific settings
-appsettings.*.Development.json
