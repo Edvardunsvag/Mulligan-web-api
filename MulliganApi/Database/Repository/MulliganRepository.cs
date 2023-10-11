@@ -33,6 +33,12 @@ namespace MulliganApi.Database.Repository
             return hole;
         }
 
+        public async Task<List<CourseHole>> GetAllHolesForCourse(Guid courseId)
+        {
+            var holes =  await _dbContext.CourseHole.Include(x => x.Notes).Where(x => x.CourseId == courseId).AsNoTracking().ToListAsync();
+            return holes;
+        }
+
         //Round
         public async Task<Round> AddRound(Round round)
         {

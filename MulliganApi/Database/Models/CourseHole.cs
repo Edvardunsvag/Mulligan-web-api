@@ -12,6 +12,5 @@ namespace MulliganApi.Database.Models
         public int HoleNumber { get; set; }
         public int Length { get; set; }
         public List<Note> Notes { get; set; }
-
     }
 }

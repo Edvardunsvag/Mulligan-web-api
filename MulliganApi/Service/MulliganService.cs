@@ -79,7 +79,7 @@ namespace MulliganApi.Service
             return roundsDto;
         }
 
-        public async Task<List<CourseNoteDto>> GetAllNotesForUser(Guid userid)
+        public async Task<List<Task<CourseNoteDto>>> GetAllNotesForUser(Guid userid)
         {
             var notes = await _repository.GetAllCourseNotes(userid).ConfigureAwait(false);
             var courses = await _repository.GetAllCourses().ConfigureAwait(false);
@@ -88,18 +88,31 @@ namespace MulliganApi.Service
             return notesDtos;
         }
 
-        public CourseNoteDto ToDtoAsync(List<Note> notes, Course course)
+        public class CourseHoleNoteDto
+        {
+            public string HoleName { get; set; }
+            public List<string> Notes { get; set; }
+        }
+
+        public async Task<CourseNoteDto> ToDtoAsync(List<Note> notes, Course course)
         {
             var notesForCourse = notes.Where(x => x.CourseHole.CourseId == course.Id);
+            var holeNotesWithEmptyContentCount = notesForCourse.Where(holeNote => holeNote.NoteText != "").Count();
+            var numberOfHolesWithNotes = $"{holeNotesWithEmptyContentCount}/9";
 
-            var holeNotesWithEmptyContentCount = notesForCourse
-                .Where(holeNote => holeNote.NoteText != "").Count();
-            string output = $"{holeNotesWithEmptyContentCount}/9";
+            var allHolesForCourse = await _repository.GetAllHolesForCourse(course.Id);
+            var notesForAllHoles = allHolesForCourse.Select(x => new CourseHoleNoteDto()
+            {
+                HoleName = $"Hull {x.HoleNumber}",
+                Notes = x.Notes?.Select(x => x.NoteText).ToList(),
+
+            }).ToList();
 
             var noteDto = new CourseNoteDto()
             {
-                NumberOfHolesWithNotes = output,
-                CourseName = course.CourseName
+                NumberOfHolesWithNotes = numberOfHolesWithNotes,
+                CourseName = course.CourseName,
+                NotesForAllHoles = notesForAllHoles.OrderBy(x => x.HoleName).ToList(),
             };
 
            return noteDto;
