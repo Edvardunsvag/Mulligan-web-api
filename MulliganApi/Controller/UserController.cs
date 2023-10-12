@@ -70,8 +70,26 @@ namespace MulliganApi.Controller
                 return BadRequest("Password is incorrect");
             }
 
-
             return Ok($"Welcome back, {user.Email}");
+        }
+
+        [HttpPost("registerGoogleSignin")]
+        public async Task<IActionResult> RegisterGoogleSignin(string email)
+        {
+            var registeredUsers = await _repository.GetAllUsers();
+            var user = registeredUsers.FirstOrDefault(u => u.Email == email);
+            if (user != null)
+            {
+                return BadRequest("User already exists");
+            }
+            
+            var userToAdd = new User
+            {
+                Email = email,
+            };
+            await _repository.AddUser(userToAdd);
+            
+            return Ok("User successfully created");
         }
 
         [HttpGet("GetUserId")]
