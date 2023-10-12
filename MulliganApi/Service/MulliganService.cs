@@ -79,11 +79,13 @@ namespace MulliganApi.Service
             return roundsDto;
         }
 
-        public async Task<List<Task<CourseNoteDto>>> GetAllNotesForUser(Guid userid)
+        public async Task<List<CourseNoteDto>> GetAllNotesForUser(Guid userId)
         {
-            var notes = await _repository.GetAllCourseNotes(userid).ConfigureAwait(false);
+            if (userId == Guid.Empty)
+                throw new ArgumentException("User ID cannot be empty.", nameof(userId));
+            var notes = await _repository.GetAllCourseNotes(userId).ConfigureAwait(false);
             var courses = await _repository.GetAllCourses().ConfigureAwait(false);
-            var notesDtos = courses.Select(course => ToDtoAsync(notes, course)).ToList();
+            var notesDtos = courses.Select(course => ToDtoAsync(notes, course, userId).Result).ToList();
 
             return notesDtos;
         }
@@ -91,21 +93,20 @@ namespace MulliganApi.Service
         public class CourseHoleNoteDto
         {
             public string HoleName { get; set; }
-            public List<string> Notes { get; set; }
+            public List<string>? Notes { get; set; }
         }
 
-        public async Task<CourseNoteDto> ToDtoAsync(List<Note> notes, Course course)
+        private async Task<CourseNoteDto> ToDtoAsync(List<Note> notes, Course course, Guid userId)
         {
             var notesForCourse = notes.Where(x => x.CourseHole.CourseId == course.Id);
-            var holeNotesWithEmptyContentCount = notesForCourse.Where(holeNote => holeNote.NoteText != "").Count();
+            var holeNotesWithEmptyContentCount = notesForCourse.Count(holeNote => holeNote.NoteText != "");
             var numberOfHolesWithNotes = $"{holeNotesWithEmptyContentCount}/9";
 
             var allHolesForCourse = await _repository.GetAllHolesForCourse(course.Id);
             var notesForAllHoles = allHolesForCourse.Select(x => new CourseHoleNoteDto()
             {
                 HoleName = $"Hull {x.HoleNumber}",
-                Notes = x.Notes?.Select(x => x.NoteText).ToList(),
-
+                Notes = x.Notes?.Where((u => u.UserId == userId)).Select(n => n.NoteText). ToList(),
             }).ToList();
 
             var noteDto = new CourseNoteDto()
@@ -117,8 +118,7 @@ namespace MulliganApi.Service
 
            return noteDto;
         }
-
-
+        
         public RoundGetDto ToDto(Round round)
         {
             var roundDto = new RoundGetDto()

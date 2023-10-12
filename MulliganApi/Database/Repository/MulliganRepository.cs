@@ -62,7 +62,7 @@ namespace MulliganApi.Database.Repository
         //Note
         public async Task<List<Note>> GetAllCourseNotes(Guid userId)
         {
-            var notes = await _dbContext.Note.Include(x => x.CourseHole).Where(hole => hole.UserId == userId).ToListAsync();   
+            var notes = await _dbContext.Note.Include(x => x.CourseHole).Where(hole => hole.UserId == userId).ToListAsync();
             return notes;
         }
 
