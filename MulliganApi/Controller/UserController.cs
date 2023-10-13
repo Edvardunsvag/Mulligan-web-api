@@ -82,13 +82,13 @@ namespace MulliganApi.Controller
             {
                 return BadRequest("User already exists");
             }
-            
+
             var userToAdd = new User
             {
                 Email = email,
             };
             await _repository.AddUser(userToAdd);
-            
+
             return Ok("User successfully created");
         }
 
@@ -117,9 +117,7 @@ namespace MulliganApi.Controller
 
             return Ok(registeredUsers);
         }
-
-
-
+        
         private void CreatePasswordHash(string password,
             out byte[] passwordHash, out byte[] passwordSalt)
         {
@@ -140,7 +138,7 @@ namespace MulliganApi.Controller
             }
         }
 
-        private string CreateRandomToken()
+        private static string CreateRandomToken()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }

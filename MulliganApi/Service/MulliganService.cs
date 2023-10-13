@@ -1,15 +1,18 @@
 ﻿using MulliganApi.Database.Models;
 using MulliganApi.Database.Repository;
 using MulliganApi.Dto;
+using MulliganApi.Service.Converters;
 
 namespace MulliganApi.Service
 {
     public class MulliganService : IMulliganService
     {
         private readonly MulliganRepository _repository;
-        public MulliganService(MulliganRepository repository)
+        private readonly IConverters _converter;
+        public MulliganService(MulliganRepository repository, IConverters converters)
         {
             _repository = repository;
+            _converter = converters;
         }
 
         public async Task<List<CourseInfoDto>> GetInfoAboutCourses()
@@ -19,7 +22,7 @@ namespace MulliganApi.Service
             foreach (var course in courses)
             {
                 var teeBoxes = await _repository.GetTeeBoxes(course.Id);
-                courseList.Add(ToDto(course, teeBoxes));
+                courseList.Add(_converter.ToDto(course, teeBoxes));
             }
 
             return courseList;
@@ -66,7 +69,7 @@ namespace MulliganApi.Service
         public async Task<List<RoundGetDto>> GetAllRoundsForUser(Guid id)
         {
             var rounds = await _repository.GetAllRoundsForUser(id);
-            var roundsDto = rounds.Select(x => ToDto(x)).ToList();
+            var roundsDto = rounds.Select(x => _converter.ToDto(x)).ToList();
 
             return roundsDto;
         }
@@ -74,7 +77,7 @@ namespace MulliganApi.Service
         public async Task<List<RoundGetDto>> GetAllRounds()
         {
             var rounds = await _repository.GetAllRounds();
-            var roundsDto = rounds.Select(x => ToDto(x)).ToList();
+            var roundsDto = rounds.Select(x => _converter.ToDto(x)).ToList();
 
             return roundsDto;
         }
@@ -85,74 +88,11 @@ namespace MulliganApi.Service
                 throw new ArgumentException("User ID cannot be empty.", nameof(userId));
             var notes = await _repository.GetAllCourseNotes(userId).ConfigureAwait(false);
             var courses = await _repository.GetAllCourses().ConfigureAwait(false);
-            var notesDtos = courses.Select(course => ToDtoAsync(notes, course, userId).Result).ToList();
+            var notesDtos = courses.Select(course => _converter.ToDtoAsync(notes, course, userId).Result).ToList();
 
             return notesDtos;
         }
-
-        public class CourseHoleNoteDto
-        {
-            public string HoleName { get; set; }
-            public List<string>? Notes { get; set; }
-        }
-
-        private async Task<CourseNoteDto> ToDtoAsync(List<Note> notes, Course course, Guid userId)
-        {
-            var notesForCourse = notes.Where(x => x.CourseHole.CourseId == course.Id);
-            var holeNotesWithEmptyContentCount = notesForCourse.Count(holeNote => holeNote.NoteText != "");
-            var numberOfHolesWithNotes = $"{holeNotesWithEmptyContentCount}/9";
-
-            var allHolesForCourse = await _repository.GetAllHolesForCourse(course.Id);
-            var notesForAllHoles = allHolesForCourse.Select(x => new CourseHoleNoteDto()
-            {
-                HoleName = $"Hull {x.HoleNumber}",
-                Notes = x.Notes?.Where((u => u.UserId == userId)).Select(n => n.NoteText). ToList(),
-            }).ToList();
-
-            var noteDto = new CourseNoteDto()
-            {
-                NumberOfHolesWithNotes = numberOfHolesWithNotes,
-                CourseName = course.CourseName,
-                NotesForAllHoles = notesForAllHoles.OrderBy(x => x.HoleName).ToList(),
-            };
-
-           return noteDto;
-        }
         
-        public RoundGetDto ToDto(Round round)
-        {
-            var roundDto = new RoundGetDto()
-            {
-                CourseId = round.CourseId,
-                Strokes = round.Strokes,
-                Puts = round.Puts,
-                Holes = round.Holes.Select(x => new RoundHoleDto()
-                {
-                    HoleNumber = x.HoleNumber,
-                    Score = x.Score,
-                    Puts = x.Puts,
-                }).ToList(),
-            };
-
-            return roundDto;
-        }
-
-
-
-        public CourseInfoDto ToDto(Course course, List<CourseTeeBox> teeBoxes)
-        {
-            var courseInfo = new CourseInfoDto()
-            {
-                CourseDescription = course.CourseDescription,
-                CourseName = course.CourseName,
-                TeeBoxes = teeBoxes.Select(x => (int)x.TeeBox).ToList(),
-                Has18Holes = false,
-                Length = course.Length
-        };
-
-            return courseInfo;
-        }
-
         public async Task<List<Guid>> GetAllCourseIds()
         {
             var courses = await _repository.GetAllCourses();
