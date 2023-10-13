@@ -29,7 +29,7 @@ namespace MulliganApi.Controller
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserRegisterRequestDto request)
+        public async Task<ActionResult<Guid>> Register(UserRegisterRequestDto request)
         {
             var registeredUsers = await _repository.GetAllUsers();
 
@@ -51,11 +51,11 @@ namespace MulliganApi.Controller
 
             await _repository.AddUser(user);
 
-            return Ok("User successfully created");
+            return user.Id;
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserLoginRequestDto request)
+        public async Task<ActionResult<Guid>> Login(UserLoginRequestDto request)
         {
             var registeredUsers = await _repository.GetAllUsers();
 
@@ -70,7 +70,7 @@ namespace MulliganApi.Controller
                 return BadRequest("Password is incorrect");
             }
 
-            return Ok($"Welcome back, {user.Email}");
+            return user.Id;
         }
 
         [HttpPost("registerGoogleSignin")]
