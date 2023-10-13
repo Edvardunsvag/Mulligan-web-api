@@ -20,11 +20,10 @@ namespace MulliganApi.Controller
         }
 
         [HttpGet()]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<CourseNoteDto>))]
-        public async Task<IResult> GetAllNotes([FromQuery] Guid userId)
+        public async Task<ActionResult<List<CourseNoteDto>>> GetAllNotes([FromQuery] Guid userId)
         {
             var notesForCourse = await _service.GetAllNotesForUser(userId);
-            return Results.Ok(notesForCourse);
+            return notesForCourse;
         }
 
         [HttpPost("AddNote")]
