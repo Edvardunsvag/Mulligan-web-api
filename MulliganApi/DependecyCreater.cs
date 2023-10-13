@@ -9,7 +9,10 @@ namespace MulliganApi
 {
     public class DependecyCreater
     {
-        public DependecyCreater() { }
+        public DependecyCreater(WebApplicationBuilder builder)
+        {
+            Configure(builder);
+        }
 
         public void Configure(WebApplicationBuilder builder)
         {
