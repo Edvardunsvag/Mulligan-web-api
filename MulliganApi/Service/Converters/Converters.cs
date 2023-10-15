@@ -41,6 +41,7 @@ public class Converters : IConverters
     {
         var courseInfo = new CourseInfoDto()
         {
+            CourseId = course.Id,
             CourseDescription = course.CourseDescription,
             CourseName = course.CourseName,
             TeeBoxes = teeBoxes.Select(x => (int)x.TeeBox).ToList(),

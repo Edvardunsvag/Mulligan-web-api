@@ -4,6 +4,7 @@ namespace MulliganApi.Dto
 {
     public class CourseInfoDto
     {
+        public Guid CourseId { get; set; }
         public string CourseName { get; set; } = string.Empty;
         public string CourseDescription { get; set; } = string.Empty;
         public int Length { get; set; }
