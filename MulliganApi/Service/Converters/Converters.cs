@@ -51,7 +51,9 @@ public class Converters : IConverters
             {
                 HoleNumber = x.HoleNumber,
                 Par = x.Par,
-                HoleId = x.Id
+                HoleId = x.Id,
+                Score = x.Par,
+                Puts = 2
             }).OrderBy(x => x.HoleNumber).ToList(),
         };
 
