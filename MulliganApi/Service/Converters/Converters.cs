@@ -45,7 +45,13 @@ public class Converters : IConverters
             CourseName = course.CourseName,
             TeeBoxes = teeBoxes.Select(x => (int)x.TeeBox).ToList(),
             Has18Holes = false,
-            Length = course.Length
+            Length = course.Length,
+            Holes = course.CourseHoles.Select(x => new CourseHoleDto()
+            {
+                HoleNumber = x.HoleNumber,
+                Par = x.Par,
+                HoleId = x.Id
+            }).OrderBy(x => x.HoleNumber).ToList(),
         };
 
         return courseInfo;
@@ -55,7 +61,7 @@ public class Converters : IConverters
     {
         var notesForCourse = notes.Where(x => x.CourseHole.CourseId == course.Id);
         var holeNotesWithEmptyContentCount = notesForCourse.Count(holeNote => holeNote.NoteText != "");
-        var numberOfHolesWithNotes = $"{holeNotesWithEmptyContentCount}/9";
+        var numberOfHolesWithNotes = $"{holeNotesWithEmptyContentCount} av 9";
 
         var allHolesForCourse = await _repository.GetAllHolesForCourse(course.Id);
         var notesForAllHoles = allHolesForCourse.Select(x => new CourseHoleNoteDto()
