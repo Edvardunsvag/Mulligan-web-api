@@ -95,13 +95,18 @@ namespace MulliganApi.Controller
         }
 
         [HttpPost("registerGoogleSignin")]
-        public async Task<IActionResult> RegisterGoogleSignin(string username)
+        public async Task<ActionResult<UserDto>> RegisterGoogleSignin(string username)
         {
             var registeredUsers = await _repository.GetAllUsers();
             var user = registeredUsers.FirstOrDefault(u => u.Username == username);
+            var userDto = new UserDto()
+            {
+                UserId = user.Id,
+                Name = user.Username,
+            };
             if (user != null)
             {
-                return BadRequest("User already exists");
+                return Ok(userDto);
             }
 
             var userToAdd = new User
@@ -110,7 +115,7 @@ namespace MulliganApi.Controller
             };
             await _repository.AddUser(userToAdd);
 
-            return Ok("User successfully created");
+            return Ok(userDto);
         }
 
         [HttpGet("GetUserId")]
