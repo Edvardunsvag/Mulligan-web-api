@@ -76,7 +76,7 @@ namespace MulliganApi.Controller
                 Name = user.Email,
             };
 
-            return userDto;
+            return Ok(userDto);
         }
 
         [HttpPost("registerGoogleSignin")]
@@ -124,7 +124,7 @@ namespace MulliganApi.Controller
             return Ok(registeredUsers);
         }
         
-        private void CreatePasswordHash(string password,
+        private static void CreatePasswordHash(string password,
             out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
