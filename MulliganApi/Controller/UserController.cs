@@ -75,15 +75,15 @@ namespace MulliganApi.Controller
         {
             var registeredUsers = await _repository.GetAllUsers();
 
-            var user = registeredUsers.FirstOrDefault(u => u.Username == request.Email);
+            var user = registeredUsers.FirstOrDefault(u => u.Username == request.Username);
             if (user == null)
             {
-                return BadRequest("User not found");
+                return BadRequest("Fant ikke brukeren");
             }
 
             if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
             {
-                return BadRequest("Password is incorrect");
+                return BadRequest("Feil passord");
             }
             var userDto = new UserDto()
             {
@@ -95,10 +95,10 @@ namespace MulliganApi.Controller
         }
 
         [HttpPost("registerGoogleSignin")]
-        public async Task<IActionResult> RegisterGoogleSignin(string email)
+        public async Task<IActionResult> RegisterGoogleSignin(string username)
         {
             var registeredUsers = await _repository.GetAllUsers();
-            var user = registeredUsers.FirstOrDefault(u => u.Username == email);
+            var user = registeredUsers.FirstOrDefault(u => u.Username == username);
             if (user != null)
             {
                 return BadRequest("User already exists");
@@ -106,7 +106,7 @@ namespace MulliganApi.Controller
 
             var userToAdd = new User
             {
-                Username = email,
+                Username = username,
             };
             await _repository.AddUser(userToAdd);
 
@@ -114,10 +114,10 @@ namespace MulliganApi.Controller
         }
 
         [HttpGet("GetUserId")]
-        public async Task<IActionResult> GetUserId(string email)
+        public async Task<IActionResult> GetUserId(string username)
         {
             var registeredUsers = await _repository.GetAllUsers();
-            var user = registeredUsers.FirstOrDefault(u => u.Username == email);
+            var user = registeredUsers.FirstOrDefault(u => u.Username == username);
 
             if (user == null)
             {

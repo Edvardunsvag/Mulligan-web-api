@@ -5,10 +5,7 @@ namespace MulliganApi.Dto
 {
     public class UserLoginRequestDto
     {
-        [Required, EmailAddress]
-        public string Email { get; set; } = "";
-
-        [Required]
+        public string Username { get; set; } = "";
         public string Password { get; set; } = "";
 
     }
