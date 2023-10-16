@@ -1,3 +1,4 @@
+using System.Globalization;
 using MulliganApi.Database.Models;
 using MulliganApi.Database.Repository;
 using MulliganApi.Dto;
@@ -21,11 +22,16 @@ public class Converters : IConverters
     }
     public  RoundGetDto ToDto(Round round)
     {
+        var month = round.Date.Month;
+        var day = round.Date.Day;
+        var norwegianDate = FormatNorwegianDate(day, month);
+        
         var roundDto = new RoundGetDto()
         {
             CourseId = round.CourseId,
             Strokes = round.Strokes,
             Puts = round.Puts,
+            NorwegianDate = norwegianDate,
             Holes = round.Holes.Select(x => new RoundHoleDto()
             {
                 HoleNumber = x.HoleNumber,
@@ -81,5 +87,14 @@ public class Converters : IConverters
         };
 
         return noteDto;
+    }
+
+    private static string FormatNorwegianDate(int day, int month)
+    {
+        var monthName = CultureInfo.GetCultureInfo("no").DateTimeFormat.GetMonthName(month);
+        monthName = char.ToUpper(monthName[0]) + monthName.Substring(1);
+        var formattedDate = $"{day}. {monthName}";
+
+        return formattedDate;
     }
 }

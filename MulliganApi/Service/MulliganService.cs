@@ -49,7 +49,8 @@ namespace MulliganApi.Service
                 UserId = dto.UserId,
                 Holes = roundHoles,
                 CourseId = dto.CourseId,
-                Puts = totalPuts
+                Puts = totalPuts,
+                Date = DateTime.Now,
             };
 
             try

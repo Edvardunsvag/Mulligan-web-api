@@ -48,7 +48,7 @@ namespace MulliganApi.Database
             var course = new Course
             {
                 Id = courseId,
-                CourseName = "Krokhol",
+                CourseName = "Krokhol golfklubb",
                 CourseDescription = "Krokhol golfklubb description",
                 Has18Holes = false,
                 Length = courseHoles.Select(x => x.Length).Sum()

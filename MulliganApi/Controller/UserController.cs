@@ -55,7 +55,7 @@ namespace MulliganApi.Controller
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<Guid>> Login(UserLoginRequestDto request)
+        public async Task<ActionResult<UserDto>> Login(UserLoginRequestDto request)
         {
             var registeredUsers = await _repository.GetAllUsers();
 
@@ -70,7 +70,13 @@ namespace MulliganApi.Controller
                 return BadRequest("Password is incorrect");
             }
 
-            return user.Id;
+            var userDto = new UserDto()
+            {
+                UserId = user.Id,
+                Name = user.Email,
+            };
+
+            return userDto;
         }
 
         [HttpPost("registerGoogleSignin")]

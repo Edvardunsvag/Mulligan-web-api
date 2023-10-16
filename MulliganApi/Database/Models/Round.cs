@@ -11,7 +11,7 @@ namespace MulliganApi.Database.Models
         public Guid CourseId { get; set; }
         public int Strokes { get; set; }
         public int Puts { get; set; }
-
+        public DateTime Date { get; set; }
 
         //Helpers for EF core
         public List<RoundHole> Holes { get; set; }
