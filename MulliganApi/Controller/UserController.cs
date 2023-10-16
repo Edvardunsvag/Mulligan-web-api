@@ -98,23 +98,31 @@ namespace MulliganApi.Controller
         {
             var registeredUsers = await _repository.GetAllUsers();
             var user = registeredUsers.FirstOrDefault(u => u.Username == username);
-            var userDto = new UserDto()
-            {
-                UserId = user.Id,
-                Name = user.Username,
-            };
+           
             if (user != null)
             {
+                var userDto = new UserDto()
+                {
+                    UserId = user.Id,
+                    Name = user.Username,
+                };
                 return Ok(userDto);
             }
 
+            var newGuid = Guid.NewGuid();
             var userToAdd = new User
             {
+                Id = newGuid,
                 Username = username,
             };
             await _repository.AddUser(userToAdd);
+            var userDto1 = new UserDto()
+            {
+                UserId = newGuid,
+                Name = username,
+            };
 
-            return Ok(userDto);
+            return Ok(userDto1);
         }
 
         [HttpGet("GetUserId")]
