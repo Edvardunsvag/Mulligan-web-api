@@ -32,9 +32,9 @@ namespace MulliganApi.Controller
         public async Task<ActionResult<UserDto>> Register(UserRegisterRequestDto request)
         {
             var registeredUsers = await _repository.GetAllUsers();
-            if (registeredUsers.Any(u => u.Email == request.Email))
+            if (registeredUsers.Any(u => u.Username == request.Username))
             {
-                return BadRequest("User already exists");
+                return BadRequest("Brukernavnet er tatt");
             }
             if (request.Password.Length < 6)
             {
@@ -44,13 +44,17 @@ namespace MulliganApi.Controller
             {
                 return BadRequest("Passordene matcher ikke");
             }
+            if (request.Username.Length < 6)
+            {
+                return BadRequest("Brukernavn må være lenger enn 6 tegn");
+            }
 
             CreatePasswordHash(request.Password,
                 out byte[] passwordHash, out byte[] passwordSalt);
 
             var user = new User
             {
-                Email = request.Email,
+                Username = request.Username,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 VerificationToken = CreateRandomToken()
@@ -60,7 +64,7 @@ namespace MulliganApi.Controller
             var userDto = new UserDto()
             {
                 UserId = user.Id,
-                Name = user.Email,
+                Name = user.Username,
             };
 
             return Ok(userDto);
@@ -71,7 +75,7 @@ namespace MulliganApi.Controller
         {
             var registeredUsers = await _repository.GetAllUsers();
 
-            var user = registeredUsers.FirstOrDefault(u => u.Email == request.Email);
+            var user = registeredUsers.FirstOrDefault(u => u.Username == request.Email);
             if (user == null)
             {
                 return BadRequest("User not found");
@@ -84,7 +88,7 @@ namespace MulliganApi.Controller
             var userDto = new UserDto()
             {
                 UserId = user.Id,
-                Name = user.Email,
+                Name = user.Username,
             };
 
             return Ok(userDto);
@@ -94,7 +98,7 @@ namespace MulliganApi.Controller
         public async Task<IActionResult> RegisterGoogleSignin(string email)
         {
             var registeredUsers = await _repository.GetAllUsers();
-            var user = registeredUsers.FirstOrDefault(u => u.Email == email);
+            var user = registeredUsers.FirstOrDefault(u => u.Username == email);
             if (user != null)
             {
                 return BadRequest("User already exists");
@@ -102,7 +106,7 @@ namespace MulliganApi.Controller
 
             var userToAdd = new User
             {
-                Email = email,
+                Username = email,
             };
             await _repository.AddUser(userToAdd);
 
@@ -113,7 +117,7 @@ namespace MulliganApi.Controller
         public async Task<IActionResult> GetUserId(string email)
         {
             var registeredUsers = await _repository.GetAllUsers();
-            var user = registeredUsers.FirstOrDefault(u => u.Email == email);
+            var user = registeredUsers.FirstOrDefault(u => u.Username == email);
 
             if (user == null)
             {
