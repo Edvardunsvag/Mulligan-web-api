@@ -70,17 +70,19 @@ namespace MulliganApi.Service
         public async Task<List<RoundGetDto>> GetAllRoundsForUser(Guid id)
         {
             var rounds = await _repository.GetAllRoundsForUser(id);
-            var roundsDto = rounds.Select(x => _converter.ToDto(x)).ToList();
+            var roundDtoTasks = rounds.Select(async x => await _converter.ToDto(x));
+            var roundDtos = await Task.WhenAll(roundDtoTasks);
 
-            return roundsDto;
+            return roundDtos.ToList();
         }
 
         public async Task<List<RoundGetDto>> GetAllRounds()
         {
             var rounds = await _repository.GetAllRounds();
-            var roundsDto = rounds.Select(x => _converter.ToDto(x)).ToList();
+            var roundDtoTasks = rounds.Select(x => _converter.ToDto(x));
+            var roundDtos = await Task.WhenAll(roundDtoTasks);
 
-            return roundsDto;
+            return roundDtos.ToList();
         }
 
         public async Task<List<CourseNoteDto>> GetAllNotesForUser(Guid userId)

@@ -29,7 +29,7 @@ namespace MulliganApi.Controller
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<Guid>> Register(UserRegisterRequestDto request)
+        public async Task<ActionResult<UserDto>> Register(UserRegisterRequestDto request)
         {
             var registeredUsers = await _repository.GetAllUsers();
 
@@ -51,7 +51,13 @@ namespace MulliganApi.Controller
 
             await _repository.AddUser(user);
 
-            return user.Id;
+            var userDto = new UserDto()
+            {
+                UserId = user.Id,
+                Name = user.Email,
+            };
+
+            return Ok(userDto);
         }
 
         [HttpPost("login")]

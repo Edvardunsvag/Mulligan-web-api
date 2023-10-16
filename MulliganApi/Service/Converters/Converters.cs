@@ -7,7 +7,7 @@ namespace MulliganApi.Service.Converters;
 
 public interface IConverters
 {
-    RoundGetDto ToDto(Round round);
+    Task<RoundGetDto> ToDto(Round round);
     CourseInfoDto ToDto(Course course, List<CourseTeeBox> teeBoxes);
     Task<CourseNoteDto> ToDtoAsync(List<Note> notes, Course course, Guid userId);
 }
@@ -20,11 +20,11 @@ public class Converters : IConverters
     {
         _repository = repository;
     }
-    public  RoundGetDto ToDto(Round round)
+    public async Task<RoundGetDto> ToDto(Round round)
     {
-        var month = round.Date.Month;
-        var day = round.Date.Day;
-        var norwegianDate = FormatNorwegianDate(day, month);
+        var courses = await _repository.GetAllCourses();
+        var connectedCourse = courses.First(x => x.Id == round.CourseId);
+        var norwegianDate = FormatNorwegianDate(round.Date);
         
         var roundDto = new RoundGetDto()
         {
@@ -32,12 +32,13 @@ public class Converters : IConverters
             Strokes = round.Strokes,
             Puts = round.Puts,
             NorwegianDate = norwegianDate,
+            CourseName = connectedCourse.CourseName,
             Holes = round.Holes.Select(x => new RoundHoleDto()
             {
                 HoleNumber = x.HoleNumber,
                 Score = x.Score,
                 Puts = x.Puts,
-            }).ToList(),
+            }).ToList()
         };
 
         return roundDto;
@@ -76,7 +77,7 @@ public class Converters : IConverters
         var notesForAllHoles = allHolesForCourse.Select(x => new CourseHoleNoteDto()
         {
             HoleName = $"Hull {x.HoleNumber}",
-            Notes = x.Notes?.Where((u => u.UserId == userId)).Select(n => n.NoteText). ToList(),
+            Notes = x.Notes?.Where((u => u.UserId == userId)).Select(n => n.NoteText).ToList(),
         }).ToList();
 
         var noteDto = new CourseNoteDto()
@@ -89,8 +90,10 @@ public class Converters : IConverters
         return noteDto;
     }
 
-    private static string FormatNorwegianDate(int day, int month)
+    private static string FormatNorwegianDate(DateTime date)
     {
+        var month = date.Month;
+        var day = date.Day;
         var monthName = CultureInfo.GetCultureInfo("no").DateTimeFormat.GetMonthName(month);
         monthName = char.ToUpper(monthName[0]) + monthName.Substring(1);
         var formattedDate = $"{day}. {monthName}";
