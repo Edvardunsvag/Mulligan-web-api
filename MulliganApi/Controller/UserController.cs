@@ -74,7 +74,6 @@ namespace MulliganApi.Controller
         public async Task<ActionResult<UserDto>> Login(UserLoginRequestDto request)
         {
             var registeredUsers = await _repository.GetAllUsers();
-
             var user = registeredUsers.FirstOrDefault(u => u.Username == request.Username);
             if (user == null)
             {
