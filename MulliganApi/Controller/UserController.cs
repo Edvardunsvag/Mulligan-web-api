@@ -32,10 +32,17 @@ namespace MulliganApi.Controller
         public async Task<ActionResult<UserDto>> Register(UserRegisterRequestDto request)
         {
             var registeredUsers = await _repository.GetAllUsers();
-
             if (registeredUsers.Any(u => u.Email == request.Email))
             {
                 return BadRequest("User already exists");
+            }
+            if (request.Password.Length < 6)
+            {
+                return BadRequest("Passordet må være lenger enn 6 tegn");
+            }
+            if (request.Password != request.ConfirmPassword)
+            {
+                return BadRequest("Passordene matcher ikke");
             }
 
             CreatePasswordHash(request.Password,
@@ -50,7 +57,6 @@ namespace MulliganApi.Controller
             };
 
             await _repository.AddUser(user);
-
             var userDto = new UserDto()
             {
                 UserId = user.Id,
@@ -75,7 +81,6 @@ namespace MulliganApi.Controller
             {
                 return BadRequest("Password is incorrect");
             }
-
             var userDto = new UserDto()
             {
                 UserId = user.Id,
