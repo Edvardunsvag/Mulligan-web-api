@@ -6,6 +6,7 @@ namespace MulliganApi.Dto
     {
         public string CourseName { get; set; }
         public string NumberOfHolesWithNotes { get; set; }
+        public int NumberOfHoles { get; set; }
         public List<CourseHoleNoteDto> NotesForAllHoles { get; set; }
     }
 }
