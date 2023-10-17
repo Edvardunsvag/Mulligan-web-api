@@ -30,6 +30,13 @@ namespace MulliganApi.Service
 
         public async Task<Round> AddRound(RoundPostDto dto)
         {
+            var courses = await _repository.GetAllCourses();
+            var correctCourseIdInDto = courses.FirstOrDefault(x => x.Id == dto.CourseId);
+            if (correctCourseIdInDto == null)
+            {
+                throw new Exception("Course ID added by user is not correct.");
+            }
+         
             var roundId = Guid.NewGuid();
             var roundHoles = dto.RoundHoles.Select((hole, index) => new RoundHole
             {
@@ -60,7 +67,6 @@ namespace MulliganApi.Service
             }
             catch (Exception ex)
             {
-                // Handle exceptions (e.g., log the error)
                 throw new Exception("An error occurred while adding the round.", ex);
             }
 
