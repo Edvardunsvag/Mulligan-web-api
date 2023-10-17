@@ -70,9 +70,9 @@ public class Converters : IConverters
     public async Task<CourseNoteDto> ToDtoAsync(List<Note> notes, Course course, Guid userId)
     {
         var notesForCourse = notes.Where(x => x.CourseHole.CourseId == course.Id).ToList();
-        var holeNotesWithEmptyContentCount = notesForCourse.Count(holeNote => holeNote.NoteText != "");
+        var holeNotesWithContent = notesForCourse.Count(holeNote => holeNote.NoteText != "");
         var numberOfHoles = course.CourseHoles.Count;
-        var numberOfHolesWithNotes = $"{holeNotesWithEmptyContentCount} av {numberOfHoles}";
+        var numberOfHolesWithNotes = $"{holeNotesWithContent} av {numberOfHoles}";
 
         var allHolesForCourse = await _repository.GetAllHolesForCourse(course.Id);
         var notesForAllHoles = allHolesForCourse.Select(x => new CourseHoleNoteDto()
@@ -83,6 +83,7 @@ public class Converters : IConverters
 
         var noteDto = new CourseNoteDto()
         {
+            NumberOfNotes = holeNotesWithContent,
             NumberOfHoles = numberOfHoles,
             NumberOfHolesWithNotes = numberOfHolesWithNotes,
             CourseName = course.CourseName,
