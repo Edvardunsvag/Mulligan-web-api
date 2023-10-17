@@ -53,8 +53,7 @@ namespace MulliganApi.Database
                 Has18Holes = false,
                 Length = courseHoles.Select(x => x.Length).Sum()
             };
-
-
+            
             // Add Course and CourseHoles to the context
             _builder.Entity<CourseTeeBox>().HasData(courseTeeBox);
             _builder.Entity<Course>().HasData(course);

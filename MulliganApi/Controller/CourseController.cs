@@ -14,16 +14,16 @@ namespace MulliganApi.Controller
         }
 
         [HttpGet()]
-        public async Task<List<CourseInfoDto>> GetAllCourses()
+        public  List<CourseInfoDto> GetAllCourses()
         {
-            var courseInfo = await _service.GetInfoAboutCourses();
+            var courseInfo =  _service.GetInfoAboutCourses();
             return courseInfo;
         }
 
         [HttpGet()]
-        public async Task<List<Guid>> GetAllCourseIds()
+        public  List<Guid> GetAllCourseIds()
         {
-            var courseIds = await _service.GetAllCourseIds();
+            var courseIds = _service.GetAllCourseIds();
             return courseIds;
         }
     }

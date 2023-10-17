@@ -1,9 +1,7 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using MulliganApi.Database;
+﻿using Microsoft.EntityFrameworkCore;
 using MulliganApi.Database.Models;
 
-namespace MulliganApi.Data
+namespace MulliganApi.Database
 {
     public class MulliganDbContext : DbContext
     {
@@ -11,7 +9,6 @@ namespace MulliganApi.Data
         public MulliganDbContext(DbContextOptions<MulliganDbContext> options, IConfiguration config) : base(options)
         {
             _configuration = config;
-
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MulliganApi.Data;
 using MulliganApi.Database.Models;
 
 namespace MulliganApi.Database.Repository
@@ -12,15 +11,15 @@ namespace MulliganApi.Database.Repository
         }
 
         //Course
-        public async Task<List<Course>> GetAllCourses()
+        public List<Course> GetAllCourses()
         {
-            var course = await _dbContext.Course.Include(x => x.CourseHoles).AsTracking().ToListAsync();
+            var course = _dbContext.Course.Include(x => x.CourseHoles).ToList();
             return course;
         }
 
-        public async Task<List<CourseTeeBox>> GetTeeBoxes(Guid courseId)
+        public  List<CourseTeeBox> GetTeeBoxes(Guid courseId)
         {
-            var teeBoxes = await _dbContext.TeeBoxes.Where(x => x.CourseId == courseId).ToListAsync();
+            var teeBoxes = _dbContext.TeeBoxes.Where(x => x.CourseId == courseId).ToList();
 
             return teeBoxes;
 
@@ -29,7 +28,7 @@ namespace MulliganApi.Database.Repository
         //Hole
         public async Task<CourseHole> GetHoleById(Guid id)
         {
-            var hole = await _dbContext.CourseHole.Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync();
+            var hole = await _dbContext.CourseHole.Where(x => x.Id == id).FirstOrDefaultAsync();
             return hole;
         }
 
@@ -46,17 +45,16 @@ namespace MulliganApi.Database.Repository
             return round;
         }
 
-        public async Task<List<Round>> GetAllRoundsForUser(Guid id)
+        public List<Round> GetAllRoundsForUser(Guid id)
         {
-            var rounds = await _dbContext.Round.Include(x => x.Holes).Where(x => x.UserId == id).AsNoTracking().ToListAsync();
+            var rounds = _dbContext.Round.Include(x => x.Holes).Where(x => x.UserId == id).ToList();
             return rounds;
         }
 
-        public async Task<List<Round>> GetAllRounds()
+        public List<Round> GetAllRounds()
         {
-            var rounds =  await _dbContext.Round.Include(x => x.Holes).ToListAsync();
+            var rounds =  _dbContext.Round.Include(x => x.Holes).ToList();
             return rounds;
-
         }
 
         //Note

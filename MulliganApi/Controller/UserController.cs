@@ -7,7 +7,6 @@ using Azure.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MulliganApi.Data;
 using MulliganApi.Database.Models;
 using MulliganApi.Database.Repository;
 using MulliganApi.Dto;

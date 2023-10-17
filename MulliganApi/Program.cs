@@ -1,7 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 using MulliganApi;
 using MulliganApi.Controller;
-using MulliganApi.Data;
 using MulliganApi.Database;
 using MulliganApi.Database.Repository;
 using MulliganApi.Service;

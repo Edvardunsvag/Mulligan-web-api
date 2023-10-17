@@ -15,13 +15,13 @@ namespace MulliganApi.Service
             _converter = converters;
         }
 
-        public async Task<List<CourseInfoDto>> GetInfoAboutCourses()
+        public  List<CourseInfoDto> GetInfoAboutCourses()
         {
-            var courses = await _repository.GetAllCourses();
+            var courses =  _repository.GetAllCourses();
             var courseList = new List<CourseInfoDto>();
             foreach (var course in courses)
             {
-                var teeBoxes = await _repository.GetTeeBoxes(course.Id);
+                var teeBoxes =  _repository.GetTeeBoxes(course.Id);
                 courseList.Add(_converter.ToDto(course, teeBoxes));
             }
 
@@ -30,7 +30,7 @@ namespace MulliganApi.Service
 
         public async Task<Round> AddRound(RoundPostDto dto)
         {
-            var courses = await _repository.GetAllCourses();
+            var courses =  _repository.GetAllCourses();
             var correctCourseIdInDto = courses.FirstOrDefault(x => x.Id == dto.CourseId);
             if (correctCourseIdInDto == null)
             {
@@ -59,52 +59,43 @@ namespace MulliganApi.Service
                 Puts = totalPuts,
                 Date = DateTime.Now,
             };
-
-            try
-            {
-                await _repository.AddRound(round);
-                await _repository.Save();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("An error occurred while adding the round.", ex);
-            }
-
+            
+            await _repository.AddRound(round);
+            await _repository.Save();
+                
             return round;
         }
 
-        public async Task<List<RoundGetDto>> GetAllRoundsForUser(Guid id)
+        public List<RoundGetDto> GetAllRoundsForUser(Guid id)
         {
-            var rounds = await _repository.GetAllRoundsForUser(id);
-            var roundDtoTasks = rounds.Select(async x => await _converter.ToDto(x));
-            var roundDtos = await Task.WhenAll(roundDtoTasks);
-
-            return roundDtos.ToList();
+            var rounds =  _repository.GetAllRoundsForUser(id);
+            var roundDtoTasks = rounds.Select(x => _converter.ToDto(x)).ToList();
+            
+            return roundDtoTasks;
         }
 
-        public async Task<List<RoundGetDto>> GetAllRounds()
+        public List<RoundGetDto> GetAllRounds()
         {
-            var rounds = await _repository.GetAllRounds();
-            var roundDtoTasks = rounds.Select(x => _converter.ToDto(x));
-            var roundDtos = await Task.WhenAll(roundDtoTasks);
+            var rounds = _repository.GetAllRounds();
+            var roundDto = rounds.Select(x => _converter.ToDto(x)).ToList();
 
-            return roundDtos.ToList();
+            return roundDto;
         }
 
         public async Task<List<CourseNoteDto>> GetAllNotesForUser(Guid userId)
         {
             if (userId == Guid.Empty)
                 throw new ArgumentException("User ID cannot be empty.", nameof(userId));
-            var notes = await _repository.GetAllCourseNotes(userId).ConfigureAwait(false);
-            var courses = await _repository.GetAllCourses().ConfigureAwait(false);
+            var notes = await _repository.GetAllCourseNotes(userId);
+            var courses =  _repository.GetAllCourses();
             var notesDtos = courses.Select(course => _converter.ToDtoAsync(notes, course, userId).Result).ToList();
 
             return notesDtos;
         }
         
-        public async Task<List<Guid>> GetAllCourseIds()
+        public  List<Guid> GetAllCourseIds()
         {
-            var courses = await _repository.GetAllCourses();
+            var courses =  _repository.GetAllCourses();
             var courseIds = courses.Select(c => c.Id).ToList();
 
             return courseIds;

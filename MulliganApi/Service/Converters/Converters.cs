@@ -7,7 +7,7 @@ namespace MulliganApi.Service.Converters;
 
 public interface IConverters
 {
-    Task<RoundGetDto> ToDto(Round round);
+    RoundGetDto ToDto(Round round);
     CourseInfoDto ToDto(Course course, List<CourseTeeBox> teeBoxes);
     Task<CourseNoteDto> ToDtoAsync(List<Note> notes, Course course, Guid userId);
 }
@@ -20,9 +20,9 @@ public class Converters : IConverters
     {
         _repository = repository;
     }
-    public async Task<RoundGetDto> ToDto(Round round)
+    public  RoundGetDto ToDto(Round round)
     {
-        var courses = await _repository.GetAllCourses();
+        var courses =  _repository.GetAllCourses();
         var connectedCourse = courses.First(x => x.Id == round.CourseId);
         var norwegianDate = FormatNorwegianDate(round.Date);
         

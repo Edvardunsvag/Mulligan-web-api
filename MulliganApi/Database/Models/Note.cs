@@ -9,7 +9,9 @@ namespace MulliganApi.Database.Models
         public DateTime LastUpdated { get; set; }
         public Guid UserId { get; set; }
         public Guid HoleId { get; set; }
-
+        
+        
+        
         [ForeignKey("HoleId")]
         public CourseHole CourseHole { get; set; }
     }

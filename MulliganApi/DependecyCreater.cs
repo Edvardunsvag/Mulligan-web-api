@@ -14,13 +14,11 @@ namespace MulliganApi
             Configure(builder);
         }
 
-        public void Configure(WebApplicationBuilder builder)
+        private static void Configure(WebApplicationBuilder builder)
         {
             builder.Services.AddScoped<IMulliganRepository, MulliganRepository>();
             builder.Services.AddScoped<IMulliganService, MulliganService>();
             builder.Services.AddScoped<IConverters, Converters>();
-
-
 
             builder.Services.AddScoped<RoundController>();
             builder.Services.AddScoped<UserController>();

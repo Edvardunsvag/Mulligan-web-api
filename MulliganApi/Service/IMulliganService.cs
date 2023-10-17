@@ -6,12 +6,12 @@ namespace MulliganApi.Service
     public interface IMulliganService
     {
         //Course
-        Task<List<CourseInfoDto>> GetInfoAboutCourses();
-        Task<List<Guid>> GetAllCourseIds();
+        List<CourseInfoDto> GetInfoAboutCourses();
+        List<Guid> GetAllCourseIds();
 
         //Rounds
-        Task<List<RoundGetDto>> GetAllRoundsForUser(Guid id);
-        Task<List<RoundGetDto>> GetAllRounds();
+        List<RoundGetDto> GetAllRoundsForUser(Guid id);
+        List<RoundGetDto> GetAllRounds();
         Task<Round> AddRound(RoundPostDto round);
 
         //Notes

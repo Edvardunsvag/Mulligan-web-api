@@ -18,21 +18,22 @@ namespace MulliganApi.Controller
         [HttpPost()]
         public async Task<Round> AddRound(RoundPostDto round)
         {
+            
             var output = await _service.AddRound(round);
             return output;
         }
 
         [HttpGet("GetAllRoundsForUser")]
-        public async Task<List<RoundGetDto>> GetAllRoundsForUser(Guid id)
+        public List<RoundGetDto> GetAllRoundsForUser(Guid id)
         {
-            var rounds = await _service.GetAllRoundsForUser(id);
+            var rounds = _service.GetAllRoundsForUser(id);
             return rounds;
         }
 
         [HttpGet("GetAllRounds")]
-        public async Task<List<RoundGetDto>> GetAllRounds()
+        public List<RoundGetDto> GetAllRounds()
         {
-            var rounds = await _service.GetAllRounds();
+            var rounds = _service.GetAllRounds();
             return rounds;
         }
 
