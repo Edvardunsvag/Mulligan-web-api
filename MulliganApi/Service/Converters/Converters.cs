@@ -72,7 +72,7 @@ public class Converters : IConverters
         var notesForCourse = notes.Where(x => x.CourseHole.CourseId == course.Id).ToList();
         var holeNotesWithEmptyContentCount = notesForCourse.Count(holeNote => holeNote.NoteText != "");
         var numberOfHoles = course.CourseHoles.Count;
-        var numberOfHolesWithNotes = $"{holeNotesWithEmptyContentCount} av ${numberOfHoles}";
+        var numberOfHolesWithNotes = $"{holeNotesWithEmptyContentCount} av {numberOfHoles}";
 
         var allHolesForCourse = await _repository.GetAllHolesForCourse(course.Id);
         var notesForAllHoles = allHolesForCourse.Select(x => new CourseHoleNoteDto()
