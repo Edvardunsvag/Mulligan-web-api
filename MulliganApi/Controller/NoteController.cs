@@ -29,10 +29,7 @@ namespace MulliganApi.Controller
         [HttpPost("AddNote")]
         public async Task<IResult> AddNote(NotePostDto note)
         {
-            //Get data  
             var connectedHole =  _repository.GetHoleById(note.HoleId);
-
-            //Create the note
             var newNote = new Note()
             {
                 HoleId = connectedHole.Id,
@@ -41,9 +38,21 @@ namespace MulliganApi.Controller
                 NoteText = note.Content,
                 UserId = note.UserId,
             };
-
-            //Add note
+            
             await _repository.AddNote(newNote);
+            await _repository.Save();
+
+            return Results.Ok(newNote.Id);
+        }
+        
+        [HttpPut("UpdateNote")]
+        public async Task<IResult> UpdateNote(NoteUpdateDto updatedNote)
+        {
+            var existingNote = _repository.GetNoteById(updatedNote.NoteId);
+            existingNote.NoteText = updatedNote.NoteContent;
+            existingNote.LastUpdated = DateTime.UtcNow;
+
+            await _repository.UpdateNote(existingNote);
             await _repository.Save();
 
             return Results.Ok();

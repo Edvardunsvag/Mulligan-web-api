@@ -64,6 +64,18 @@ namespace MulliganApi.Database.Repository
             return notes;
         }
 
+        public Note GetNoteById(Guid noteId)
+        {
+            var note = _dbContext.Note.First(x => x.Id == noteId);
+            return note;
+        }
+        
+        public async Task UpdateNote(Note updatedNote)
+        {
+            _dbContext.Entry(updatedNote).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+        }
+
         public List<User> GetAllUsers()
         {
             var users = _dbContext.User.ToList();

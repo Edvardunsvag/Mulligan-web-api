@@ -70,22 +70,31 @@ public class Converters : IConverters
     public  CourseNoteDto ToDtoAsync(List<Note> notes, Course course, Guid userId)
     {
         var notesForCourse = notes.Where(x => x.CourseHole.CourseId == course.Id).ToList();
-        var holeNotesWithContent = notesForCourse.Count(holeNote => holeNote.NoteText != "");
+        var holesWithNote = notesForCourse.Select(note => note.HoleId).Distinct().Count();
         var numberOfHoles = course.CourseHoles.Count;
-        var numberOfHolesWithNotes = $"{holeNotesWithContent} av {numberOfHoles}";
+        var numberOfHolesWithNotes = $"{holesWithNote} av {numberOfHoles}";
 
-        var allHolesForCourse =  _repository.GetAllHolesForCourse(course.Id);
+        var allHolesForCourse = _repository.GetAllHolesForCourse(course.Id);
         var notesForAllHoles = allHolesForCourse.Select(x => new CourseHoleNoteDto()
         {
             HoleName = $"Hull {x.HoleNumber}",
-            Notes = x.Notes?.Where((u => u.UserId == userId)).Select(n => n.NoteText).ToList(),
+            LastUpdated = x.Notes
+                .Select(n => n.LastUpdated)
+                .DefaultIfEmpty() 
+                .Max()
+                .ToString(),
+            Notes = x.Notes?.Where((u => u.UserId == userId)).Select(n => new NotesForHoleDto()
+            {
+                Content = n.NoteText,
+                NoteId = n.Id,
+            }).ToList(),
         }).ToList();
 
         var noteDto = new CourseNoteDto()
         {
-            NumberOfNotes = holeNotesWithContent,
+            NumberOfHolesWithNotes = holesWithNote,
             NumberOfHoles = numberOfHoles,
-            NumberOfHolesWithNotes = numberOfHolesWithNotes,
+            NumberOfHolesWithNotesText = numberOfHolesWithNotes,
             CourseName = course.CourseName,
             NotesForAllHoles = notesForAllHoles.OrderBy(x => x.HoleName).ToList(),
         };
