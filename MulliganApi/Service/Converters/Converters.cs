@@ -82,7 +82,7 @@ public class Converters : IConverters
                 .Select(n => n.LastUpdated)
                 .DefaultIfEmpty() 
                 .Max()
-                .ToString(),
+                .ToString("dd.MM.yyyy"),
             Notes = x.Notes?.Where((u => u.UserId == userId)).Select(n => new NotesForHoleDto()
             {
                 Content = n.NoteText,
