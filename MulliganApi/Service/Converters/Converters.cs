@@ -78,6 +78,7 @@ public class Converters : IConverters
         var notesForAllHoles = allHolesForCourse.Select(x => new CourseHoleNoteDto()
         {
             HoleName = $"Hull {x.HoleNumber}",
+            HoleId = x.Id,
             LastUpdated = x.Notes
                 .Select(n => n.LastUpdated)
                 .DefaultIfEmpty() 
