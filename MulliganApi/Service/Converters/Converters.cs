@@ -9,7 +9,7 @@ public interface IConverters
 {
     RoundGetDto ToDto(Round round);
     CourseInfoDto ToDto(Course course, List<CourseTeeBox> teeBoxes);
-    Task<CourseNoteDto> ToDtoAsync(List<Note> notes, Course course, Guid userId);
+    CourseNoteDto ToDtoAsync(List<Note> notes, Course course, Guid userId);
 }
 
 public class Converters : IConverters
@@ -67,14 +67,14 @@ public class Converters : IConverters
         return courseInfo;
     }
     
-    public async Task<CourseNoteDto> ToDtoAsync(List<Note> notes, Course course, Guid userId)
+    public  CourseNoteDto ToDtoAsync(List<Note> notes, Course course, Guid userId)
     {
         var notesForCourse = notes.Where(x => x.CourseHole.CourseId == course.Id).ToList();
         var holeNotesWithContent = notesForCourse.Count(holeNote => holeNote.NoteText != "");
         var numberOfHoles = course.CourseHoles.Count;
         var numberOfHolesWithNotes = $"{holeNotesWithContent} av {numberOfHoles}";
 
-        var allHolesForCourse = await _repository.GetAllHolesForCourse(course.Id);
+        var allHolesForCourse =  _repository.GetAllHolesForCourse(course.Id);
         var notesForAllHoles = allHolesForCourse.Select(x => new CourseHoleNoteDto()
         {
             HoleName = $"Hull {x.HoleNumber}",

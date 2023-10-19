@@ -20,9 +20,9 @@ namespace MulliganApi.Controller
         }
 
         [HttpGet()]
-        public async Task<ActionResult<List<CourseNoteDto>>> GetAllNotes([FromQuery] Guid userId)
+        public ActionResult<List<CourseNoteDto>> GetAllNotes([FromQuery] Guid userId)
         {
-            var notesForCourse = await _service.GetAllNotesForUser(userId);
+            var notesForCourse =  _service.GetAllNotesForUser(userId);
             return notesForCourse;
         }
 
@@ -30,7 +30,7 @@ namespace MulliganApi.Controller
         public async Task<IResult> AddNote(NotePostDto note)
         {
             //Get data  
-            var connectedHole = await _repository.GetHoleById(note.HoleId);
+            var connectedHole =  _repository.GetHoleById(note.HoleId);
 
             //Create the note
             var newNote = new Note()
@@ -46,9 +46,7 @@ namespace MulliganApi.Controller
             await _repository.AddNote(newNote);
             await _repository.Save();
 
-            return Results.Ok(newNote);
+            return Results.Ok();
         }
-
-
     }
 }

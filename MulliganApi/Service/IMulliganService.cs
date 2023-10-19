@@ -15,6 +15,6 @@ namespace MulliganApi.Service
         Task<Round> AddRound(RoundPostDto round);
 
         //Notes
-        Task<List<CourseNoteDto>> GetAllNotesForUser(Guid userId);
+        List<CourseNoteDto> GetAllNotesForUser(Guid userId);
     }
 }

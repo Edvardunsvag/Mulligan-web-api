@@ -82,13 +82,13 @@ namespace MulliganApi.Service
             return roundDto;
         }
 
-        public async Task<List<CourseNoteDto>> GetAllNotesForUser(Guid userId)
+        public  List<CourseNoteDto> GetAllNotesForUser(Guid userId)
         {
             if (userId == Guid.Empty)
                 throw new ArgumentException("User ID cannot be empty.", nameof(userId));
-            var notes = await _repository.GetAllCourseNotes(userId);
+            var notes =  _repository.GetAllCourseNotes(userId);
             var courses =  _repository.GetAllCourses();
-            var notesDtos = courses.Select(course => _converter.ToDtoAsync(notes, course, userId).Result).ToList();
+            var notesDtos = courses.Select(course => _converter.ToDtoAsync(notes, course, userId)).ToList();
 
             return notesDtos;
         }

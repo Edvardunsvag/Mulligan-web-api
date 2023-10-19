@@ -17,7 +17,7 @@ namespace MulliganApi.Database.Repository
             return course;
         }
 
-        public  List<CourseTeeBox> GetTeeBoxes(Guid courseId)
+        public List<CourseTeeBox> GetTeeBoxes(Guid courseId)
         {
             var teeBoxes = _dbContext.TeeBoxes.Where(x => x.CourseId == courseId).ToList();
 
@@ -26,15 +26,15 @@ namespace MulliganApi.Database.Repository
         }
 
         //Hole
-        public async Task<CourseHole> GetHoleById(Guid id)
+        public CourseHole GetHoleById(Guid id)
         {
-            var hole = await _dbContext.CourseHole.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var hole =  _dbContext.CourseHole.Where(x => x.Id == id).FirstOrDefault();
             return hole;
         }
 
-        public async Task<List<CourseHole>> GetAllHolesForCourse(Guid courseId)
+        public List<CourseHole> GetAllHolesForCourse(Guid courseId)
         {
-            var holes =  await _dbContext.CourseHole.Include(x => x.Notes).Where(x => x.CourseId == courseId).AsNoTracking().ToListAsync();
+            var holes = _dbContext.CourseHole.Include(x => x.Notes).Where(x => x.CourseId == courseId).ToList();
             return holes;
         }
 
@@ -58,15 +58,15 @@ namespace MulliganApi.Database.Repository
         }
 
         //Note
-        public async Task<List<Note>> GetAllCourseNotes(Guid userId)
+        public List<Note> GetAllCourseNotes(Guid userId)
         {
-            var notes = await _dbContext.Note.Include(x => x.CourseHole).Where(hole => hole.UserId == userId).ToListAsync();
+            var notes = _dbContext.Note.Include(x => x.CourseHole).Where(hole => hole.UserId == userId).ToList();
             return notes;
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public List<User> GetAllUsers()
         {
-            var users = await _dbContext.User.ToListAsync();
+            var users = _dbContext.User.ToList();
             return users;
         }
 

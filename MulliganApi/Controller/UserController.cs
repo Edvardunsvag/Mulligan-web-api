@@ -30,7 +30,7 @@ namespace MulliganApi.Controller
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(UserRegisterRequestDto request)
         {
-            var registeredUsers = await _repository.GetAllUsers();
+            var registeredUsers = _repository.GetAllUsers();
             if (registeredUsers.Any(u => u.Username == request.Username))
             {
                 return BadRequest("Brukernavnet er tatt");
@@ -70,9 +70,9 @@ namespace MulliganApi.Controller
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(UserLoginRequestDto request)
+        public ActionResult<UserDto> Login(UserLoginRequestDto request)
         {
-            var registeredUsers = await _repository.GetAllUsers();
+            var registeredUsers = _repository.GetAllUsers();
             var user = registeredUsers.FirstOrDefault(u => u.Username == request.Username);
             if (user == null)
             {
@@ -95,7 +95,7 @@ namespace MulliganApi.Controller
         [HttpPost("registerGoogleSignin")]
         public async Task<ActionResult<UserDto>> RegisterGoogleSignin(string username)
         {
-            var registeredUsers = await _repository.GetAllUsers();
+            var registeredUsers = _repository.GetAllUsers();
             var user = registeredUsers.FirstOrDefault(u => u.Username == username);
            
             if (user != null)
@@ -125,9 +125,9 @@ namespace MulliganApi.Controller
         }
 
         [HttpGet("GetUserId")]
-        public async Task<IActionResult> GetUserId(string username)
+        public ActionResult<List<User>> GetUserId(string username)
         {
-            var registeredUsers = await _repository.GetAllUsers();
+            var registeredUsers = _repository.GetAllUsers();
             var user = registeredUsers.FirstOrDefault(u => u.Username == username);
 
             if (user == null)
@@ -139,9 +139,9 @@ namespace MulliganApi.Controller
         }
 
         [HttpGet("GetAllUsers")]
-        public async Task<IActionResult> GetAllUsers()
+        public ActionResult<List<User>> GetAllUsers()
         {
-            var registeredUsers = await _repository.GetAllUsers();
+            var registeredUsers = _repository.GetAllUsers();
             if(registeredUsers.Count == 0)
             {
                 return BadRequest("No users");
