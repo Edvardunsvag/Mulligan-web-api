@@ -46,7 +46,7 @@ namespace MulliganApi.Controller
         }
         
         [HttpPut("UpdateNote")]
-        public async Task<IResult> UpdateNote(NoteUpdateDto updatedNote)
+        public async Task<ActionResult<Guid>> UpdateNote(NoteUpdateDto updatedNote)
         {
             var existingNote = _repository.GetNoteById(updatedNote.NoteId);
             existingNote.NoteText = updatedNote.NoteContent;
@@ -55,7 +55,7 @@ namespace MulliganApi.Controller
             await _repository.UpdateNote(existingNote);
             await _repository.Save();
 
-            return Results.Ok();
+            return updatedNote.NoteId;
         }
     }
 }
