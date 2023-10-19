@@ -27,7 +27,7 @@ namespace MulliganApi.Controller
         }
 
         [HttpPost("AddNote")]
-        public async Task<IResult> AddNote(NotePostDto note)
+        public async Task<ActionResult<Guid>> AddNote(NotePostDto note)
         {
             var connectedHole =  _repository.GetHoleById(note.HoleId);
             var newNote = new Note()
@@ -42,7 +42,7 @@ namespace MulliganApi.Controller
             await _repository.AddNote(newNote);
             await _repository.Save();
 
-            return Results.Ok(newNote.Id);
+            return newNote.Id;
         }
         
         [HttpPut("UpdateNote")]
