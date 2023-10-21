@@ -53,6 +53,15 @@ namespace MulliganApi.Controller
             existingNote.LastUpdated = DateTime.UtcNow;
 
             await _repository.UpdateNote(existingNote);
+
+            return updatedNote.NoteId;
+        }
+        
+        [HttpDelete("DeleteNote")]
+        public async Task<ActionResult<Guid>> DeleteNote(NoteUpdateDto updatedNote)
+        {
+            var existingNote = _repository.GetNoteById(updatedNote.NoteId);
+            await _repository.DeleteNote(existingNote);
             await _repository.Save();
 
             return updatedNote.NoteId;

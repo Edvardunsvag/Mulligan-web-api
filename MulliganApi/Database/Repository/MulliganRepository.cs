@@ -76,6 +76,12 @@ namespace MulliganApi.Database.Repository
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task DeleteNote(Note note)
+        {
+            _dbContext.Note.Remove(note);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public List<User> GetAllUsers()
         {
             var users = _dbContext.User.ToList();
