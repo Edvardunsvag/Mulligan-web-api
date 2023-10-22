@@ -93,6 +93,18 @@ namespace MulliganApi.Service
             return notesDtos;
         }
         
+        public  CourseNoteDto GetAllNotesForCourse(Guid userId, Guid courseId)
+        {
+            if (userId == Guid.Empty)
+                throw new ArgumentException("User ID cannot be empty.", nameof(userId));
+            var notes =  _repository.GetAllCourseNotes(userId);
+            var courses =  _repository.GetAllCourses();
+            var courseNotes = courses.First(course => course.Id == courseId);
+            var courseNotesDto = _converter.ToDtoAsync(notes, courseNotes, userId);
+
+            return courseNotesDto;
+        }
+        
         public  List<Guid> GetAllCourseIds()
         {
             var courses =  _repository.GetAllCourses();

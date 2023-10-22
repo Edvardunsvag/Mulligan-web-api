@@ -25,6 +25,13 @@ namespace MulliganApi.Controller
             var notesForCourse =  _service.GetAllNotesForUser(userId);
             return notesForCourse;
         }
+        
+        [HttpGet()]
+        public ActionResult<CourseNoteDto> GetAllNotesForCourse([FromQuery] Guid userId, Guid courseId)
+        {
+            var notesForCourse =  _service.GetAllNotesForCourse(userId, courseId);
+            return notesForCourse;
+        }
 
         [HttpPost("AddNote")]
         public async Task<ActionResult<Guid>> AddNote(NotePostDto note)
