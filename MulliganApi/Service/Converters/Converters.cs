@@ -60,7 +60,8 @@ public class Converters : IConverters
                 Par = x.Par,
                 HoleId = x.Id,
                 Score = x.Par,
-                Puts = 2
+                Puts = 2,
+                Length = x.Length
             }).OrderBy(x => x.HoleNumber).ToList(),
         };
 

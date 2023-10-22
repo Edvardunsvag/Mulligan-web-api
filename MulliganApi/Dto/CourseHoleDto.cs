@@ -7,4 +7,5 @@ public class CourseHoleDto
     public int Par { get; set; }
     public int Score { get; set; }
     public int Puts { get; set; }
+    public int Length { get; set; }
 }

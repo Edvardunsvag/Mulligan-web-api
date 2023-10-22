@@ -18,7 +18,6 @@ namespace MulliganApi.Controller
         [HttpPost()]
         public async Task<Round> AddRound(RoundPostDto round)
         {
-            
             var output = await _service.AddRound(round);
             return output;
         }
@@ -26,7 +25,7 @@ namespace MulliganApi.Controller
         [HttpGet("GetAllRoundsForUser")]
         public List<RoundGetDto> GetAllRoundsForUser(Guid id)
         {
-            var rounds = _service.GetAllRoundsForUser(id);
+            var rounds = _service.GetAllRoundsForUser(id).OrderByDescending(x => x.NorwegianDate).ToList();
             return rounds;
         }
 
