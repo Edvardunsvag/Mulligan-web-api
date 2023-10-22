@@ -54,6 +54,7 @@ public class Converters : IConverters
             TeeBoxes = teeBoxes.Select(x => (int)x.TeeBox).ToList(),
             Has18Holes = false,
             Length = course.Length,
+            TotalPar =  course.CourseHoles.Sum(x => x.Par),
             Holes = course.CourseHoles.Select(x => new CourseHoleDto()
             {
                 HoleNumber = x.HoleNumber,

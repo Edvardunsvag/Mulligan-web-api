@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MulliganApi.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -148,27 +148,40 @@ namespace MulliganApi.Migrations
             migrationBuilder.InsertData(
                 table: "Course",
                 columns: new[] { "Id", "CourseDescription", "CourseName", "Has18Holes", "Length", "Par" },
-                values: new object[] { new Guid("4ba95173-1e9d-4874-84c5-43462f6f2647"), "Krokhol golfklubb description", "Krokhol golfklubb", false, 2606, 0 });
+                values: new object[,]
+                {
+                    { new Guid("2ce3e054-61a5-4bed-b5c2-83d7c05101e0"), "Krokhol golfklubb description", "Krokhol golfklubb", false, 2606, 0 },
+                    { new Guid("b01378e6-48a6-45f1-b828-9e278237f902"), "Grønmo golfklubb description", "Grønmo golfklubb", false, 2870, 0 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Round",
                 columns: new[] { "RoundId", "CourseId", "Date", "Puts", "Strokes", "UserId" },
-                values: new object[] { new Guid("0bb628fd-7525-4d27-81f7-9b3c736a3e58"), new Guid("4ba95173-1e9d-4874-84c5-43462f6f2647"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 18, 33, new Guid("814077ba-4ccc-4329-a84b-dc8264d7e1ff") });
+                values: new object[] { new Guid("9531b2da-d555-482a-9840-f99329833474"), new Guid("2ce3e054-61a5-4bed-b5c2-83d7c05101e0"), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 18, 33, new Guid("1a9a92f7-d5fe-4573-95a3-90bd3463f537") });
 
             migrationBuilder.InsertData(
                 table: "CourseHole",
                 columns: new[] { "Id", "CourseId", "HoleNumber", "Length", "Par" },
                 values: new object[,]
                 {
-                    { new Guid("0feb56a8-8da9-4049-a112-6f3c8a270f58"), new Guid("4ba95173-1e9d-4874-84c5-43462f6f2647"), 8, 298, 4 },
-                    { new Guid("4315bd89-86ab-434e-af38-021068d0c3fa"), new Guid("4ba95173-1e9d-4874-84c5-43462f6f2647"), 1, 113, 3 },
-                    { new Guid("4b734475-89c5-4942-b82b-ca32587dd092"), new Guid("4ba95173-1e9d-4874-84c5-43462f6f2647"), 2, 295, 4 },
-                    { new Guid("61bf2f78-d0ba-4e54-8742-64dc730e4ac4"), new Guid("4ba95173-1e9d-4874-84c5-43462f6f2647"), 4, 128, 3 },
-                    { new Guid("8684c5d0-4e0a-4259-bea4-465feeb5ef24"), new Guid("4ba95173-1e9d-4874-84c5-43462f6f2647"), 6, 227, 4 },
-                    { new Guid("a7b18268-5dc1-422c-a30f-784cc541df7e"), new Guid("4ba95173-1e9d-4874-84c5-43462f6f2647"), 9, 330, 4 },
-                    { new Guid("acedd4c6-f340-4030-a5ec-6d80b7bd34c1"), new Guid("4ba95173-1e9d-4874-84c5-43462f6f2647"), 7, 270, 4 },
-                    { new Guid("b36aa4d7-417b-44a9-8796-92d205f05169"), new Guid("4ba95173-1e9d-4874-84c5-43462f6f2647"), 5, 506, 5 },
-                    { new Guid("cc68bd7f-3179-433e-a089-0276931e4c9c"), new Guid("4ba95173-1e9d-4874-84c5-43462f6f2647"), 3, 439, 5 }
+                    { new Guid("1bc5d68a-92a8-4697-a764-00f360ae2c80"), new Guid("b01378e6-48a6-45f1-b828-9e278237f902"), 1, 494, 5 },
+                    { new Guid("2870fd0c-18b2-49a1-8224-9b95f2512697"), new Guid("b01378e6-48a6-45f1-b828-9e278237f902"), 7, 412, 5 },
+                    { new Guid("35039ae0-7e41-4645-b627-f989c17150b3"), new Guid("b01378e6-48a6-45f1-b828-9e278237f902"), 2, 266, 5 },
+                    { new Guid("37c65371-57c8-4bdc-a599-e9808c7f9a24"), new Guid("2ce3e054-61a5-4bed-b5c2-83d7c05101e0"), 5, 506, 5 },
+                    { new Guid("59240783-a258-4343-bda8-252644b5a646"), new Guid("b01378e6-48a6-45f1-b828-9e278237f902"), 9, 365, 4 },
+                    { new Guid("807da2a8-2719-4898-b326-bd3c021f9f74"), new Guid("2ce3e054-61a5-4bed-b5c2-83d7c05101e0"), 7, 270, 4 },
+                    { new Guid("88259d74-a6c6-4a3e-beb2-e35f6a8fc9d7"), new Guid("2ce3e054-61a5-4bed-b5c2-83d7c05101e0"), 2, 295, 4 },
+                    { new Guid("94e816b1-5254-43ad-ab5b-e6883dc48335"), new Guid("b01378e6-48a6-45f1-b828-9e278237f902"), 6, 337, 4 },
+                    { new Guid("ae6abc5c-7890-4784-a80e-40871a587806"), new Guid("2ce3e054-61a5-4bed-b5c2-83d7c05101e0"), 4, 128, 3 },
+                    { new Guid("b98d1ae4-53f3-4186-8248-d1fbdb330402"), new Guid("b01378e6-48a6-45f1-b828-9e278237f902"), 5, 127, 3 },
+                    { new Guid("b9bcc910-1400-4496-8e44-dd31ffc7caee"), new Guid("2ce3e054-61a5-4bed-b5c2-83d7c05101e0"), 8, 298, 4 },
+                    { new Guid("c4896973-8265-47b1-955a-6ddedd52b7d7"), new Guid("b01378e6-48a6-45f1-b828-9e278237f902"), 4, 367, 4 },
+                    { new Guid("cdf21c4b-2b63-470d-aee0-1d63fde3b74b"), new Guid("2ce3e054-61a5-4bed-b5c2-83d7c05101e0"), 3, 439, 5 },
+                    { new Guid("cf1aeb96-4a11-41c2-86bc-1380458e9ec8"), new Guid("2ce3e054-61a5-4bed-b5c2-83d7c05101e0"), 1, 113, 3 },
+                    { new Guid("edac2ada-5bcf-4138-891b-08555b59908d"), new Guid("b01378e6-48a6-45f1-b828-9e278237f902"), 3, 361, 4 },
+                    { new Guid("f4c653ee-9396-438e-84c2-2fe7ec183fc9"), new Guid("2ce3e054-61a5-4bed-b5c2-83d7c05101e0"), 9, 330, 4 },
+                    { new Guid("f6999fdc-57e0-4bdc-85f5-53d152faed0c"), new Guid("b01378e6-48a6-45f1-b828-9e278237f902"), 8, 141, 3 },
+                    { new Guid("fc2404f8-c82f-4607-9c7b-0e61143870cb"), new Guid("2ce3e054-61a5-4bed-b5c2-83d7c05101e0"), 6, 227, 4 }
                 });
 
             migrationBuilder.InsertData(
@@ -176,21 +189,25 @@ namespace MulliganApi.Migrations
                 columns: new[] { "Id", "HoleNumber", "Puts", "RoundId", "Score" },
                 values: new object[,]
                 {
-                    { new Guid("0a78eb49-f22f-4c42-9030-88ff392f8161"), 4, 2, new Guid("0bb628fd-7525-4d27-81f7-9b3c736a3e58"), 3 },
-                    { new Guid("24fa0d90-2f63-4857-9fcb-c89ef4f71c8f"), 5, 1, new Guid("0bb628fd-7525-4d27-81f7-9b3c736a3e58"), 4 },
-                    { new Guid("2ee30590-624c-4d2b-bb8e-755fae575561"), 6, 2, new Guid("0bb628fd-7525-4d27-81f7-9b3c736a3e58"), 4 },
-                    { new Guid("668bf063-51c0-42ad-bf82-60af8ad75b82"), 1, 2, new Guid("0bb628fd-7525-4d27-81f7-9b3c736a3e58"), 2 },
-                    { new Guid("af65d9c7-579a-4d26-bec7-3f6ee0060141"), 3, 2, new Guid("0bb628fd-7525-4d27-81f7-9b3c736a3e58"), 3 },
-                    { new Guid("bebf8ba0-8082-4a24-935b-c96f667a79a8"), 9, 3, new Guid("0bb628fd-7525-4d27-81f7-9b3c736a3e58"), 4 },
-                    { new Guid("bf44472a-d9aa-495f-9e7e-30de1452adc1"), 8, 2, new Guid("0bb628fd-7525-4d27-81f7-9b3c736a3e58"), 2 },
-                    { new Guid("c8225fb7-6d51-4cf1-a8cb-3bb04abb8a5c"), 2, 2, new Guid("0bb628fd-7525-4d27-81f7-9b3c736a3e58"), 6 },
-                    { new Guid("cc91d836-5029-479f-95d2-a3502ae5b028"), 7, 2, new Guid("0bb628fd-7525-4d27-81f7-9b3c736a3e58"), 5 }
+                    { new Guid("012d388b-ecd9-4b72-9fe2-c876d0f81703"), 5, 1, new Guid("9531b2da-d555-482a-9840-f99329833474"), 4 },
+                    { new Guid("1b703a39-e02d-4fb4-967e-7b63a0470ef9"), 3, 2, new Guid("9531b2da-d555-482a-9840-f99329833474"), 3 },
+                    { new Guid("23fe9e27-bbee-45ce-b245-58eb9d0d7637"), 6, 2, new Guid("9531b2da-d555-482a-9840-f99329833474"), 4 },
+                    { new Guid("4a2782c1-11a9-45ac-9e11-b1ffbd692f90"), 1, 2, new Guid("9531b2da-d555-482a-9840-f99329833474"), 2 },
+                    { new Guid("523ae6ec-17ce-48cc-94b9-0d8d0ffea7b4"), 8, 2, new Guid("9531b2da-d555-482a-9840-f99329833474"), 2 },
+                    { new Guid("56912364-aabb-4617-8cd9-4d65e9028483"), 9, 3, new Guid("9531b2da-d555-482a-9840-f99329833474"), 4 },
+                    { new Guid("642293c5-02fd-48e4-bed8-3e97528a1468"), 7, 2, new Guid("9531b2da-d555-482a-9840-f99329833474"), 5 },
+                    { new Guid("65c3519e-9683-4020-90ad-be7547f2eb16"), 4, 2, new Guid("9531b2da-d555-482a-9840-f99329833474"), 3 },
+                    { new Guid("b1dfe152-63f9-442f-b4aa-90d6c6c06b98"), 2, 2, new Guid("9531b2da-d555-482a-9840-f99329833474"), 6 }
                 });
 
             migrationBuilder.InsertData(
                 table: "TeeBoxes",
                 columns: new[] { "Id", "CourseId", "TeeBox" },
-                values: new object[] { new Guid("f1dc6a8c-1b3f-4af8-8c27-5ffca36634af"), new Guid("4ba95173-1e9d-4874-84c5-43462f6f2647"), 52 });
+                values: new object[,]
+                {
+                    { new Guid("8ea1dc5f-bfba-4cef-b3fb-ba0fb86e52da"), new Guid("b01378e6-48a6-45f1-b828-9e278237f902"), 57 },
+                    { new Guid("c31c7890-ccb4-4caa-a2d0-67f60cc900d5"), new Guid("2ce3e054-61a5-4bed-b5c2-83d7c05101e0"), 52 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CourseHole_CourseId",
