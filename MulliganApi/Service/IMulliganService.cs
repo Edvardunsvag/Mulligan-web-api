@@ -16,5 +16,6 @@ namespace MulliganApi.Service
 
         //Notes
         List<CourseNoteDto> GetAllNotesForUser(Guid userId);
+        
     }
 }
