@@ -12,9 +12,11 @@ namespace MulliganApi.Database
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var connectionString = _configuration.GetConnectionString("TestDb");
+
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.
-                UseSqlServer("Server=tcp:mulligan-dbserver-test.database.windows.net,1433;Initial Catalog=mulligan-db-test;Persist Security Info=False;User ID=mulligan-login;Password=HoleInOne1234;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30");
+                UseSqlServer(connectionString);
         }
 
         public DbSet<User> User { get; set; }
