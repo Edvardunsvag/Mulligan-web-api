@@ -210,5 +210,6 @@ $RECYCLE.BIN/
 *.lnk
 
 *.appsettings.Development.json
+appsettings.Development.json
 
 
