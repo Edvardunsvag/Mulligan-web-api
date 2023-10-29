@@ -9,7 +9,7 @@ public interface IConverters
 {
     RoundGetDto ToDto(Round round);
     CourseInfoDto ToDto(Course course, List<CourseTeeBox> teeBoxes);
-    CourseNoteDto ToDtoAsync(List<Note> notes, Course course, Guid userId);
+    CourseNoteDto ToDto(List<Note> notes, Course course, Guid userId);
 }
 
 public class Converters : IConverters
@@ -38,7 +38,8 @@ public class Converters : IConverters
                 HoleNumber = x.HoleNumber,
                 Score = x.Score,
                 Puts = x.Puts,
-            }).ToList()
+                Par = connectedCourse.CourseHoles.First(h => h.HoleNumber == x.HoleNumber).Par
+            }).OrderBy(x => x.HoleNumber).ToList()
         };
 
         return roundDto;
@@ -69,7 +70,7 @@ public class Converters : IConverters
         return courseInfo;
     }
     
-    public  CourseNoteDto ToDtoAsync(List<Note> notes, Course course, Guid userId)
+    public  CourseNoteDto ToDto(List<Note> notes, Course course, Guid userId)
     {
         var notesForCourse = notes.Where(x => x.CourseHole.CourseId == course.Id).ToList();
         var holesWithNote = notesForCourse.Select(note => note.HoleId).Distinct().Count();

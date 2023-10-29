@@ -88,7 +88,7 @@ namespace MulliganApi.Service
                 throw new ArgumentException("User ID cannot be empty.", nameof(userId));
             var notes =  _repository.GetAllCourseNotes(userId);
             var courses =  _repository.GetAllCourses();
-            var notesDtos = courses.Select(course => _converter.ToDtoAsync(notes, course, userId)).ToList();
+            var notesDtos = courses.Select(course => _converter.ToDto(notes, course, userId)).ToList();
 
             return notesDtos;
         }
@@ -100,7 +100,7 @@ namespace MulliganApi.Service
             var notes =  _repository.GetAllCourseNotes(userId);
             var courses =  _repository.GetAllCourses();
             var courseNotes = courses.First(course => course.Id == courseId);
-            var courseNotesDto = _converter.ToDtoAsync(notes, courseNotes, userId);
+            var courseNotesDto = _converter.ToDto(notes, courseNotes, userId);
 
             return courseNotesDto;
         }

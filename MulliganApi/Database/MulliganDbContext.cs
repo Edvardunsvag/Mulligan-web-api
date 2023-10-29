@@ -12,6 +12,7 @@ namespace MulliganApi.Database
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            
             var connectionString = _configuration.GetConnectionString("TestDb");
 
             base.OnConfiguring(optionsBuilder);

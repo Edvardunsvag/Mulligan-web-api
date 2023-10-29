@@ -112,7 +112,7 @@ namespace MulliganApi.Database
                     Id = Guid.NewGuid(),
                     RoundId = roundId,
                     Score = 2,
-                    Puts = 2
+                    Puts = 2,
                 },
                  new RoundHole()
                 {
