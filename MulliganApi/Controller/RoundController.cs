@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MulliganApi.Authentication;
 using MulliganApi.Database.Models;
 using MulliganApi.Dto;
 using MulliganApi.Service;
@@ -7,6 +8,7 @@ namespace MulliganApi.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(ApiKeyAuthFilter))]
     public class RoundController
     {
         private readonly IMulliganService _service;

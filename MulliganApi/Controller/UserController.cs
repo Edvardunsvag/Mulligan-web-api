@@ -7,6 +7,7 @@ using Azure.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MulliganApi.Authentication;
 using MulliganApi.Database.Models;
 using MulliganApi.Database.Repository;
 using MulliganApi.Dto;
@@ -125,6 +126,7 @@ namespace MulliganApi.Controller
         }
 
         [HttpGet("GetUserId")]
+        [ServiceFilter(typeof(ApiKeyAuthFilter))]
         public ActionResult<List<User>> GetUserId(string username)
         {
             var registeredUsers = _repository.GetAllUsers();
@@ -139,6 +141,7 @@ namespace MulliganApi.Controller
         }
 
         [HttpGet("GetAllUsers")]
+        [ServiceFilter(typeof(ApiKeyAuthFilter))]
         public ActionResult<List<User>> GetAllUsers()
         {
             var registeredUsers = _repository.GetAllUsers();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MulliganApi.Authentication;
 using MulliganApi.Dto;
 using MulliganApi.Service;
 
@@ -6,6 +7,7 @@ namespace MulliganApi.Controller
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ServiceFilter(typeof(ApiKeyAuthFilter))]
     public class CourseController
     {
         private readonly IMulliganService _service;

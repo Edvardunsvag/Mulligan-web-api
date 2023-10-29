@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MulliganApi.Authentication;
 using MulliganApi.Controller;
 using MulliganApi.Database;
 using MulliganApi.Database.Repository;
@@ -25,6 +26,7 @@ namespace MulliganApi
             builder.Services.AddScoped<MulliganService>();
             builder.Services.AddScoped<MulliganRepository>();
             builder.Services.AddScoped<Converters>();
+            builder.Services.AddScoped<ApiKeyAuthFilter>();
         }
     }
 }
