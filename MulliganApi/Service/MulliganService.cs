@@ -45,6 +45,7 @@ namespace MulliganApi.Service
                 RoundId = roundId,
                 Score = hole.Score,
                 Puts = hole.Puts,
+                Par = hole.Par
             }).ToList();
 
             var totalStrokes = roundHoles.Select(x => x.Score).Sum();
@@ -58,7 +59,8 @@ namespace MulliganApi.Service
                 CourseId = dto.CourseId,
                 Puts = totalPuts,
                 Date = DateTime.Now,
-            };
+                
+            }; 
             
             await _repository.AddRound(round);
             await _repository.Save();
@@ -112,5 +114,85 @@ namespace MulliganApi.Service
 
             return courseIds;
         }
+
+        public List<CourseRoundHoleStatsDto> GetAllScoresForCourseHole(Guid userId, Guid courseId)
+        {
+            var courseStats = new List<CourseRoundHoleStatsDto>();
+            var rounds = _repository.GetAllRoundsForUser(userId);
+
+            // Initialize statistics for each hole
+            for (int holeNumber = 1; holeNumber <= 18; holeNumber++)
+            {
+                var stats = new CourseRoundHoleStatsDto
+                {
+                    HoleNumber = holeNumber,
+                    HolePar = 0,  // Set par to 0 for now
+                    AverageScore = 0,
+                    Eagle = 0,
+                    Birde = 0,
+                    Par = 0,
+                    Bogey = 0,
+                    DoubleBogey = 0
+                };
+
+                // Calculate par for the hole
+                var parSum = rounds
+                    .Where(round => round.CourseId == courseId)
+                    .Sum(round => round.Holes
+                        .Where(hole => hole.HoleNumber == holeNumber)
+                        .Sum(hole => hole.Par));
+
+                stats.HolePar = parSum;
+
+                courseStats.Add(stats);
+            }
+
+            foreach (var round in rounds)
+            {
+                foreach (var hole in round.Holes)
+                {
+                    var stats = courseStats.Find(stat => stat.HoleNumber == hole.HoleNumber);
+
+                    if (stats != null)
+                    {
+                        int score = hole.Score - hole.Par;
+
+                        // Update statistics based on the score relative to par
+                        if (score == -2)
+                        {
+                            stats.Eagle++;
+                        }
+                        else if (score == -1)
+                        {
+                            stats.Birde++;
+                        }
+                        else if (score == 0)
+                        {
+                            stats.Par++;
+                        }
+                        else if (score == 1)
+                        {
+                            stats.Bogey++;
+                        }
+                        else if (score == 2)
+                        {
+                            stats.DoubleBogey++;
+                        }
+
+                        stats.AverageScore += hole.Score;
+                    }
+                }
+            }
+
+            // Calculate average score
+            foreach (var stats in courseStats)
+            {
+                // stats.AverageScore /= rounds.Count;
+            }
+
+            return courseStats;
+        }
+        
+      
     }
 }

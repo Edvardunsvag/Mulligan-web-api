@@ -21,10 +21,17 @@ namespace MulliganApi.Controller
         }
 
         [HttpGet()]
-        public  List<Guid> GetAllCourseIds()
+        public List<Guid> GetAllCourseIds()
         {
             var courseIds = _service.GetAllCourseIds();
             return courseIds;
+        }
+
+        [HttpGet]
+        public List<CourseRoundHoleStatsDto> GetAllScoresForCourseHoles(Guid userId, Guid courseId)
+        {
+            var courseRounds = _service.GetAllScoresForCourseHole(userId,courseId);
+            return courseRounds;
         }
     }
 }
