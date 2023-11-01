@@ -118,15 +118,16 @@ namespace MulliganApi.Service
         public List<CourseRoundHoleStatsDto> GetAllScoresForCourseHole(Guid userId, Guid courseId)
         {
             var courseStats = new List<CourseRoundHoleStatsDto>();
+            var course = _repository.GetAllCourses().First(y => y.Id == courseId);
             var rounds = _repository.GetAllRoundsForUser(userId);
 
             // Initialize statistics for each hole
-            for (int holeNumber = 1; holeNumber <= 18; holeNumber++)
+            for (var holeNumber = 1; holeNumber <= course.CourseHoles.Count; holeNumber++)
             {
                 var stats = new CourseRoundHoleStatsDto
                 {
                     HoleNumber = holeNumber,
-                    HolePar = 0,  // Set par to 0 for now
+                    HolePar = 0,  
                     AverageScore = 0,
                     Eagle = 0,
                     Birde = 0,
@@ -134,30 +135,20 @@ namespace MulliganApi.Service
                     Bogey = 0,
                     DoubleBogey = 0
                 };
-
-                // Calculate par for the hole
-                var parSum = rounds
-                    .Where(round => round.CourseId == courseId)
-                    .Sum(round => round.Holes
-                        .Where(hole => hole.HoleNumber == holeNumber)
-                        .Sum(hole => hole.Par));
-
-                stats.HolePar = parSum;
-
+                
                 courseStats.Add(stats);
             }
 
             foreach (var round in rounds)
             {
+                
                 foreach (var hole in round.Holes)
                 {
                     var stats = courseStats.Find(stat => stat.HoleNumber == hole.HoleNumber);
 
                     if (stats != null)
                     {
-                        int score = hole.Score - hole.Par;
-
-                        // Update statistics based on the score relative to par
+                        var score = hole.Score - hole.Par;
                         if (score == -2)
                         {
                             stats.Eagle++;
@@ -178,21 +169,18 @@ namespace MulliganApi.Service
                         {
                             stats.DoubleBogey++;
                         }
-
-                        stats.AverageScore += hole.Score;
+                        stats.HolePar = hole.Par;
                     }
+                    stats.AverageScore += hole.Score;
                 }
             }
-
-            // Calculate average score
+            
             foreach (var stats in courseStats)
             {
-                // stats.AverageScore /= rounds.Count;
+                stats.AverageScore /= rounds.Count;
             }
-
+  
             return courseStats;
         }
-        
-      
     }
 }
