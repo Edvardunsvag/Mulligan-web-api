@@ -119,7 +119,7 @@ namespace MulliganApi.Service
         {
             var courseStats = new List<CourseRoundHoleStatsDto>();
             var course = _repository.GetAllCourses().First(y => y.Id == courseId);
-            var rounds = _repository.GetAllRoundsForUser(userId);
+            var rounds = _repository.GetAllRoundsForUser(userId).Where(r => r.CourseId == courseId).ToList();
 
             // Initialize statistics for each hole
             for (var holeNumber = 1; holeNumber <= course.CourseHoles.Count; holeNumber++)
