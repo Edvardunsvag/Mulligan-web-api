@@ -115,6 +115,48 @@ namespace MulliganApi.Service
             return courseIds;
         }
 
+        public CourseGeneralStats GetCourseGeneralStats(Guid userId, Guid courseId)
+        {
+            var courseStats = new CourseGeneralStats();
+            var course = _repository.GetAllCourses().First(y => y.Id == courseId);
+            var rounds = _repository.GetAllRoundsForUser(userId).Where(r => r.CourseId == courseId).ToList();
+            foreach (var round in rounds)
+            {
+                foreach (var hole in round.Holes)
+                {
+                    if (courseStats != null)
+                    {
+                        var score = hole.Score - hole.Par;
+                        if (score == -2)
+                        {
+                            courseStats.Eagle++;
+                        }
+                        else if (score == -1)
+                        {
+                            courseStats.Birde++;
+                        }
+                        else if (score == 0)
+                        {
+                            courseStats.Par++;
+                        }
+                        else if (score == 1)
+                        {
+                            courseStats.Bogey++;
+                        }
+                        else if (score == 2)
+                        {
+                            courseStats.DoubleBogey++;
+                        }
+                        courseStats.TotalNumberOfHolesPlayed += 1;
+                        courseStats.AverageStrokes += hole.Score;
+                    }
+                }
+            }
+            courseStats.AverageStrokes = courseStats.AverageStrokes / rounds.Count;
+            
+            return courseStats;
+        }
+
         public List<CourseRoundHoleStatsDto> GetAllScoresForCourseHole(Guid userId, Guid courseId)
         {
             var courseStats = new List<CourseRoundHoleStatsDto>();

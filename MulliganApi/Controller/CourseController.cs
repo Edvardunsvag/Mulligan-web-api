@@ -33,5 +33,12 @@ namespace MulliganApi.Controller
             var courseRounds = _service.GetAllScoresForCourseHole(userId,courseId);
             return courseRounds;
         }
+
+        [HttpGet]
+        public CourseGeneralStats GetCourseGeneralStats(Guid userId, Guid courseId)
+        {
+            var courseRounds = _service.GetCourseGeneralStats(userId,courseId);
+            return courseRounds;
+        }
     }
 }
