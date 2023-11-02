@@ -2,7 +2,7 @@ namespace MulliganApi.Dto;
 
 public class CourseGeneralStats
 {
-    public double AverageStrokes { get; set; }
+    public int AverageStrokes { get; set; }
     public int TotalNumberOfHolesPlayed { get; set; }
     public int Eagle { get; set; }
     public int Birde { get; set; }

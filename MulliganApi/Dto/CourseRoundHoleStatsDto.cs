@@ -4,7 +4,7 @@ public class CourseRoundHoleStatsDto
 {
     public int HoleNumber { get; set; }
     public int HolePar { get; set; }
-    public float AverageScore { get; set; }
+    public int AverageScore { get; set; }
     public int Eagle { get; set; }
     public int Birde { get; set; }
     public int Par { get; set; }
