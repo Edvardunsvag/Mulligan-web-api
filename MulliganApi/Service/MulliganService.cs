@@ -153,6 +153,7 @@ namespace MulliganApi.Service
                 }
             }
             courseStats.AverageStrokes = courseStats.AverageStrokes / rounds.Count;
+            courseStats.AverageScore = courseStats.AverageStrokes / course.Par;
             
             return courseStats;
         }

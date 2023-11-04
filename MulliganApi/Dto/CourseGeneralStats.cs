@@ -4,6 +4,7 @@ public class CourseGeneralStats
 {
     public int AverageStrokes { get; set; }
     public int TotalNumberOfHolesPlayed { get; set; }
+    public int AverageScore { get; set; }
     public int Eagle { get; set; }
     public int Birde { get; set; }
     public int Par { get; set; }
