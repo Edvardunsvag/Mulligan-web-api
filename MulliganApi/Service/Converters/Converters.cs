@@ -20,11 +20,62 @@ public class Converters : IConverters
     {
         _repository = repository;
     }
+
+    private static string FromScoreToString(int score, int par)
+    {
+        if (score == par)
+        {
+            return "Par";
+        }
+        if (score == par - 1)
+        {
+            return "Birdie";
+        }
+        if (score == par - 2)
+        {
+            return "Eagle";
+        }
+        if (score == par +1)
+        {
+            return "Bogey";
+        }
+        return score >= par +2 ? "Dobbel Bogey" : "";
+    }
+    
     public  RoundGetDto ToDto(Round round)
     {
         var courses =  _repository.GetAllCourses();
         var connectedCourse = courses.First(x => x.Id == round.CourseId);
         var norwegianDate = FormatNorwegianDate(round.Date);
+
+        var holeStats = new List<HoleGeneralStats>();
+        var totalNumberOfHoles = 0;
+        foreach (var hole in round.Holes)
+        {
+            var scoreName = FromScoreToString(hole.Score, hole.Par);
+            var existingHoleStat = holeStats.FirstOrDefault(hs => hs.ScoreName == scoreName);
+
+            if (existingHoleStat != null)
+            {
+                existingHoleStat.ScoreAmount++;
+            }
+            else
+            {
+                var holeStat = new HoleGeneralStats()
+                {
+                    ScoreName = scoreName,
+                    ScoreAmount = 1,
+                    Percentage = 0 
+                };
+                holeStats.Add(holeStat);
+            }
+
+            totalNumberOfHoles++;
+        }
+        foreach (var holeStat in holeStats)
+        {
+            holeStat.Percentage = holeStat.ScoreAmount / totalNumberOfHoles * 100;
+        }
         
         var roundDto = new RoundGetDto()
         {
@@ -33,6 +84,7 @@ public class Converters : IConverters
             Puts = round.Puts,
             NorwegianDate = norwegianDate,
             CourseName = connectedCourse.CourseName,
+            HoleStats = holeStats,
             Holes = round.Holes.Select(x => new RoundHoleDto()
             {
                 HoleNumber = x.HoleNumber,

@@ -35,7 +35,5 @@ namespace MulliganApi.Controller
             var rounds = _service.GetAllRounds();
             return rounds;
         }
-
-
     }
 }

@@ -8,6 +8,7 @@
         public String CourseName { get; set; }
         public String NorwegianDate { get; set; }
         public List<RoundHoleDto> Holes { get; set; }
+        public List<HoleGeneralStats>  HoleStats { get; set; }
 
     }
 }
