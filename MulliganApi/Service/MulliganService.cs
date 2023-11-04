@@ -119,7 +119,15 @@ namespace MulliganApi.Service
         {
             var courseStats = new CourseGeneralStats();
             var course = _repository.GetAllCourses().First(y => y.Id == courseId);
+            if (course == null)
+            {
+                throw new ArgumentException("CourseId Not found", nameof(userId));
+            }
             var rounds = _repository.GetAllRoundsForUser(userId).Where(r => r.CourseId == courseId).ToList();
+            if (rounds == null || rounds.Count == 0)
+            {
+                throw new ArgumentException("No rounds for user on this course", nameof(userId));
+            }
             foreach (var round in rounds)
             {
                 foreach (var hole in round.Holes)
@@ -163,6 +171,14 @@ namespace MulliganApi.Service
             var courseStats = new List<CourseRoundHoleStatsDto>();
             var course = _repository.GetAllCourses().First(y => y.Id == courseId);
             var rounds = _repository.GetAllRoundsForUser(userId).Where(r => r.CourseId == courseId).ToList();
+            if (course == null)
+            {
+                throw new ArgumentException("CourseId Not found", nameof(userId));
+            }
+            if (rounds == null || rounds.Count == 0)
+            {
+                throw new ArgumentException("No rounds for user on this course", nameof(userId));
+            }
 
             // Initialize statistics for each hole
             for (var holeNumber = 1; holeNumber <= course.CourseHoles.Count; holeNumber++)

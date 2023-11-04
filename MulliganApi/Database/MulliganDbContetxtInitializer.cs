@@ -53,7 +53,8 @@ namespace MulliganApi.Database
                 CourseName = "Krokhol golfklubb",
                 CourseDescription = "Krokhol golfklubb description",
                 Has18Holes = false,
-                Length = courseHoles.Select(x => x.Length).Sum()
+                Length = courseHoles.Select(x => x.Length).Sum(),
+                Par = 36,
             };
             
             // Add Course and CourseHoles to the context
@@ -92,7 +93,8 @@ namespace MulliganApi.Database
                 CourseName = "Grønmo golfklubb",
                 CourseDescription = "Grønmo golfklubb description",
                 Has18Holes = false,
-                Length = courseHoles.Select(x => x.Length).Sum()
+                Length = courseHoles.Select(x => x.Length).Sum(),
+                Par = 37,
             };
             
             // Add Course and CourseHoles to the context
