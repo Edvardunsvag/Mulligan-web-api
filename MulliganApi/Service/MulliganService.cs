@@ -184,6 +184,7 @@ namespace MulliganApi.Service
                     HoleNumber = holeNumber,
                     HolePar = 0,  
                     AverageScore = 0,
+                    AverageScoreAsString = "",
                     Eagle = 0,
                     Birde = 0,
                     Par = 0,
@@ -204,25 +205,23 @@ namespace MulliganApi.Service
                     if (stats != null)
                     {
                         var score = hole.Score - hole.Par;
-                        if (score == -2)
+                        switch (score)
                         {
-                            stats.Eagle++;
-                        }
-                        else if (score == -1)
-                        {
-                            stats.Birde++;
-                        }
-                        else if (score == 0)
-                        {
-                            stats.Par++;
-                        }
-                        else if (score == 1)
-                        {
-                            stats.Bogey++;
-                        }
-                        else if (score == 2)
-                        {
-                            stats.DoubleBogey++;
+                            case -2:
+                                stats.Eagle++;
+                                break;
+                            case -1:
+                                stats.Birde++;
+                                break;
+                            case 0:
+                                stats.Par++;
+                                break;
+                            case 1:
+                                stats.Bogey++;
+                                break;
+                            case 2:
+                                stats.DoubleBogey++;
+                                break;
                         }
                         stats.HolePar = hole.Par;
                     }
@@ -233,8 +232,9 @@ namespace MulliganApi.Service
             foreach (var stats in courseStats)
             {
                 stats.AverageScore /= rounds.Count;
+                stats.AverageScoreAsString = stats.AverageScore.ToString();
             }
-  
+            
             return courseStats;
         }
     }

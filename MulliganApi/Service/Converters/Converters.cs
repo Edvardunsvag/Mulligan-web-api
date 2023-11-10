@@ -65,7 +65,7 @@ public class Converters : IConverters
                 {
                     ScoreName = scoreName,
                     ScoreAmount = 1,
-                    Percentage = 0
+                    Percentage = 0,
                 };
                 holeStats.Add(holeStat);
             }
@@ -76,6 +76,7 @@ public class Converters : IConverters
         {
             var rawPercentage = ((double)holeStat.ScoreAmount / totalNumberOfHoles) * 100;
             holeStat.Percentage = Math.Round(rawPercentage, 1);
+            holeStat.PercentageAsString = holeStat.Percentage.ToString();
         }
         
         var roundDto = new RoundGetDto()
