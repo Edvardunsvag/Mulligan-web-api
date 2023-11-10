@@ -232,7 +232,7 @@ namespace MulliganApi.Service
             foreach (var stats in courseStats)
             {
                 stats.AverageScore /= rounds.Count;
-                stats.AverageScoreAsString = stats.AverageScore.ToString();
+                stats.AverageScoreAsString = stats.AverageScore.ToString("F1");
             }
             
             return courseStats;
