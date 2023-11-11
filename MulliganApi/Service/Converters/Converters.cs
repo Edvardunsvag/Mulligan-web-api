@@ -75,7 +75,7 @@ public class Converters : IConverters
         foreach (var holeStat in holeStats)
         {
             var rawPercentage = ((double)holeStat.ScoreAmount / totalNumberOfHoles) * 100;
-            holeStat.Percentage = Math.Round(rawPercentage, 1);
+            holeStat.Percentage = Math.Round(rawPercentage, 0);
             holeStat.PercentageAsString = holeStat.Percentage.ToString(CultureInfo.InvariantCulture);
         }
         
