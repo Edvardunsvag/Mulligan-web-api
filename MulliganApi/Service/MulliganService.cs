@@ -157,7 +157,7 @@ namespace MulliganApi.Service
                 }
             }
             courseStats.AverageStrokes /= rounds.Count;
-            courseStats.AverageScore = Math.Round((double)courseStats.AverageStrokes / course.Par, 1);
+            courseStats.AverageScore = Math.Round((double)courseStats.AverageStrokes - course.Par, 1);
             
             courseStats.AverageScoreAsString = courseStats.AverageScore.ToString("F1");
             courseStats.AverageStrokesAsString = courseStats.AverageStrokes.ToString("F1");
