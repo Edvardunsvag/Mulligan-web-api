@@ -96,8 +96,25 @@ namespace MulliganApi.Controller
         public async Task<ActionResult<UserDto>> RegisterGoogleSignin(string username, string? authToken)
         {
             var registeredUsers = _repository.GetAllUsers();
-            var user = registeredUsers.FirstOrDefault(u => u.Username == username);
-           
+            var user = new User();
+            
+            //Apple login
+            if (authToken != null)
+            {
+                user = registeredUsers.FirstOrDefault(x => x.VerificationToken == authToken);
+                if (user != null)
+                {
+                    var userDto = new UserDto()
+                    {
+                        UserId = user.Id,
+                        Name = user.Username,
+                    };
+                    return Ok(userDto);
+                }
+            }
+            
+            //Google login
+            user = registeredUsers.FirstOrDefault(u => u.Username == username);
             if (user != null)
             {
                 var userDto = new UserDto()
