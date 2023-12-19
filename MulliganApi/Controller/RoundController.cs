@@ -25,7 +25,7 @@ namespace MulliganApi.Controller
         [HttpGet("GetAllRoundsForUser")]
         public List<RoundGetDto> GetAllRoundsForUser(Guid id)
         {
-            var rounds = _service.GetAllRoundsForUser(id).OrderByDescending(x => x.NorwegianDate).ToList();
+            var rounds = _service.GetAllRoundsForUser(id).OrderByDescending(x => x.Date).ToList();
             return rounds;
         }
 

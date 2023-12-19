@@ -85,7 +85,9 @@ public class Converters : IConverters
             Strokes = round.Strokes,
             Puts = round.Puts,
             NorwegianDate = norwegianDate,
+            Date = round.Date,
             CourseName = connectedCourse.CourseName,
+            GeneralDescription = "Denne runden brukte du ${}",
             HoleStats = holeStats,
             Holes = round.Holes.Select(x => new RoundHoleDto()
             {
