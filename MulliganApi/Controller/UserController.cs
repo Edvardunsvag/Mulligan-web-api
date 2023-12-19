@@ -93,7 +93,7 @@ namespace MulliganApi.Controller
         }
 
         [HttpPost("registerGoogleSignin")]
-        public async Task<ActionResult<UserDto>> RegisterGoogleSignin(string username)
+        public async Task<ActionResult<UserDto>> RegisterGoogleSignin(string username, string? authToken)
         {
             var registeredUsers = _repository.GetAllUsers();
             var user = registeredUsers.FirstOrDefault(u => u.Username == username);
@@ -113,12 +113,14 @@ namespace MulliganApi.Controller
             {
                 Id = newGuid,
                 Username = username,
+                VerificationToken = authToken
             };
             await _repository.AddUser(userToAdd);
             var userDto1 = new UserDto()
             {
                 UserId = newGuid,
                 Name = username,
+                VerificationToken = authToken
             };
 
             return Ok(userDto1);
