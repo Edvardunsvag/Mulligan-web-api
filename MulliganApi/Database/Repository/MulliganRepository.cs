@@ -84,7 +84,7 @@ namespace MulliganApi.Database.Repository
 
         public List<User> GetAllUsers()
         {
-            var users = _dbContext.User.ToList();
+            var users = _dbContext.User.AsNoTracking().ToList();
             return users;
         }
 
