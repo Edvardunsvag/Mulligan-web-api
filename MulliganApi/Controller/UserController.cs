@@ -98,6 +98,7 @@ namespace MulliganApi.Controller
             var registeredUsers = _repository.GetAllUsers();
             var userByUsername = registeredUsers.FirstOrDefault(x => x.Username == username);
             var userByAuthToken = registeredUsers.FirstOrDefault(x => x.VerificationToken == authToken);
+            var userDto = new UserDto();
 
             //Apple signin first
             if (userByUsername == null && userByAuthToken == null && authToken != null)
@@ -109,10 +110,15 @@ namespace MulliganApi.Controller
                     Username = username,
                     VerificationToken = authToken
                 };
+                userDto = new UserDto
+                {
+                    UserId = newGuid,
+                    Name = username,
+                    VerificationToken = authToken
+                };
                 await _repository.AddUser(userToAdd);
-                return Ok(userToAdd);
+                return Ok(userDto);
             }
-            var userDto = new UserDto();
 
             //Apple signin already registrered
             if (userByAuthToken != null)
@@ -121,6 +127,12 @@ namespace MulliganApi.Controller
                 {
                     Username = userByUsername.Username,
                     Id = userByUsername.Id,
+                    VerificationToken = authToken
+                };
+                userDto = new UserDto
+                {
+                    UserId = userByUsername.Id,
+                    Name = userByUsername.Username,
                     VerificationToken = authToken
                 };
                 await _repository.UpdateUser(userToUpdate);
@@ -139,8 +151,8 @@ namespace MulliganApi.Controller
                 };
                 userDto = new UserDto
                 {
-                    UserId = userByUsername.Id,
-                    Name = userByUsername.Username,
+                    UserId = newGuid,
+                    Name = username,
                     VerificationToken = authToken
                 };
                 await _repository.AddUser(userToAdd);
