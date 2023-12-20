@@ -96,51 +96,70 @@ namespace MulliganApi.Controller
         public async Task<ActionResult<UserDto>> RegisterGoogleSignin(string username, string? authToken)
         {
             var registeredUsers = _repository.GetAllUsers();
-            var user = new User();
-            
-            //Apple login
-            if (authToken != null)
+            var userByUsername = registeredUsers.FirstOrDefault(x => x.Username == username);
+            var userByAuthToken = registeredUsers.FirstOrDefault(x => x.VerificationToken == authToken);
+
+            //Apple signin first
+            if (userByUsername == null && userByAuthToken == null && authToken != null)
             {
-                user = registeredUsers.FirstOrDefault(x => x.VerificationToken == authToken);
-                if (user != null)
+                var newGuid = Guid.NewGuid();
+                var userToAdd = new User
                 {
-                    var userDto = new UserDto()
-                    {
-                        UserId = user.Id,
-                        Name = user.Username,
-                    };
-                    return Ok(userDto);
-                }
-            }
-            
-            //Google login
-            user = registeredUsers.FirstOrDefault(u => u.Username == username);
-            if (user != null)
-            {
-                var userDto = new UserDto()
-                {
-                    UserId = user.Id,
-                    Name = user.Username,
+                    Id = newGuid,
+                    Username = username,
+                    VerificationToken = authToken
                 };
+                await _repository.AddUser(userToAdd);
+                return Ok(userToAdd);
+            }
+            var userDto = new UserDto();
+
+            //Apple signin already registrered
+            if (userByAuthToken != null)
+            {
+                var userToUpdate = new User()
+                {
+                    Username = userByUsername.Username,
+                    Id = userByUsername.Id,
+                    VerificationToken = authToken
+                };
+                await _repository.UpdateUser(userToUpdate);
                 return Ok(userDto);
             }
-
-            var newGuid = Guid.NewGuid();
-            var userToAdd = new User
+            
+            //Google login first
+            if (userByUsername == null && userByAuthToken == null)
             {
-                Id = newGuid,
-                Username = username,
-                VerificationToken = authToken
-            };
-            await _repository.AddUser(userToAdd);
-            var userDto1 = new UserDto()
+                var newGuid = Guid.NewGuid();
+                var userToAdd = new User
+                {
+                    Id = newGuid,
+                    Username = username,
+                    VerificationToken = authToken
+                };
+                await _repository.AddUser(userToAdd);
+                return Ok(userToAdd);
+            }
+            
+            //Google signin after
+            if (userByUsername != null)
             {
-                UserId = newGuid,
-                Name = username,
-                VerificationToken = authToken
-            };
-
-            return Ok(userDto1);
+                userDto = new UserDto
+                {
+                    UserId = userByUsername.Id,
+                    Name = userByUsername.Username,
+                    VerificationToken = authToken
+                };
+                var userToUpdate = new User()
+                {
+                    Username = userByUsername.Username,
+                    Id = userByUsername.Id,
+                    VerificationToken = authToken
+                };
+                await _repository.UpdateUser(userToUpdate);
+            }
+            
+            return Ok(userDto);
         }
 
         [HttpGet("GetUserId")]

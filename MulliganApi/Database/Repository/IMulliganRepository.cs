@@ -13,6 +13,7 @@ namespace MulliganApi.Database.Repository
         public CourseHole GetHoleById(Guid holeId);
         public List<User> GetAllUsers();
         public Task AddUser(User user);
+        public Task UpdateUser(User user);
         Task Save();
     }
 }

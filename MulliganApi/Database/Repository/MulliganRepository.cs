@@ -105,8 +105,10 @@ namespace MulliganApi.Database.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-
-
-
+        public async Task UpdateUser(User user)
+        {
+            _dbContext.Entry(user).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
