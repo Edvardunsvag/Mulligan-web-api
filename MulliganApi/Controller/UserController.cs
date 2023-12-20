@@ -93,33 +93,33 @@ namespace MulliganApi.Controller
         }
 
         [HttpPost("registerGoogleSignin")]
-        public async Task<ActionResult<UserDto>> RegisterGoogleSignin(string? username, string? authToken)
+        public async Task<ActionResult<UserDto>> RegisterGoogleSignin(string? username, string? authToken, string? email)
         {
             var registeredUsers = _repository.GetAllUsers();
-            var userByUsername = registeredUsers.FirstOrDefault(x => x.Username == username);
+            var userByEmail = registeredUsers.FirstOrDefault(x => x.Email == email);
             var userByAuthToken = registeredUsers.FirstOrDefault(x => x.VerificationToken == authToken);
             var userDto = new UserDto();
 
             //Apple signin first
             if (username != null && authToken != null)
             {
-                if (userByUsername != null)
+                if (userByEmail != null)
                 {
                     var userToUpdate = new User
                     {
-                        Id = userByUsername.Id,
-                        Username = userByUsername.Username,
-                        VerificationToken = authToken
+                        Id = userByEmail.Id,
+                        Username = userByEmail.Username,
+                        VerificationToken = authToken,
+                        Email = email
                     };
                     
-                    userByUsername.VerificationToken = authToken;
+                    userByEmail.VerificationToken = authToken;
                     await _repository.UpdateUser(userToUpdate);
                     
                     var userDtoUpdate = new UserDto
                     {
-                        UserId = userByUsername.Id,
-                        Name = userByUsername.Username,
-                        VerificationToken = authToken
+                        UserId = userByEmail.Id,
+                        Name = userByEmail.Username,
                     };
                     return Ok(userDtoUpdate);
                 }
@@ -129,13 +129,14 @@ namespace MulliganApi.Controller
                 {
                     Id = newGuid,
                     Username = username,
-                    VerificationToken = authToken
+                    VerificationToken = authToken,
+                    Email = email
+
                 };
                 userDto = new UserDto
                 {
                     UserId = newGuid,
                     Name = username,
-                    VerificationToken = authToken
                 };
                 await _repository.AddUser(userToAdd);
                 return Ok(userDto);
@@ -143,20 +144,20 @@ namespace MulliganApi.Controller
             }
             
             //Google login first
-            if (userByUsername == null && userByAuthToken == null)
+            if (userByEmail == null && userByAuthToken == null)
             {
                 var newGuid = Guid.NewGuid();
                 var userToAdd = new User
                 {
                     Id = newGuid,
                     Username = username,
-                    VerificationToken = authToken
+                    VerificationToken = authToken,
+                    Email = email
                 };
                 userDto = new UserDto
                 {
                     UserId = newGuid,
                     Name = username,
-                    VerificationToken = authToken
                 };
                 await _repository.AddUser(userToAdd);
                 return Ok(userDto);
@@ -168,16 +169,14 @@ namespace MulliganApi.Controller
                 {
                     UserId = userByAuthToken.Id,
                     Name = userByAuthToken.Username,
-                    VerificationToken = authToken
                 };
                 return Ok(userDtoToken);
             }
             
             userDto = new UserDto
             {
-                UserId = userByUsername.Id,
-                Name = userByUsername.Username,
-                VerificationToken = authToken
+                UserId = userByEmail.Id,
+                Name = userByEmail.Username,
             };
             
             return Ok(userDto);
