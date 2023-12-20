@@ -117,28 +117,27 @@ namespace MulliganApi.Controller
                         Name = userByUsername.Username,
                         VerificationToken = authToken
                     };
+                    userByUsername.VerificationToken = authToken;
                     await _repository.UpdateUser(userToUpdate);
                     return Ok(userDtoUpdate);
                 }
-                else
+
+                var newGuid = Guid.NewGuid();
+                var userToAdd = new User
                 {
-                    var newGuid = Guid.NewGuid();
-                    var userToAdd = new User
-                    {
-                        Id = newGuid,
-                        Username = username,
-                        VerificationToken = authToken
-                    };
-                    userDto = new UserDto
-                    {
-                        UserId = newGuid,
-                        Name = username,
-                        VerificationToken = authToken
-                    };
-                    await _repository.AddUser(userToAdd);
-                    return Ok(userDto);
-                }
-              
+                    Id = newGuid,
+                    Username = username,
+                    VerificationToken = authToken
+                };
+                userDto = new UserDto
+                {
+                    UserId = newGuid,
+                    Name = username,
+                    VerificationToken = authToken
+                };
+                await _repository.AddUser(userToAdd);
+                return Ok(userDto);
+
             }
             
             //Google login first
