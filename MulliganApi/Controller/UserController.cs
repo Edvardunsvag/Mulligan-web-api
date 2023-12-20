@@ -7,6 +7,7 @@ using Azure.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MulliganApi.Database.Enums;
 using MulliganApi.Database.Models;
 using MulliganApi.Database.Repository;
 using MulliganApi.Dto;
@@ -93,16 +94,47 @@ namespace MulliganApi.Controller
         }
 
         [HttpPost("registerGoogleSignin")]
-        public async Task<ActionResult<UserDto>> RegisterGoogleSignin(string? username, string? authToken, string? email)
+        public async Task<ActionResult<UserDto>> RegisterGoogleSignin(string? username, string? authToken,
+            string? email, LoginProviderEnum loginProvider)
         {
             var registeredUsers = _repository.GetAllUsers();
-            var userByEmail = registeredUsers.FirstOrDefault(x => x.Email == email);
             var userByAuthToken = registeredUsers.FirstOrDefault(x => x.VerificationToken == authToken);
-            var userDto = new UserDto();
-
-            //Apple signin first
-            if (username != null && authToken != null)
+            var userByEmail = registeredUsers.FirstOrDefault(x => x.Email == email);
+            UserDto userDto;
+            if (loginProvider == LoginProviderEnum.Apple)
             {
+                //Add user with first apple login
+                if (userByAuthToken == null && username != null && authToken != null)
+                {
+                    var newGuid = Guid.NewGuid();
+                    var userToAdd = new User
+                    {
+                        Id = newGuid,
+                        Username = username,
+                        VerificationToken = authToken,
+                        Email = email
+                    };
+                    await _repository.AddUser(userToAdd);
+                    userDto = new UserDto
+                    {
+                        UserId = newGuid,
+                        Name = username,
+                    };
+                    return Ok(userDto);
+                }
+
+                //User is already added with apple
+                if (userByAuthToken != null)
+                {
+                    userDto = new UserDto
+                    {
+                        UserId = userByAuthToken.Id,
+                        Name = userByAuthToken.Username,
+                    };
+                    return Ok(userDto);
+                }
+
+                //User is already added with google
                 if (userByEmail != null)
                 {
                     var userToUpdate = new User
@@ -112,75 +144,59 @@ namespace MulliganApi.Controller
                         VerificationToken = authToken,
                         Email = email
                     };
-                    
                     userByEmail.VerificationToken = authToken;
                     await _repository.UpdateUser(userToUpdate);
-                    
-                    var userDtoUpdate = new UserDto
+                    userDto = new UserDto
                     {
                         UserId = userByEmail.Id,
-                        Name = "nummer 1",
+                        Name = userByEmail.Username,
                     };
-                    return Ok(userDtoUpdate);
+                    return Ok(userDto);
+                }
+            }
+
+            if (loginProvider == LoginProviderEnum.Google)
+            {
+                //Add user with first google login
+                if (authToken == null && userByEmail == null && userByAuthToken == null)
+                {
+                    var newGuid = Guid.NewGuid();
+                    var userToAdd = new User
+                    {
+                        Id = newGuid,
+                        Username = username,
+                        VerificationToken = authToken,
+                        Email = email
+                    };
+                    await _repository.AddUser(userToAdd);
+                    userDto = new UserDto
+                    {
+                        UserId = newGuid,
+                        Name = username,
+                    };
+                    return Ok(userDto);
                 }
 
-                var newGuid = Guid.NewGuid();
-                var userToAdd = new User
+                //User is already added with google
+                if (userByEmail != null || userByAuthToken != null)
                 {
-                    Id = newGuid,
-                    Username = username,
-                    VerificationToken = authToken,
-                    Email = email
-
-                };
-                userDto = new UserDto
-                {
-                    UserId = newGuid,
-                    Name = "nummer 2",
-                };
-                await _repository.AddUser(userToAdd);
-                return Ok(userDto);
-
+                    userDto = new UserDto
+                    {
+                        UserId = userByEmail.Id,
+                        Name = userByEmail.Username,
+                    };
+                    return Ok(userDto);
+                }
             }
-            
-            //Google login first
-            if (userByEmail == null && userByAuthToken == null)
-            {
-                var newGuid = Guid.NewGuid();
-                var userToAdd = new User
-                {
-                    Id = newGuid,
-                    Username = username,
-                    VerificationToken = authToken,
-                    Email = email
-                };
-                userDto = new UserDto
-                {
-                    UserId = newGuid,
-                    Name = "nummer 5",
-                };
-                await _repository.AddUser(userToAdd);
-                return Ok(userDto);
-            }
-
-            if (userByAuthToken != null)
-            {
-                var userDtoToken = new UserDto
-                {
-                    UserId = userByAuthToken.Id,
-                    Name = "nummer 4",
-                };
-                return Ok(userDtoToken);
-            }
-            
             userDto = new UserDto
             {
                 UserId = userByEmail.Id,
-                Name = "nummer 3",
+                Name = userByEmail.Username,
             };
             
             return Ok(userDto);
         }
+    
 
         [HttpGet("GetUserId")]
         public ActionResult<List<User>> GetUserId(string username)
