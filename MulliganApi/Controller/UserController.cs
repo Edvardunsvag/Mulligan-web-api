@@ -104,7 +104,7 @@ namespace MulliganApi.Controller
             if (loginProvider == LoginProviderEnum.Apple)
             {
                 //Add user with first apple login
-                if (userByAuthToken == null && username != null && authToken != null)
+                if (userByAuthToken == null && username != null && authToken != null && userByEmail == null)
                 {
                     var newGuid = Guid.NewGuid();
                     var userToAdd = new User
