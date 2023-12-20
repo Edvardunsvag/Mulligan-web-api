@@ -137,8 +137,14 @@ namespace MulliganApi.Controller
                     Username = username,
                     VerificationToken = authToken
                 };
+                userDto = new UserDto
+                {
+                    UserId = userByUsername.Id,
+                    Name = userByUsername.Username,
+                    VerificationToken = authToken
+                };
                 await _repository.AddUser(userToAdd);
-                return Ok(userToAdd);
+                return Ok(userDto);
             }
             
             //Google signin after
