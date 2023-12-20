@@ -111,14 +111,16 @@ namespace MulliganApi.Controller
                         Username = userByUsername.Username,
                         VerificationToken = authToken
                     };
+                    
+                    userByUsername.VerificationToken = authToken;
+                    await _repository.UpdateUser(userToUpdate);
+                    
                     var userDtoUpdate = new UserDto
                     {
                         UserId = userByUsername.Id,
                         Name = userByUsername.Username,
                         VerificationToken = authToken
                     };
-                    userByUsername.VerificationToken = authToken;
-                    await _repository.UpdateUser(userToUpdate);
                     return Ok(userDtoUpdate);
                 }
 
@@ -160,6 +162,17 @@ namespace MulliganApi.Controller
                 return Ok(userDto);
             }
 
+            if (userByAuthToken != null)
+            {
+                var userDtoToken = new UserDto
+                {
+                    UserId = userByAuthToken.Id,
+                    Name = userByAuthToken.Username,
+                    VerificationToken = authToken
+                };
+                return Ok(userDtoToken);
+            }
+            
             userDto = new UserDto
             {
                 UserId = userByUsername.Id,
