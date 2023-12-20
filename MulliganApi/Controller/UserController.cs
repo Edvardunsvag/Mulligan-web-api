@@ -157,7 +157,7 @@ namespace MulliganApi.Controller
                 userDto = new UserDto
                 {
                     UserId = newGuid,
-                    Name = username,
+                    Name = "nummer 5",
                 };
                 await _repository.AddUser(userToAdd);
                 return Ok(userDto);
