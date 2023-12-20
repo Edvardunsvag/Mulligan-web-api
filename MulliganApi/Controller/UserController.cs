@@ -119,7 +119,7 @@ namespace MulliganApi.Controller
                     var userDtoUpdate = new UserDto
                     {
                         UserId = userByEmail.Id,
-                        Name = userByEmail.Username,
+                        Name = "nummer 1",
                     };
                     return Ok(userDtoUpdate);
                 }
@@ -136,7 +136,7 @@ namespace MulliganApi.Controller
                 userDto = new UserDto
                 {
                     UserId = newGuid,
-                    Name = username,
+                    Name = "nummer 2",
                 };
                 await _repository.AddUser(userToAdd);
                 return Ok(userDto);
@@ -168,7 +168,7 @@ namespace MulliganApi.Controller
                 var userDtoToken = new UserDto
                 {
                     UserId = userByAuthToken.Id,
-                    Name = userByAuthToken.Username,
+                    Name = "nummer 4",
                 };
                 return Ok(userDtoToken);
             }
@@ -176,7 +176,7 @@ namespace MulliganApi.Controller
             userDto = new UserDto
             {
                 UserId = userByEmail.Id,
-                Name = userByEmail.Username,
+                Name = "nummer 3",
             };
             
             return Ok(userDto);
