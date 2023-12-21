@@ -27,6 +27,10 @@ public class Converters : IConverters
         {
             return "Par";
         }
+        if (score == par - 3)
+        {
+            return "Albatross";
+        }
         if (score == par - 1)
         {
             return "Birdie";
@@ -39,7 +43,11 @@ public class Converters : IConverters
         {
             return "Bogey";
         }
-        return score >= par +2 ? "Dobbel Bogey" : "";
+        if (score == par +2)
+        {
+            return "Dobbel Bogey";
+        }
+        return score >= par +3 ? "Dobbel Bogey" : "";
     }
     
     public  RoundGetDto ToDto(Round round)
