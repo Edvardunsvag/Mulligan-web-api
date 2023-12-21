@@ -98,7 +98,7 @@ namespace MulliganApi.Controller
             string? email, LoginProviderEnum loginProvider)
         {
             var registeredUsers = _repository.GetAllUsers();
-            var userByAuthToken = registeredUsers.FirstOrDefault(x => x.VerificationToken == authToken);
+            var userByAuthToken = registeredUsers.FirstOrDefault(x => x.VerificationToken != null && x.VerificationToken == authToken);
             var userByEmail = registeredUsers.FirstOrDefault(x => x.Email == email);
             UserDto userDto;
             if (loginProvider == LoginProviderEnum.Apple)
