@@ -188,11 +188,13 @@ namespace MulliganApi.Service
                     HolePar = 0,  
                     AverageScore = 0,
                     AverageScoreAsString = "",
+                    Albatros = 0,
                     Eagle = 0,
                     Birde = 0,
                     Par = 0,
                     Bogey = 0,
-                    DoubleBogey = 0
+                    DoubleBogey = 0,
+                    TrippleBogey = 0
                 };
                 
                 courseStats.Add(stats);
@@ -210,6 +212,9 @@ namespace MulliganApi.Service
                         var score = hole.Score - hole.Par;
                         switch (score)
                         {
+                            case -3:
+                                stats.Albatros++;
+                                break;
                             case -2:
                                 stats.Eagle++;
                                 break;
@@ -224,6 +229,9 @@ namespace MulliganApi.Service
                                 break;
                             case 2:
                                 stats.DoubleBogey++;
+                                break;
+                            case 3:
+                                stats.TrippleBogey++;
                                 break;
                         }
                         stats.HolePar = hole.Par;
