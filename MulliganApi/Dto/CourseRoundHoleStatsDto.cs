@@ -6,7 +6,7 @@ public class CourseRoundHoleStatsDto
     public int HolePar { get; set; }
     public double AverageScore { get; set; } = 0.0;
     public string AverageScoreAsString { get; set; } = string.Empty;
-    public int Albatros { get; set; }
+    public int Albatross { get; set; }
     public int Eagle { get; set; }
     public int Birde { get; set; }
     public int Par { get; set; }

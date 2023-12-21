@@ -47,7 +47,7 @@ public class Converters : IConverters
         {
             return "Dobbel Bogey";
         }
-        return score >= par +3 ? "Dobbel Bogey" : "";
+        return score >= par +3 ? "Tripple Bogey" : "";
     }
     
     public  RoundGetDto ToDto(Round round)

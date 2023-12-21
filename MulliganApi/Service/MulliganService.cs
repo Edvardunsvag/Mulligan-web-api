@@ -194,7 +194,7 @@ namespace MulliganApi.Service
                     HolePar = 0,  
                     AverageScore = 0,
                     AverageScoreAsString = "",
-                    Albatros = 0,
+                    Albatross = 0,
                     Eagle = 0,
                     Birde = 0,
                     Par = 0,
@@ -219,7 +219,7 @@ namespace MulliganApi.Service
                         switch (score)
                         {
                             case -3:
-                                stats.Albatros++;
+                                stats.Albatross++;
                                 break;
                             case -2:
                                 stats.Eagle++;
