@@ -7,7 +7,7 @@ namespace MulliganApi.Database.Models
     {
         public Guid Id { get; set; }
         public string Username { get; set; }
-        public string Email { get; set; }
+        public string? Email { get; set; }
         public byte[] PasswordHash { get; set; } = new byte[64];
         public byte[] PasswordSalt { get; set; } = new byte[64];
         public string? VerificationToken { get; set; }
