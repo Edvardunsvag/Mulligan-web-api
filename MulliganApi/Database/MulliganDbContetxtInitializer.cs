@@ -20,7 +20,6 @@ namespace MulliganApi.Database
             var gronmoId = Guid.NewGuid();
             CourseInitialization(krokholId);
             CourseInitializationGronmo(gronmoId);
-            RoundInitialization(krokholId);
         }
 
         private void CourseInitialization(Guid courseId)
@@ -101,100 +100,6 @@ namespace MulliganApi.Database
             _builder.Entity<CourseTeeBox>().HasData(courseTeeBox);
             _builder.Entity<Course>().HasData(course);
             _builder.Entity<CourseHole>().HasData(courseHoles);
-        }
-
-        public void RoundInitialization(Guid courseId)
-        {
-            var roundId = Guid.NewGuid();
-            var roundHoles = new List<RoundHole>()
-            {
-                new RoundHole()
-                {
-                    HoleNumber = 1,
-                    Id = Guid.NewGuid(),
-                    RoundId = roundId,
-                    Score = 2,
-                    Puts = 2,
-                },
-                 new RoundHole()
-                {
-                    HoleNumber = 2,
-                    Id = Guid.NewGuid(),
-                    RoundId = roundId,
-                    Score = 6,
-                    Puts = 2
-                },
-                  new RoundHole()
-                {
-                    HoleNumber = 3,
-                    Id = Guid.NewGuid(),
-                    RoundId = roundId,
-                    Score = 3,
-                    Puts = 2
-                },
-                   new RoundHole()
-                {
-                    HoleNumber = 4,
-                    Id = Guid.NewGuid(),
-                    RoundId = roundId,
-                    Score = 3,
-                    Puts = 2
-                },
-                    new RoundHole()
-                {
-                    HoleNumber = 5,
-                    Id = Guid.NewGuid(),
-                    RoundId = roundId,
-                    Score = 4,
-                    Puts = 1
-                },
-                     new RoundHole()
-                {
-                    HoleNumber = 6,
-                    Id = Guid.NewGuid(),
-                    RoundId = roundId,
-                    Score = 4,
-                    Puts = 2
-                },
-                      new RoundHole()
-                {
-                    HoleNumber = 7,
-                    Id = Guid.NewGuid(),
-                    RoundId = roundId,
-                    Score = 5,
-                    Puts = 2
-                },
-                       new RoundHole()
-                {
-                    HoleNumber = 8,
-                    Id = Guid.NewGuid(),
-                    RoundId = roundId,
-                    Score = 2,
-                    Puts = 2
-                },
-                        new RoundHole()
-                {
-                    HoleNumber = 9,
-                    Id = Guid.NewGuid(),
-                    RoundId = roundId,
-                    Score = 4,
-                    Puts = 3
-                },
-            };
-
-            var round = new Round()
-            {
-                CourseId = courseId,
-                Strokes = roundHoles.Select(x => x.Score).Sum(),
-                RoundId = roundId,
-                UserId = Guid.NewGuid(),
-                Puts = roundHoles.Select(x => x.Puts).Sum(),
-            };
-
-            //Add to tables
-            _builder.Entity<RoundHole>().HasData(roundHoles);
-            _builder.Entity<Round>().HasData(round);
-
         }
     }
 }

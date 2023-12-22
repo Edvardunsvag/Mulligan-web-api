@@ -223,6 +223,32 @@ namespace MulliganApi.Controller
 
             return Ok(registeredUsers);
         }
+
+        [HttpPost("postUserRating")]
+        public async Task<ActionResult> PostRating(Guid userId, RatingEnum rating)
+        {
+            var users = _repository.GetAllUsers();
+            var currentUser = users.First(x => x.Id == userId);
+            var userRatingId = Guid.NewGuid();
+            var userRating = new UserRatings()
+            {
+                Id = userRatingId,
+                Rating = rating,
+                UserId = currentUser.Id,
+                RatingDate = DateTime.Now
+            };
+            await _repository.AddUserRating(userRating);
+            await _repository.Save();
+
+            return Ok();
+        }
+
+        [HttpGet("getAllUserRatings")]
+        public async Task<List<UserRatings>> GetAllUserRatings()
+        {
+            var ratings = _repository.GetAllUserRatings();
+            return ratings;
+        }
         
         private static void CreatePasswordHash(string password,
             out byte[] passwordHash, out byte[] passwordSalt)

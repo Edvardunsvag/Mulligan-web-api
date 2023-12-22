@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MulliganApi.Database.Enums;
 using MulliganApi.Database.Models;
 
 namespace MulliganApi.Database.Repository
@@ -97,7 +98,17 @@ namespace MulliganApi.Database.Repository
         public async Task AddUser(User user)
         {
             await _dbContext.User.AddAsync(user);
-            await Save();
+        }
+
+        public async Task AddUserRating(UserRatings userRating)
+        {
+            await _dbContext.UserRatings.AddAsync(userRating);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public List<UserRatings> GetAllUserRatings()
+        {
+            return _dbContext.UserRatings.Include(x => x.User).ToList();
         }
 
         public async Task Save()

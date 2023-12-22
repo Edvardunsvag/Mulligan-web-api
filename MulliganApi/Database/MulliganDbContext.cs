@@ -21,6 +21,7 @@ namespace MulliganApi.Database
         }
 
         public DbSet<User> User { get; set; }
+        public DbSet<UserRatings> UserRatings { get; set; }
         public DbSet<Round> Round { get; set; }
         public DbSet<Course> Course { get; set; }
         public DbSet<CourseHole> CourseHole { get; set; }
@@ -32,6 +33,11 @@ namespace MulliganApi.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             new MulliganDbContetxtInitializer(modelBuilder).Seed();
+            modelBuilder.Entity<UserRatings>()
+                .HasOne(ur => ur.User)
+                .WithMany()
+                .HasForeignKey(ur => ur.UserId);
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
