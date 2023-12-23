@@ -234,7 +234,7 @@ namespace MulliganApi.Controller
             {
                 Id = userRatingId,
                 Rating = rating,
-                UserId = currentUser.Id,
+                User = currentUser,
                 RatingDate = DateTime.Now
             };
             await _repository.AddUserRating(userRating);

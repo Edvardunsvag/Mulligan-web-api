@@ -102,13 +102,13 @@ namespace MulliganApi.Database.Repository
 
         public async Task AddUserRating(UserRatings userRating)
         {
-            await _dbContext.UserRatings.AddAsync(userRating);
+            await _dbContext.UserRating.AddAsync(userRating);
             await _dbContext.SaveChangesAsync();
         }
 
         public List<UserRatings> GetAllUserRatings()
         {
-            return _dbContext.UserRatings.Include(x => x.User).ToList();
+            return _dbContext.UserRating.Include(x => x.User).ToList();
         }
 
         public async Task Save()
