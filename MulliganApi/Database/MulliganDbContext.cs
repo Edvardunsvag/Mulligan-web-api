@@ -35,7 +35,10 @@ namespace MulliganApi.Database
         {
             new MulliganDbContetxtInitializer(modelBuilder).Seed();
             modelBuilder.Entity<UserRatings>()
-                .HasOne(ur => ur.User);
+                .HasOne(ur => ur.User)
+                .WithMany(u => u.UserRatings);  
+
+            base.OnModelCreating(modelBuilder);
 
             
             base.OnModelCreating(modelBuilder);

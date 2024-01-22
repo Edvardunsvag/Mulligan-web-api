@@ -244,10 +244,34 @@ namespace MulliganApi.Controller
         }
 
         [HttpGet("getAllUserRatings")]
-        public async Task<List<UserRatings>> GetAllUserRatings()
+        public async Task<List<UserRatingsDto>> GetAllUserRatings()
         {
-            var ratings = _repository.GetAllUserRatings();
-            return ratings;
+            var ratings = await _repository.GetAllUserRatings();
+            var ratingsDto = ratings.Select(x => new UserRatingsDto()
+            {
+                Id = x.Id,
+                Rating = x.Rating,
+                RatingDate = x.RatingDate,
+                UserId = x.User.Id
+            }).ToList();
+            return ratingsDto;
+        }
+
+        [HttpPost("AddAdminToUser")]
+        public async Task<ActionResult> AddAdminToUser(Guid userId)
+        {
+            var users = _repository.GetAllUsers();
+            var user = users.First(x => x.Id == userId);
+            var adminRole = new UserRole()
+            {
+                User = user,
+                Id = Guid.NewGuid(),
+                Role = UserRoleEnum.AdminUser
+            };
+            user.Roles.Add(adminRole);
+            await _repository.AddAdminRoleToUser(adminRole, user);
+            
+            return Ok(user);
         }
         
         private static void CreatePasswordHash(string password,

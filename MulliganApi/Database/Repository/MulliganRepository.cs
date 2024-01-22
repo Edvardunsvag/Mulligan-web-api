@@ -106,9 +106,10 @@ namespace MulliganApi.Database.Repository
             await _dbContext.SaveChangesAsync();
         }
 
-        public List<UserRatings> GetAllUserRatings()
+        public async Task<List<UserRatings>> GetAllUserRatings()
         {
-            return _dbContext.UserRating.Include(x => x.User).ToList();
+            var allRatings = await _dbContext.UserRating.Include(x => x.User).ToListAsync();
+            return allRatings;
         }
 
         public async Task Save()
@@ -119,6 +120,12 @@ namespace MulliganApi.Database.Repository
         public async Task UpdateUser(User user)
         {
             _dbContext.Entry(user).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task AddAdminRoleToUser(UserRole adminRole, User user)
+        {
+            _dbContext.Entry(user.Roles).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
     }

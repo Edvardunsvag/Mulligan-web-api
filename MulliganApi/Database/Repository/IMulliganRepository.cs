@@ -15,8 +15,9 @@ namespace MulliganApi.Database.Repository
         public List<User> GetAllUsers();
         public Task AddUser(User user);
         public Task AddUserRating(UserRatings userRating);
-        public List<UserRatings> GetAllUserRatings();
+        public Task<List<UserRatings>> GetAllUserRatings();
         public Task UpdateUser(User user);
+        public Task AddAdminRoleToUser(UserRole adminRole, User user);
         Task Save();
     }
 }

@@ -53,7 +53,7 @@ public class Converters : IConverters
     public  RoundGetDto ToDto(Round round)
     {
         var courses =  _repository.GetAllCourses();
-        var connectedCourse = courses.First(x => x.Id == round.CourseId);
+        var connectedCourse = courses.FirstOrDefault(x => x.Id == round.CourseId);
         var norwegianDate = FormatNorwegianDate(round.Date);
 
         var holeStats = new List<HoleGeneralStats>();

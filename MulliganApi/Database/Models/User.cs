@@ -13,6 +13,6 @@ namespace MulliganApi.Database.Models
         public byte[] PasswordHash { get; set; } = new byte[64];
         public byte[] PasswordSalt { get; set; } = new byte[64];
         public string? VerificationToken { get; set; }
-        public List<UserRatings> UserRatings { get; set; }
+        public List<UserRatings>? UserRatings { get; set; }
     }
 }
