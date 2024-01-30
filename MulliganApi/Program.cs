@@ -5,6 +5,7 @@ using MulliganApi.Database;
 using MulliganApi.Database.Repository;
 using MulliganApi.Service;
 using MulliganApi.Service.Converters;
+using MulliganApi.Util;
 
 var builder = WebApplication.CreateBuilder(args);
 var dependencyCreator = new DependecyCreater(builder);
@@ -24,6 +25,8 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+MigrationHelper.EnsureMigrationApplied<MulliganDbContext>(app.Services);
+
 app.UseSwagger();
 app.UseCors("AllowAllOrigins");
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MulliganApi.Database.Models;
+using MulliganApi.Util;
 
 namespace MulliganApi.Database
 {
@@ -12,8 +13,7 @@ namespace MulliganApi.Database
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            
-            var connectionString = _configuration.GetConnectionString("TestDb");
+            var connectionString = _configuration.GetConnectionString("LocalDb");
 
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.
@@ -29,8 +29,7 @@ namespace MulliganApi.Database
         public DbSet<CourseTeeBox> TeeBoxes { get; set; }
         public DbSet<RoundHole> RoundHole { get; set; }
         public DbSet<Note> Note { get; set; }
-
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             new MulliganDbContetxtInitializer(modelBuilder).Seed();
@@ -38,9 +37,6 @@ namespace MulliganApi.Database
                 .HasOne(ur => ur.User)
                 .WithMany(u => u.UserRatings);  
 
-            base.OnModelCreating(modelBuilder);
-
-            
             base.OnModelCreating(modelBuilder);
         }
     }
