@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MulliganApi.Database.Enums;
 using MulliganApi.Database.Models;
 
 namespace MulliganApi.Database.Repository
@@ -84,7 +85,7 @@ namespace MulliganApi.Database.Repository
 
         public List<User> GetAllUsers()
         {
-            var users = _dbContext.User.ToList();
+            var users = _dbContext.User.AsNoTracking().ToList();
             return users;
         }
 
@@ -97,7 +98,18 @@ namespace MulliganApi.Database.Repository
         public async Task AddUser(User user)
         {
             await _dbContext.User.AddAsync(user);
-            await Save();
+        }
+
+        public async Task AddUserRating(UserRatings userRating)
+        {
+            await _dbContext.UserRating.AddAsync(userRating);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<UserRatings>> GetAllUserRatings()
+        {
+            var allRatings = await _dbContext.UserRating.Include(x => x.User).ToListAsync();
+            return allRatings;
         }
 
         public async Task Save()
@@ -105,8 +117,16 @@ namespace MulliganApi.Database.Repository
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task UpdateUser(User user)
+        {
+            _dbContext.Entry(user).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+        }
 
-
-
+        public async Task AddAdminRoleToUser(UserRole adminRole, User user)
+        {
+            _dbContext.Entry(user.Roles).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

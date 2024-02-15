@@ -45,6 +45,7 @@ namespace MulliganApi.Service
                 RoundId = roundId,
                 Score = hole.Score,
                 Puts = hole.Puts,
+                Par = hole.Par
             }).ToList();
 
             var totalStrokes = roundHoles.Select(x => x.Score).Sum();
@@ -58,7 +59,8 @@ namespace MulliganApi.Service
                 CourseId = dto.CourseId,
                 Puts = totalPuts,
                 Date = DateTime.Now,
-            };
+                
+            }; 
             
             await _repository.AddRound(round);
             await _repository.Save();
@@ -88,7 +90,7 @@ namespace MulliganApi.Service
                 throw new ArgumentException("User ID cannot be empty.", nameof(userId));
             var notes =  _repository.GetAllCourseNotes(userId);
             var courses =  _repository.GetAllCourses();
-            var notesDtos = courses.Select(course => _converter.ToDtoAsync(notes, course, userId)).ToList();
+            var notesDtos = courses.Select(course => _converter.ToDto(notes, course, userId)).ToList();
 
             return notesDtos;
         }
@@ -100,7 +102,7 @@ namespace MulliganApi.Service
             var notes =  _repository.GetAllCourseNotes(userId);
             var courses =  _repository.GetAllCourses();
             var courseNotes = courses.First(course => course.Id == courseId);
-            var courseNotesDto = _converter.ToDtoAsync(notes, courseNotes, userId);
+            var courseNotesDto = _converter.ToDto(notes, courseNotes, userId);
 
             return courseNotesDto;
         }
@@ -111,6 +113,146 @@ namespace MulliganApi.Service
             var courseIds = courses.Select(c => c.Id).ToList();
 
             return courseIds;
+        }
+
+        public CourseGeneralStats GetCourseGeneralStats(Guid userId, Guid courseId)
+        {
+            var courseStats = new CourseGeneralStats();
+            var course = _repository.GetAllCourses().First(y => y.Id == courseId);
+            if (course == null)
+            {
+                throw new ArgumentException("CourseId Not found", nameof(userId));
+            }
+            var rounds = _repository.GetAllRoundsForUser(userId).Where(r => r.CourseId == courseId).ToList();
+            if (rounds == null || rounds.Count == 0)
+            {
+                throw new ArgumentException("No rounds for user on this course", nameof(userId));
+            }
+            foreach (var round in rounds)
+            {
+                foreach (var hole in round.Holes)
+                {
+                    if (courseStats == null) continue;
+                    var score = hole.Score - hole.Par;
+                    switch (score)
+                    {
+                        case -3:
+                            courseStats.Albatross++;
+                            break;
+                        case -2:
+                            courseStats.Eagle++;
+                            break;
+                        case -1:
+                            courseStats.Birde++;
+                            break;
+                        case 0:
+                            courseStats.Par++;
+                            break;
+                        case 1:
+                            courseStats.Bogey++;
+                            break;
+                        case 2:
+                            courseStats.DoubleBogey++;
+                            break;
+                        case 3:
+                            courseStats.TrippleBogey++;
+                            break;
+                    }
+                    courseStats.TotalNumberOfHolesPlayed += 1;
+                    courseStats.AverageStrokes += hole.Score;
+                }
+            }
+            courseStats.AverageStrokes /= rounds.Count;
+            courseStats.AverageScore = Math.Round((double)courseStats.AverageStrokes - course.Par, 1);
+            
+            courseStats.AverageScoreAsString = courseStats.AverageScore.ToString("F1");
+            courseStats.AverageStrokesAsString = courseStats.AverageStrokes.ToString("F1");
+            
+            return courseStats;
+        }
+
+        public List<CourseRoundHoleStatsDto> GetAllScoresForCourseHole(Guid userId, Guid courseId)
+        {
+            var courseStats = new List<CourseRoundHoleStatsDto>();
+            var course = _repository.GetAllCourses().First(y => y.Id == courseId);
+            var rounds = _repository.GetAllRoundsForUser(userId).Where(r => r.CourseId == courseId).ToList();
+            if (course == null)
+            {
+                throw new ArgumentException("CourseId Not found", nameof(userId));
+            }
+            if (rounds == null || rounds.Count == 0)
+            {
+                throw new ArgumentException("No rounds for user on this course", nameof(userId));
+            }
+
+            // Initialize statistics for each hole
+            for (var holeNumber = 1; holeNumber <= course.CourseHoles.Count; holeNumber++)
+            {
+                var stats = new CourseRoundHoleStatsDto
+                {
+                    HoleNumber = holeNumber,
+                    HolePar = 0,  
+                    AverageScore = 0,
+                    AverageScoreAsString = "",
+                    Albatross = 0,
+                    Eagle = 0,
+                    Birde = 0,
+                    Par = 0,
+                    Bogey = 0,
+                    DoubleBogey = 0,
+                    TrippleBogey = 0
+                };
+                
+                courseStats.Add(stats);
+            }
+
+            foreach (var round in rounds)
+            {
+                
+                foreach (var hole in round.Holes)
+                {
+                    var stats = courseStats.Find(stat => stat.HoleNumber == hole.HoleNumber);
+
+                    if (stats != null)
+                    {
+                        var score = hole.Score - hole.Par;
+                        switch (score)
+                        {
+                            case -3:
+                                stats.Albatross++;
+                                break;
+                            case -2:
+                                stats.Eagle++;
+                                break;
+                            case -1:
+                                stats.Birde++;
+                                break;
+                            case 0:
+                                stats.Par++;
+                                break;
+                            case 1:
+                                stats.Bogey++;
+                                break;
+                            case 2:
+                                stats.DoubleBogey++;
+                                break;
+                            case 3:
+                                stats.TrippleBogey++;
+                                break;
+                        }
+                        stats.HolePar = hole.Par;
+                    }
+                    stats.AverageScore += hole.Score;
+                }
+            }
+            
+            foreach (var stats in courseStats)
+            {
+                stats.AverageScore /= rounds.Count;
+                stats.AverageScoreAsString = stats.AverageScore.ToString("F1");
+            }
+            
+            return courseStats;
         }
     }
 }

@@ -7,7 +7,7 @@ using Azure.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MulliganApi.Authentication;
+using MulliganApi.Database.Enums;
 using MulliganApi.Database.Models;
 using MulliganApi.Database.Repository;
 using MulliganApi.Dto;
@@ -94,39 +94,111 @@ namespace MulliganApi.Controller
         }
 
         [HttpPost("registerGoogleSignin")]
-        public async Task<ActionResult<UserDto>> RegisterGoogleSignin(string username)
+        public async Task<ActionResult<UserDto>> RegisterGoogleSignin(string? username, string? authToken,
+            string? email, LoginProviderEnum loginProvider)
         {
             var registeredUsers = _repository.GetAllUsers();
-            var user = registeredUsers.FirstOrDefault(u => u.Username == username);
-           
-            if (user != null)
+            var userByAuthToken = registeredUsers.FirstOrDefault(x => x.VerificationToken != null && x.VerificationToken == authToken);
+            var userByEmail = registeredUsers.FirstOrDefault(x => x.Email == email);
+            UserDto userDto;
+            if (loginProvider == LoginProviderEnum.Apple)
             {
-                var userDto = new UserDto()
+                //Add user with first apple login
+                if (userByAuthToken == null && username != null && authToken != null && userByEmail == null)
                 {
-                    UserId = user.Id,
-                    Name = user.Username,
-                };
-                return Ok(userDto);
+                    var newGuid = Guid.NewGuid();
+                    var userToAdd = new User
+                    {
+                        Id = newGuid,
+                        Username = username,
+                        VerificationToken = authToken,
+                        Email = email
+                    };
+                    await _repository.AddUser(userToAdd);
+                    userDto = new UserDto
+                    {
+                        UserId = newGuid,
+                        Name = username,
+                    };
+                    return Ok(userDto);
+                }
+
+                //User is already added with apple
+                if (userByAuthToken != null)
+                {
+                    userDto = new UserDto
+                    {
+                        UserId = userByAuthToken.Id,
+                        Name = userByAuthToken.Username,
+                    };
+                    return Ok(userDto);
+                }
+
+                //User is already added with google
+                if (userByEmail != null)
+                {
+                    var userToUpdate = new User
+                    {
+                        Id = userByEmail.Id,
+                        Username = userByEmail.Username,
+                        VerificationToken = authToken,
+                        Email = email
+                    };
+                    userByEmail.VerificationToken = authToken;
+                    await _repository.UpdateUser(userToUpdate);
+                    userDto = new UserDto
+                    {
+                        UserId = userByEmail.Id,
+                        Name = userByEmail.Username,
+                    };
+                    return Ok(userDto);
+                }
             }
 
-            var newGuid = Guid.NewGuid();
-            var userToAdd = new User
+            if (loginProvider == LoginProviderEnum.Google)
             {
-                Id = newGuid,
-                Username = username,
-            };
-            await _repository.AddUser(userToAdd);
-            var userDto1 = new UserDto()
-            {
-                UserId = newGuid,
-                Name = username,
-            };
+                //Add user with first google login
+                if (authToken == null && userByEmail == null && userByAuthToken == null)
+                {
+                    var newGuid = Guid.NewGuid();
+                    var userToAdd = new User
+                    {
+                        Id = newGuid,
+                        Username = username,
+                        VerificationToken = authToken,
+                        Email = email
+                    };
+                    await _repository.AddUser(userToAdd);
+                    userDto = new UserDto
+                    {
+                        UserId = newGuid,
+                        Name = username,
+                    };
+                    return Ok(userDto);
+                }
 
-            return Ok(userDto1);
+                //User is already added with google
+                if (userByEmail != null || userByAuthToken != null)
+                {
+                    userDto = new UserDto
+                    {
+                        UserId = userByEmail.Id,
+                        Name = userByEmail.Username,
+                    };
+                    return Ok(userDto);
+                }
+            }
+            userDto = new UserDto
+            {
+                UserId = userByEmail.Id,
+                Name = userByEmail.Username,
+            };
+            
+            return Ok(userDto);
         }
+    
 
         [HttpGet("GetUserId")]
-        [ServiceFilter(typeof(ApiKeyAuthFilter))]
         public ActionResult<List<User>> GetUserId(string username)
         {
             var registeredUsers = _repository.GetAllUsers();
@@ -141,7 +213,6 @@ namespace MulliganApi.Controller
         }
 
         [HttpGet("GetAllUsers")]
-        [ServiceFilter(typeof(ApiKeyAuthFilter))]
         public ActionResult<List<User>> GetAllUsers()
         {
             var registeredUsers = _repository.GetAllUsers();
@@ -151,6 +222,56 @@ namespace MulliganApi.Controller
             }
 
             return Ok(registeredUsers);
+        }
+
+        [HttpPost("postUserRating")]
+        public async Task<ActionResult> PostRating(Guid userId, RatingEnum rating)
+        {
+            var users = _repository.GetAllUsers();
+            var currentUser = users.First(x => x.Id == userId);
+            var userRatingId = Guid.NewGuid();
+            var userRating = new UserRatings()
+            {
+                Id = userRatingId,
+                Rating = rating,
+                User = currentUser,
+                RatingDate = DateTime.Now
+            };
+            await _repository.AddUserRating(userRating);
+            await _repository.Save();
+
+            return Ok();
+        }
+
+        [HttpGet("getAllUserRatings")]
+        public async Task<List<UserRatingsDto>> GetAllUserRatings()
+        {
+            var ratings = await _repository.GetAllUserRatings();
+            var ratingsDto = ratings.Select(x => new UserRatingsDto()
+            {
+                Id = x.Id,
+                Rating = x.Rating,
+                RatingDate = x.RatingDate,
+                UserId = x.User.Id
+            }).ToList();
+            return ratingsDto;
+        }
+
+        [HttpPost("AddAdminToUser")]
+        public async Task<ActionResult> AddAdminToUser(Guid userId)
+        {
+            var users = _repository.GetAllUsers();
+            var user = users.First(x => x.Id == userId);
+            var adminRole = new UserRole()
+            {
+                User = user,
+                Id = Guid.NewGuid(),
+                Role = UserRoleEnum.AdminUser
+            };
+            user.Roles.Add(adminRole);
+            await _repository.AddAdminRoleToUser(adminRole, user);
+            
+            return Ok(user);
         }
         
         private static void CreatePasswordHash(string password,

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MulliganApi.Database;
 
@@ -11,9 +12,11 @@ using MulliganApi.Database;
 namespace MulliganApi.Migrations
 {
     [DbContext(typeof(MulliganDbContext))]
-    partial class MulliganDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231222234813_UserRoless")]
+    partial class UserRoless
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +55,7 @@ namespace MulliganApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6a9373e9-a757-44a4-8737-7e58a6b73214"),
+                            Id = new Guid("743e8fed-5bdd-492f-9863-f70f7bf9131d"),
                             CourseDescription = "Krokhol golfklubb description",
                             CourseName = "Krokhol golfklubb",
                             Has18Holes = false,
@@ -61,7 +64,7 @@ namespace MulliganApi.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5b1ef49b-b406-4bd9-970b-c408e9785745"),
+                            Id = new Guid("cca19292-df4f-4543-a590-b0692be5e0b2"),
                             CourseDescription = "Grønmo golfklubb description",
                             CourseName = "Grønmo golfklubb",
                             Has18Holes = false,
@@ -97,144 +100,144 @@ namespace MulliganApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8a1f1008-c30c-4753-8f2c-25d91a0822c2"),
-                            CourseId = new Guid("6a9373e9-a757-44a4-8737-7e58a6b73214"),
+                            Id = new Guid("a1ae9243-b0ca-4252-94d4-f2c66f611251"),
+                            CourseId = new Guid("743e8fed-5bdd-492f-9863-f70f7bf9131d"),
                             HoleNumber = 1,
                             Length = 113,
                             Par = 3
                         },
                         new
                         {
-                            Id = new Guid("2b898959-5ea5-4212-9a33-e0da537918f7"),
-                            CourseId = new Guid("6a9373e9-a757-44a4-8737-7e58a6b73214"),
+                            Id = new Guid("16b80425-8299-4fd6-a703-5ec0f1ce615b"),
+                            CourseId = new Guid("743e8fed-5bdd-492f-9863-f70f7bf9131d"),
                             HoleNumber = 2,
                             Length = 295,
                             Par = 4
                         },
                         new
                         {
-                            Id = new Guid("8d5d4033-a475-41f3-8854-c12024cd047b"),
-                            CourseId = new Guid("6a9373e9-a757-44a4-8737-7e58a6b73214"),
+                            Id = new Guid("675fc080-f1fa-42ae-a10b-6598d4b0fb0a"),
+                            CourseId = new Guid("743e8fed-5bdd-492f-9863-f70f7bf9131d"),
                             HoleNumber = 3,
                             Length = 439,
                             Par = 5
                         },
                         new
                         {
-                            Id = new Guid("9fd267c0-bacf-4ae0-9e47-d1d4f6984635"),
-                            CourseId = new Guid("6a9373e9-a757-44a4-8737-7e58a6b73214"),
+                            Id = new Guid("74bcf803-2be5-4081-9342-63d0bd1fd9f2"),
+                            CourseId = new Guid("743e8fed-5bdd-492f-9863-f70f7bf9131d"),
                             HoleNumber = 4,
                             Length = 128,
                             Par = 3
                         },
                         new
                         {
-                            Id = new Guid("db6ab4ff-43d6-4885-9c43-caab8dd8c52a"),
-                            CourseId = new Guid("6a9373e9-a757-44a4-8737-7e58a6b73214"),
+                            Id = new Guid("c6a46a3c-9c50-4ba6-806f-638ecac4f2a0"),
+                            CourseId = new Guid("743e8fed-5bdd-492f-9863-f70f7bf9131d"),
                             HoleNumber = 5,
                             Length = 506,
                             Par = 5
                         },
                         new
                         {
-                            Id = new Guid("d663c8e5-050b-4a3b-8243-334076898aeb"),
-                            CourseId = new Guid("6a9373e9-a757-44a4-8737-7e58a6b73214"),
+                            Id = new Guid("c7bf4285-74cf-4e9a-b345-0c988ead15f4"),
+                            CourseId = new Guid("743e8fed-5bdd-492f-9863-f70f7bf9131d"),
                             HoleNumber = 6,
                             Length = 227,
                             Par = 4
                         },
                         new
                         {
-                            Id = new Guid("4f57e7e2-50b6-488a-906d-9a732f804afe"),
-                            CourseId = new Guid("6a9373e9-a757-44a4-8737-7e58a6b73214"),
+                            Id = new Guid("5aae3d65-d6fa-4151-95b5-d3d279147fc5"),
+                            CourseId = new Guid("743e8fed-5bdd-492f-9863-f70f7bf9131d"),
                             HoleNumber = 7,
                             Length = 270,
                             Par = 4
                         },
                         new
                         {
-                            Id = new Guid("ae4274df-444d-45b4-a7e9-5386b2e09e7c"),
-                            CourseId = new Guid("6a9373e9-a757-44a4-8737-7e58a6b73214"),
+                            Id = new Guid("6c8ae464-21ae-4318-bd7a-b874ed8b63de"),
+                            CourseId = new Guid("743e8fed-5bdd-492f-9863-f70f7bf9131d"),
                             HoleNumber = 8,
                             Length = 298,
                             Par = 4
                         },
                         new
                         {
-                            Id = new Guid("d27a6694-d4a0-4fdc-9f08-769733f1526c"),
-                            CourseId = new Guid("6a9373e9-a757-44a4-8737-7e58a6b73214"),
+                            Id = new Guid("9e015b2a-6fe7-4041-a60d-ac1c91dea3ac"),
+                            CourseId = new Guid("743e8fed-5bdd-492f-9863-f70f7bf9131d"),
                             HoleNumber = 9,
                             Length = 330,
                             Par = 4
                         },
                         new
                         {
-                            Id = new Guid("768ee4a3-04d2-4e38-937b-164ef1294be4"),
-                            CourseId = new Guid("5b1ef49b-b406-4bd9-970b-c408e9785745"),
+                            Id = new Guid("5ec85814-fc1b-4836-9300-9347c4ae429a"),
+                            CourseId = new Guid("cca19292-df4f-4543-a590-b0692be5e0b2"),
                             HoleNumber = 1,
                             Length = 494,
                             Par = 5
                         },
                         new
                         {
-                            Id = new Guid("f797d609-5b09-4717-a71f-ae579d57d71d"),
-                            CourseId = new Guid("5b1ef49b-b406-4bd9-970b-c408e9785745"),
+                            Id = new Guid("8e71bebb-a663-414f-b18b-8e50054781cd"),
+                            CourseId = new Guid("cca19292-df4f-4543-a590-b0692be5e0b2"),
                             HoleNumber = 2,
                             Length = 266,
                             Par = 5
                         },
                         new
                         {
-                            Id = new Guid("f9ac0034-8838-414b-93ba-cfddc65529e9"),
-                            CourseId = new Guid("5b1ef49b-b406-4bd9-970b-c408e9785745"),
+                            Id = new Guid("4048ae5c-4348-4ad9-ba19-3da18df51cb2"),
+                            CourseId = new Guid("cca19292-df4f-4543-a590-b0692be5e0b2"),
                             HoleNumber = 3,
                             Length = 361,
                             Par = 4
                         },
                         new
                         {
-                            Id = new Guid("d47fd485-7c83-4f27-a3d1-fbfc567dcdac"),
-                            CourseId = new Guid("5b1ef49b-b406-4bd9-970b-c408e9785745"),
+                            Id = new Guid("6128e237-57e3-4f89-8538-d0edccd91087"),
+                            CourseId = new Guid("cca19292-df4f-4543-a590-b0692be5e0b2"),
                             HoleNumber = 4,
                             Length = 367,
                             Par = 4
                         },
                         new
                         {
-                            Id = new Guid("f9c6eb7d-c335-4d43-ab1e-4b36678d435c"),
-                            CourseId = new Guid("5b1ef49b-b406-4bd9-970b-c408e9785745"),
+                            Id = new Guid("22b187d1-0734-4d62-bf1c-8e2bf5864756"),
+                            CourseId = new Guid("cca19292-df4f-4543-a590-b0692be5e0b2"),
                             HoleNumber = 5,
                             Length = 127,
                             Par = 3
                         },
                         new
                         {
-                            Id = new Guid("79ca5e2f-aa36-43ff-8980-d79f0f837139"),
-                            CourseId = new Guid("5b1ef49b-b406-4bd9-970b-c408e9785745"),
+                            Id = new Guid("fb77d8d7-5917-49f8-b86b-1d10f55caa01"),
+                            CourseId = new Guid("cca19292-df4f-4543-a590-b0692be5e0b2"),
                             HoleNumber = 6,
                             Length = 337,
                             Par = 4
                         },
                         new
                         {
-                            Id = new Guid("c74895c6-468f-4354-bf43-6258374fe0a5"),
-                            CourseId = new Guid("5b1ef49b-b406-4bd9-970b-c408e9785745"),
+                            Id = new Guid("6f791cab-0cc1-4cee-a263-ee0b6841c111"),
+                            CourseId = new Guid("cca19292-df4f-4543-a590-b0692be5e0b2"),
                             HoleNumber = 7,
                             Length = 412,
                             Par = 5
                         },
                         new
                         {
-                            Id = new Guid("6877ff95-deb9-4f1d-8c57-6ff4e564b7bf"),
-                            CourseId = new Guid("5b1ef49b-b406-4bd9-970b-c408e9785745"),
+                            Id = new Guid("b9d36622-8688-4dac-872b-4f6ef34c6a02"),
+                            CourseId = new Guid("cca19292-df4f-4543-a590-b0692be5e0b2"),
                             HoleNumber = 8,
                             Length = 141,
                             Par = 3
                         },
                         new
                         {
-                            Id = new Guid("8cb7a6af-7028-4a32-8902-261356307082"),
-                            CourseId = new Guid("5b1ef49b-b406-4bd9-970b-c408e9785745"),
+                            Id = new Guid("499bfc05-4f88-4c15-9b1e-887886c77647"),
+                            CourseId = new Guid("cca19292-df4f-4543-a590-b0692be5e0b2"),
                             HoleNumber = 9,
                             Length = 365,
                             Par = 4
@@ -262,14 +265,14 @@ namespace MulliganApi.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("66643f26-f198-4098-83c3-857fd41a8f2a"),
-                            CourseId = new Guid("6a9373e9-a757-44a4-8737-7e58a6b73214"),
+                            Id = new Guid("fc4822c2-0400-481c-99b6-585d5314c704"),
+                            CourseId = new Guid("743e8fed-5bdd-492f-9863-f70f7bf9131d"),
                             TeeBox = 52
                         },
                         new
                         {
-                            Id = new Guid("c2dd0724-0025-4dff-b3e4-025ee6e1ebb6"),
-                            CourseId = new Guid("5b1ef49b-b406-4bd9-970b-c408e9785745"),
+                            Id = new Guid("63615083-5b39-481c-b532-7f5a9ff9b6e4"),
+                            CourseId = new Guid("cca19292-df4f-4543-a590-b0692be5e0b2"),
                             TeeBox = 57
                         });
                 });
@@ -402,7 +405,7 @@ namespace MulliganApi.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRating");
+                    b.ToTable("UserRatings");
                 });
 
             modelBuilder.Entity("MulliganApi.Database.Models.UserRole", b =>
