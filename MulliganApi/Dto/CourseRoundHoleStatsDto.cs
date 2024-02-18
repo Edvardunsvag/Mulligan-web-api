@@ -2,15 +2,14 @@ namespace MulliganApi.Dto;
 
 public class CourseRoundHoleStatsDto
 {
-    public int HoleNumber { get; set; }
-    public int HolePar { get; set; }
-    public double AverageScore { get; set; } = 0.0;
+    public string HoleNumber { get; set; }
+    public string HolePar { get; set; }
     public string AverageScoreAsString { get; set; } = string.Empty;
-    public int Albatross { get; set; }
-    public int Eagle { get; set; }
-    public int Birde { get; set; }
-    public int Par { get; set; }
-    public int Bogey { get; set; }
-    public int DoubleBogey { get; set; }
-    public int TrippleBogey { get; set; }
+    public string Albatross { get; set; }
+    public string Eagle { get; set; }
+    public string Birde { get; set; }
+    public string Par { get; set; }
+    public string Bogey { get; set; }
+    public string DoubleBogey { get; set; }
+    public string TrippleBogey { get; set; }
 }

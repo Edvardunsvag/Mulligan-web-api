@@ -10,6 +10,8 @@ public interface IConverters
     RoundGetDto ToDto(Round round);
     CourseInfoDto ToDto(Course course, List<CourseTeeBox> teeBoxes);
     CourseNoteDto ToDto(List<Note> notes, Course course, Guid userId);
+    List<CourseRoundHoleStatsDto> ToDto(List<CourseRoundHoleStatsEntityDto> courseStatsEntity);
+
 }
 
 public class Converters : IConverters
@@ -168,6 +170,26 @@ public class Converters : IConverters
         };
 
         return noteDto;
+    }
+
+    public List<CourseRoundHoleStatsDto> ToDto(List<CourseRoundHoleStatsEntityDto> courseStatsEntity)
+    {
+        var dto = courseStatsEntity.Select(x => new CourseRoundHoleStatsDto()
+        {
+            HoleNumber = x.HoleNumber.ToString(),
+            HolePar = x.HolePar.ToString(),
+            AverageScoreAsString = x.AverageScoreAsString,
+            Albatross = x.Albatross.ToString(),
+            Eagle = x.Eagle.ToString(),
+            Birde = x.Birde.ToString(),
+            Par = x.Par.ToString(),
+            Bogey = x.Bogey.ToString(),
+            DoubleBogey = x.DoubleBogey.ToString(),
+            TrippleBogey = x.TrippleBogey.ToString(),
+            
+        }).ToList();
+
+        return dto;
     }
 
     private static string FormatNorwegianDate(DateTime date)

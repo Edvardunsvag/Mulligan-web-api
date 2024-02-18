@@ -117,7 +117,6 @@ namespace MulliganApi.Service
 
         public CourseGeneralStats GetCourseGeneralStats(Guid userId, Guid courseId)
         {
-            var courseStats = new CourseGeneralStats();
             var course = _repository.GetAllCourses().First(y => y.Id == courseId);
             if (course == null)
             {
@@ -128,6 +127,35 @@ namespace MulliganApi.Service
             {
                 throw new ArgumentException("No rounds for user on this course", nameof(userId));
             }
+
+            var courseStats = GetGeneralCourseStats(course, rounds);
+            
+            return courseStats;
+        }
+
+        public List<CourseRoundHoleStatsDto> GetAllScoresForCourseHole(Guid userId, Guid courseId)
+        {
+            var course = _repository.GetAllCourses().First(y => y.Id == courseId);
+            var rounds = _repository.GetAllRoundsForUser(userId).Where(r => r.CourseId == courseId).ToList();
+            if (course == null)
+            {
+                throw new ArgumentException("CourseId Not found", nameof(userId));
+            }
+            if (rounds == null || rounds.Count == 0)
+            {
+                throw new ArgumentException("No rounds for user on this course", nameof(userId));
+            }
+
+            var courseStats = GetStatsForEachHole(course, rounds);
+            var courseStatsDto = _converter.ToDto(courseStats);
+            
+            return courseStatsDto;
+        }
+
+        private CourseGeneralStats GetGeneralCourseStats(Course course, List<Round> rounds)
+        {
+            var courseStats = new CourseGeneralStats();
+
             foreach (var round in rounds)
             {
                 foreach (var hole in round.Holes)
@@ -167,28 +195,18 @@ namespace MulliganApi.Service
             
             courseStats.AverageScoreAsString = courseStats.AverageScore.ToString("F1");
             courseStats.AverageStrokesAsString = courseStats.AverageStrokes.ToString("F1");
-            
+
             return courseStats;
         }
+        
+        
 
-        public List<CourseRoundHoleStatsDto> GetAllScoresForCourseHole(Guid userId, Guid courseId)
+        private List<CourseRoundHoleStatsEntityDto> GetStatsForEachHole(Course course, List<Round> rounds)
         {
-            var courseStats = new List<CourseRoundHoleStatsDto>();
-            var course = _repository.GetAllCourses().First(y => y.Id == courseId);
-            var rounds = _repository.GetAllRoundsForUser(userId).Where(r => r.CourseId == courseId).ToList();
-            if (course == null)
-            {
-                throw new ArgumentException("CourseId Not found", nameof(userId));
-            }
-            if (rounds == null || rounds.Count == 0)
-            {
-                throw new ArgumentException("No rounds for user on this course", nameof(userId));
-            }
-
-            // Initialize statistics for each hole
+            var courseStats = new List<CourseRoundHoleStatsEntityDto>();
             for (var holeNumber = 1; holeNumber <= course.CourseHoles.Count; holeNumber++)
             {
-                var stats = new CourseRoundHoleStatsDto
+                var stats = new CourseRoundHoleStatsEntityDto
                 {
                     HoleNumber = holeNumber,
                     HolePar = 0,  
@@ -208,7 +226,6 @@ namespace MulliganApi.Service
 
             foreach (var round in rounds)
             {
-                
                 foreach (var hole in round.Holes)
                 {
                     var stats = courseStats.Find(stat => stat.HoleNumber == hole.HoleNumber);
@@ -251,7 +268,7 @@ namespace MulliganApi.Service
                 stats.AverageScore /= rounds.Count;
                 stats.AverageScoreAsString = stats.AverageScore.ToString("F1");
             }
-            
+
             return courseStats;
         }
     }

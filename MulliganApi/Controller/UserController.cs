@@ -61,6 +61,8 @@ namespace MulliganApi.Controller
             };
 
             await _repository.AddUser(user);
+            await _repository.Save();
+
             var userDto = new UserDto()
             {
                 UserId = user.Id,
@@ -115,6 +117,7 @@ namespace MulliganApi.Controller
                         Email = email
                     };
                     await _repository.AddUser(userToAdd);
+                    await _repository.Save();
                     userDto = new UserDto
                     {
                         UserId = newGuid,
@@ -169,6 +172,7 @@ namespace MulliganApi.Controller
                         Email = email
                     };
                     await _repository.AddUser(userToAdd);
+                    await _repository.Save();
                     userDto = new UserDto
                     {
                         UserId = newGuid,
