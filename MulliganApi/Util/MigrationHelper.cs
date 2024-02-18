@@ -13,8 +13,12 @@ public class MigrationHelper
 
             try
             {
-                logger.LogInformation($"{typeof(T).FullName}: Applying the latest migrations.");
-                db.Database.Migrate();
+                var migrations = db.Database.GetPendingMigrations();
+                if (migrations.Any())
+                {
+                    logger.LogInformation($"{typeof(T).FullName}:AutoDatabaseMigration Enabled. Applying '{string.Join(", ", migrations)}'");
+                    db.Database.Migrate();
+                }
             }
             catch (Exception ex)
             {

@@ -1,13 +1,11 @@
 ﻿using Microsoft.OpenApi.Models;
 using MulliganApi;
-using MulliganApi.Database;
-using MulliganApi.Util;
 
 var builder = WebApplication.CreateBuilder(args);
-var dependecyCreater = new DependecyCreater(builder);
+var dependecyCreater = new DependecyCreater(builder.Environment);
+dependecyCreater.Configure(builder);
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -40,9 +38,6 @@ builder.Services.AddSwaggerGen(c =>
     c.AddSecurityRequirement(requirement);
 });
 
-
-
-builder.Services.AddDbContext<MulliganDbContext>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAllOrigins",
@@ -55,7 +50,7 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 //Applies latest migration if it is not applied yet
-MigrationHelper.EnsureMigrationApplied<MulliganDbContext>(app.Services);
+dependecyCreater.ConfigureApp(app);
 
 app.UseSwagger();
 
