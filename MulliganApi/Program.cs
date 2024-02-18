@@ -50,7 +50,6 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 //Applies latest migration if it is not applied yet
-dependecyCreater.ConfigureApp(app);
 
 app.UseSwagger();
 
@@ -59,12 +58,15 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint(
     "/swagger/v1/swagger.json",
     "v1"
     ));
+
+if (app.Environment.IsDevelopment())
+    app.UseDeveloperExceptionPage();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-if (app.Environment.IsDevelopment())
-     app.UseDeveloperExceptionPage();
+dependecyCreater.ConfigureApp(app);
+
 
 app.Run();
 

@@ -27,7 +27,7 @@ namespace MulliganApi
                 connectionString = builder.Configuration.GetConnectionString("LocalDb");
             }
             builder.Services.AddDbContext<MulliganDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString(connectionString)));
+                options.UseSqlServer((connectionString)));
             
             builder.Services.AddScoped<IMulliganRepository, MulliganRepository>();
             builder.Services.AddScoped<IMulliganService, MulliganService>();
@@ -42,9 +42,6 @@ namespace MulliganApi
             
             //Auth - API-key
             builder.Services.AddScoped<ApiKeyAuthFilter>();
-            
-            //Migration
-            builder.Services.AddScoped<MigrationHelper>();
         }
 
         public void ConfigureApp(WebApplication app)
