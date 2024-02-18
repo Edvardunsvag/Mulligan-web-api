@@ -1,15 +1,10 @@
 ﻿using Microsoft.OpenApi.Models;
 using MulliganApi;
-using MulliganApi.Authentication;
-using MulliganApi.Controller;
 using MulliganApi.Database;
-using MulliganApi.Database.Repository;
-using MulliganApi.Service;
-using MulliganApi.Service.Converters;
 using MulliganApi.Util;
 
 var builder = WebApplication.CreateBuilder(args);
-var dependencyCreator = new DependecyCreater(builder);
+var dependecyCreater = new DependecyCreater(builder);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -19,10 +14,12 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Mulligan Api", Version = "v1" });
 
     // Define a security scheme
+
+    if (builder.Environment.IsDevelopment()) return;
     c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
     {
         Description = "API Key authentication",
-        Name = "ApiKey",
+        Name = "X-Api-Key",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
         Scheme = "ApiKeyScheme"
@@ -56,11 +53,11 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+//Applies latest migration if it is not applied yet
 MigrationHelper.EnsureMigrationApplied<MulliganDbContext>(app.Services);
 
 app.UseSwagger();
-app.UseCors("AllowAllOrigins");
-app.UseRouting();
 
 // Configure the HTTP request pipeline.
 app.UseSwaggerUI(c => c.SwaggerEndpoint(
@@ -70,5 +67,9 @@ app.UseSwaggerUI(c => c.SwaggerEndpoint(
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
+
+if (app.Environment.IsDevelopment())
+     app.UseDeveloperExceptionPage();
+
 app.Run();
 

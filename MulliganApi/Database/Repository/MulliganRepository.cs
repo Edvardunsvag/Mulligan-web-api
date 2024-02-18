@@ -21,9 +21,7 @@ namespace MulliganApi.Database.Repository
         public List<CourseTeeBox> GetTeeBoxes(Guid courseId)
         {
             var teeBoxes = _dbContext.TeeBoxes.Where(x => x.CourseId == courseId).ToList();
-
             return teeBoxes;
-
         }
 
         //Hole
