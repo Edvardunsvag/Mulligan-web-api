@@ -174,19 +174,19 @@ public class Converters : IConverters
 
     public List<CourseRoundHoleStatsDto> ToDto(List<CourseRoundHoleStatsEntityDto> courseStatsEntity)
     {
+        var numberFormat = new NumberFormatInfo { NumberDecimalSeparator = "." }; //Seperates by comma instead of dot
         var dto = courseStatsEntity.Select(x => new CourseRoundHoleStatsDto()
         {
-            HoleNumber = x.HoleNumber.ToString(),
-            HolePar = x.HolePar.ToString(),
+            HoleNumber = x.HoleNumber.ToString("F1", numberFormat),
+            HolePar = x.HolePar.ToString("F1", numberFormat),
             AverageScoreAsString = x.AverageScoreAsString,
-            Albatross = x.Albatross.ToString(),
-            Eagle = x.Eagle.ToString(),
-            Birde = x.Birde.ToString(),
-            Par = x.Par.ToString(),
-            Bogey = x.Bogey.ToString(),
-            DoubleBogey = x.DoubleBogey.ToString(),
-            TrippleBogey = x.TrippleBogey.ToString(),
-            
+            Albatross = x.Albatross.ToString("F1", numberFormat),
+            Eagle = x.Eagle.ToString("F1", numberFormat),
+            Birde = x.Birde.ToString("F1", numberFormat),
+            Par = x.Par.ToString("F1", numberFormat),
+            Bogey = x.Bogey.ToString("F1", numberFormat),
+            DoubleBogey = x.DoubleBogey.ToString("F1", numberFormat),
+            TrippleBogey = x.TrippleBogey.ToString("F1", numberFormat)
         }).ToList();
 
         return dto;
