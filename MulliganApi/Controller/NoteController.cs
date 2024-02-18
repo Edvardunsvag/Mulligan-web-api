@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MulliganApi.Authentication;
 using MulliganApi.Database.Models;
 using MulliganApi.Database.Repository;
 using MulliganApi.Dto;
@@ -8,6 +9,7 @@ namespace MulliganApi.Controller
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [ServiceFilter(typeof(ApiKeyAuthFilter))]
     public class NoteController
     {
         private readonly IMulliganService _service;

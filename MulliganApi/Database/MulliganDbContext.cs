@@ -7,13 +7,21 @@ namespace MulliganApi.Database
     public class MulliganDbContext : DbContext
     {
         private readonly IConfiguration _configuration;
-        public MulliganDbContext(DbContextOptions<MulliganDbContext> options, IConfiguration config) : base(options)
+        private readonly IWebHostEnvironment _environment;
+
+        public MulliganDbContext(DbContextOptions<MulliganDbContext> options, IConfiguration config,
+            IWebHostEnvironment environment) : base(options)
         {
             _configuration = config;
+            _environment = environment;
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connectionString = _configuration.GetConnectionString("TestDb");
+            if (_environment.IsDevelopment())
+            {
+                connectionString = _configuration.GetConnectionString("LocalDb");
+            }
 
             base.OnConfiguring(optionsBuilder);
             optionsBuilder.
