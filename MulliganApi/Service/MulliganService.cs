@@ -2,6 +2,7 @@
 using MulliganApi.Database.Repository;
 using MulliganApi.Dto;
 using MulliganApi.Service.Converters;
+using MulliganApi.Util;
 
 namespace MulliganApi.Service
 {
@@ -9,10 +10,36 @@ namespace MulliganApi.Service
     {
         private readonly MulliganRepository _repository;
         private readonly IConverters _converter;
-        public MulliganService(MulliganRepository repository, IConverters converters)
+        private readonly IHelperFunctions _helper;
+        public MulliganService(MulliganRepository repository, IConverters converters, IHelperFunctions helperFunctions)
         {
             _repository = repository;
             _converter = converters;
+            _helper = helperFunctions;
+        }
+
+        public List<ScoreBoardRound> GetAllRoundsForCourse(Guid courseId)
+        {
+            var allRounds = _repository.GetAllRounds();
+            var allRoundsForCourse = allRounds.Where(x => x.CourseId == courseId);
+            var allUsers = _repository.GetAllUsers();
+
+            var scoreBoardRoundList = new List<ScoreBoardRound>();
+            foreach (var round in allRoundsForCourse)
+            {
+                var user = allUsers.FirstOrDefault(x => x.Id == round.UserId);
+                var norwegianFormattedDate = _helper.FormatNorwegianDate(round.Date);
+                var scoreBoardRound = new ScoreBoardRound()
+                {
+                    UserId = round.UserId,
+                    Score = round.Strokes.ToString(),
+                    Date = norwegianFormattedDate,
+                    Username = user?.Username,
+                };
+                scoreBoardRoundList.Add(scoreBoardRound);
+            }
+
+            return scoreBoardRoundList.OrderBy(x => x.Score).ToList();
         }
 
         public  List<CourseInfoDto> GetInfoAboutCourses()

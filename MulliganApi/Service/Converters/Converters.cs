@@ -2,6 +2,7 @@ using System.Globalization;
 using MulliganApi.Database.Models;
 using MulliganApi.Database.Repository;
 using MulliganApi.Dto;
+using MulliganApi.Util;
 
 namespace MulliganApi.Service.Converters;
 
@@ -17,6 +18,7 @@ public interface IConverters
 public class Converters : IConverters
 {
     private readonly MulliganRepository _repository;
+    private readonly IHelperFunctions _helper;
 
     public Converters(MulliganRepository repository)
     {
@@ -56,7 +58,7 @@ public class Converters : IConverters
     {
         var courses =  _repository.GetAllCourses();
         var connectedCourse = courses.FirstOrDefault(x => x.Id == round.CourseId);
-        var norwegianDate = FormatNorwegianDate(round.Date);
+        var norwegianDate = _helper.FormatNorwegianDate(round.Date);
 
         var holeStats = new List<HoleGeneralStats>();
         var totalNumberOfHoles = 0;
@@ -179,7 +181,7 @@ public class Converters : IConverters
         {
             HoleNumber = x.HoleNumber.ToString("F1", numberFormat),
             HolePar = x.HolePar.ToString("F1", numberFormat),
-            AverageScoreAsString = x.AverageScoreAsString,
+            AverageScoreAsString = x.AverageScore.ToString("F1", numberFormat),
             Albatross = x.Albatross.ToString("F1", numberFormat),
             Eagle = x.Eagle.ToString("F1", numberFormat),
             Birde = x.Birde.ToString("F1", numberFormat),
@@ -190,16 +192,5 @@ public class Converters : IConverters
         }).ToList();
 
         return dto;
-    }
-
-    private static string FormatNorwegianDate(DateTime date)
-    {
-        var month = date.Month;
-        var day = date.Day;
-        var monthName = CultureInfo.GetCultureInfo("no").DateTimeFormat.GetMonthName(month);
-        monthName = char.ToUpper(monthName[0]) + monthName.Substring(1);
-        var formattedDate = $"{day}. {monthName}";
-
-        return formattedDate;
     }
 }

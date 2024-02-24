@@ -32,6 +32,7 @@ namespace MulliganApi
             builder.Services.AddScoped<IMulliganRepository, MulliganRepository>();
             builder.Services.AddScoped<IMulliganService, MulliganService>();
             builder.Services.AddScoped<IConverters, Converters>();
+            builder.Services.AddScoped<IHelperFunctions, HelperFuntions>();
             
             //Models
             builder.Services.AddScoped<RoundController>();

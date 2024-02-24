@@ -8,6 +8,7 @@ namespace MulliganApi.Service
         //Course
         List<CourseInfoDto> GetInfoAboutCourses();
         List<Guid> GetAllCourseIds();
+        List<ScoreBoardRound> GetAllRoundsForCourse(Guid courseId);
 
         List<CourseRoundHoleStatsDto> GetAllScoresForCourseHole(Guid userId, Guid courseId);
         CourseGeneralStats GetCourseGeneralStats(Guid userId, Guid courseId);
