@@ -20,9 +20,10 @@ public class Converters : IConverters
     private readonly MulliganRepository _repository;
     private readonly IHelperFunctions _helper;
 
-    public Converters(MulliganRepository repository)
+    public Converters(MulliganRepository repository, IHelperFunctions helper)
     {
         _repository = repository;
+        _helper = helper;
     }
 
     private static string FromScoreToString(int score, int par)
