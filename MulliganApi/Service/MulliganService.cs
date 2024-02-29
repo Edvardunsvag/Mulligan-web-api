@@ -35,6 +35,7 @@ namespace MulliganApi.Service
                     Score = round.Strokes.ToString(),
                     Date = norwegianFormattedDate,
                     Username = user?.Username,
+                    RoundId = round.RoundId
                 };
                 scoreBoardRoundList.Add(scoreBoardRound);
             }

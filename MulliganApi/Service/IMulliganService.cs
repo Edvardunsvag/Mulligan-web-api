@@ -22,6 +22,5 @@ namespace MulliganApi.Service
         //Notes
         List<CourseNoteDto> GetAllNotesForUser(Guid userId);
         CourseNoteDto GetAllNotesForCourse(Guid userId, Guid courseId);
-
     }
 }
