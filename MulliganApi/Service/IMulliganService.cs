@@ -16,6 +16,7 @@ namespace MulliganApi.Service
         //Rounds
         List<RoundGetDto> GetAllRoundsForUser(Guid id);
         List<RoundGetDto> GetAllRounds();
+        RoundGetDto GetRound(Guid roundId);
         Task<Round> AddRound(RoundPostDto round);
 
         //Notes

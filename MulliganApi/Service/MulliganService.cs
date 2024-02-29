@@ -103,6 +103,14 @@ namespace MulliganApi.Service
             return roundDtoTasks;
         }
 
+        public RoundGetDto GetRound(Guid roundId)
+        {
+            var round = _repository.GetRound(roundId);
+            var roundDto = _converter.ToDto(round);
+
+            return roundDto;
+        }
+
         public List<RoundGetDto> GetAllRounds()
         {
             var rounds = _repository.GetAllRounds();

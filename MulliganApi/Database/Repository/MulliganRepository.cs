@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MulliganApi.Database.Enums;
 using MulliganApi.Database.Models;
+using MulliganApi.Dto;
 
 namespace MulliganApi.Database.Repository
 {
@@ -47,6 +48,12 @@ namespace MulliganApi.Database.Repository
         public List<Round> GetAllRoundsForUser(Guid id)
         {
             var rounds = _dbContext.Round.Include(x => x.Holes).Where(x => x.UserId == id).ToList();
+            return rounds;
+        }
+        
+        public Round GetRound(Guid roundId)
+        {
+            var rounds = _dbContext.Round.Include(x => x.Holes).First(x => x.RoundId == roundId);
             return rounds;
         }
 

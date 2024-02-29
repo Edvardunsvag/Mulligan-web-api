@@ -12,6 +12,7 @@ public interface IConverters
     CourseInfoDto ToDto(Course course, List<CourseTeeBox> teeBoxes);
     CourseNoteDto ToDto(List<Note> notes, Course course, Guid userId);
     List<CourseRoundHoleStatsDto> ToDto(List<CourseRoundHoleStatsEntityDto> courseStatsEntity);
+    
 
 }
 
