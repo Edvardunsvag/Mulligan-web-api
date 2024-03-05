@@ -101,7 +101,5 @@ namespace MulliganApi.Database
             _builder.Entity<Course>().HasData(course);
             _builder.Entity<CourseHole>().HasData(courseHoles);
         }
-
-      
     }
 }
