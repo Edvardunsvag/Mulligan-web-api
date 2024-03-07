@@ -21,10 +21,10 @@ namespace MulliganApi
 
         public void Configure(WebApplicationBuilder builder)
         {
-            var connectionString = builder.Configuration.GetConnectionString("TestDb");
+            var connectionString = builder.Configuration.GetConnectionString("UngeKafkaDb");
             if (_environment.IsDevelopment())
             {
-                connectionString = builder.Configuration.GetConnectionString("LocalDb");
+                connectionString = builder.Configuration.GetConnectionString("UngeKafkaDb");
             }
             builder.Services.AddDbContext<MulliganDbContext>(options =>
                 options.UseSqlServer((connectionString)));
@@ -33,6 +33,7 @@ namespace MulliganApi
             builder.Services.AddScoped<IMulliganService, MulliganService>();
             builder.Services.AddScoped<IConverters, Converters>();
             builder.Services.AddScoped<IHelperFunctions, HelperFuntions>();
+            
             
             //Models
             builder.Services.AddScoped<RoundController>();
