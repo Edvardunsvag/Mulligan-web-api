@@ -45,7 +45,7 @@ namespace MulliganApi.Controller
             return rounds;
         }
         
-        [HttpGet]
+        [HttpGet("GetAllRoundsForScoreBoard")]
         public List<ScoreBoardRound> GetAllRoundsForScoreBoard()
         {
             var courseRounds = _service.GetAllRoundsForScoreBoard();
