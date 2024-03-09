@@ -21,11 +21,13 @@ namespace MulliganApi.Service
         public List<ScoreBoardRound> GetAllRoundsForScoreBoard()
         {
             var allRounds = _repository.GetAllRounds();
+            var courses = _repository.GetAllCourses();
             var allUsers = _repository.GetAllUsers();
 
             var scoreBoardRoundList = new List<ScoreBoardRound>();
             foreach (var round in allRounds)
             {
+                var activeCourse = courses.First(x => x.Id == round.CourseId);
                 var user = allUsers.FirstOrDefault(x => x.Id == round.UserId);
                 var norwegianFormattedDate = _helper.FormatNorwegianDate(round.Date);
                 var scoreBoardRound = new ScoreBoardRound()
@@ -33,7 +35,9 @@ namespace MulliganApi.Service
                     UserId = round.UserId,
                     Score = round.Strokes.ToString(),
                     Date = norwegianFormattedDate,
+                    CourseName = activeCourse.CourseName,
                     Username = user?.Username,
+                    
                     RoundId = round.RoundId
                 };
                 scoreBoardRoundList.Add(scoreBoardRound);
