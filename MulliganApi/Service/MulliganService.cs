@@ -143,10 +143,14 @@ namespace MulliganApi.Service
             return courseNotesDto;
         }
         
-        public  List<Guid> GetAllCourseIds()
+        public  List<CourseIdAndName> GetAllCourseIds()
         {
             var courses =  _repository.GetAllCourses();
-            var courseIds = courses.Select(c => c.Id).ToList();
+            var courseIds = courses.Select(c => new CourseIdAndName()
+            {
+                CourseId = c.Id,
+                CourseName = c.CourseName
+            }).ToList();
 
             return courseIds;
         }

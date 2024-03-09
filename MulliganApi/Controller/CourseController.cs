@@ -23,7 +23,7 @@ namespace MulliganApi.Controller
         }
 
         [HttpGet()]
-        public List<Guid> GetAllCourseIds()
+        public List<CourseIdAndName> GetAllCourseIds()
         {
             var courseIds = _iMulliganService.GetAllCourseIds();
             return courseIds;

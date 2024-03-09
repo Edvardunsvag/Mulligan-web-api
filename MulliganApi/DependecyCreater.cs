@@ -24,7 +24,7 @@ namespace MulliganApi
             var connectionString = builder.Configuration.GetConnectionString("UngeKafkaDb");
             if (_environment.IsDevelopment())
             {
-                connectionString = builder.Configuration.GetConnectionString("UngeKafkaDb");
+                connectionString = builder.Configuration.GetConnectionString("LocalDb");
             }
             builder.Services.AddDbContext<MulliganDbContext>(options =>
                 options.UseSqlServer((connectionString)));
