@@ -18,14 +18,13 @@ namespace MulliganApi.Service
             _helper = helperFunctions;
         }
 
-        public List<ScoreBoardRound> GetAllRoundsForCourse(Guid courseId)
+        public List<ScoreBoardRound> GetAllRoundsForScoreBoard()
         {
             var allRounds = _repository.GetAllRounds();
-            var allRoundsForCourse = allRounds.Where(x => x.CourseId == courseId);
             var allUsers = _repository.GetAllUsers();
 
             var scoreBoardRoundList = new List<ScoreBoardRound>();
-            foreach (var round in allRoundsForCourse)
+            foreach (var round in allRounds)
             {
                 var user = allUsers.FirstOrDefault(x => x.Id == round.UserId);
                 var norwegianFormattedDate = _helper.FormatNorwegianDate(round.Date);

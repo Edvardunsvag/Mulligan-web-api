@@ -49,7 +49,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-//Applies latest migration if it is not applied yet
 
 app.UseSwagger();
 
@@ -65,6 +64,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
+//Applies latest migration if it is not applied yet
 dependecyCreater.ConfigureApp(app);
 
 

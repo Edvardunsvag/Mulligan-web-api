@@ -42,12 +42,5 @@ namespace MulliganApi.Controller
             var courseRounds = _iMulliganService.GetCourseGeneralStats(userId,courseId);
             return courseRounds;
         }
-        
-        [HttpGet]
-        public List<ScoreBoardRound> GetAllRoundsForCourse(Guid courseId)
-        {
-            var courseRounds = _iMulliganService.GetAllRoundsForCourse(courseId);
-            return courseRounds;
-        }
     }
 }
