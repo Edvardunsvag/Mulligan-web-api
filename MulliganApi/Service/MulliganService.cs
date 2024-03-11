@@ -36,8 +36,8 @@ namespace MulliganApi.Service
                     Score = round.Strokes.ToString(),
                     Date = norwegianFormattedDate,
                     CourseName = activeCourse.CourseName,
+                    CourseId = activeCourse.Id,
                     Username = user?.Username,
-                    
                     RoundId = round.RoundId
                 };
                 scoreBoardRoundList.Add(scoreBoardRound);
