@@ -62,6 +62,7 @@ namespace MulliganApi.Service
                 var scoreBoardCard = new ScoreBoardCourseCard()
                 {
                     CourseName = course.CourseName,
+                    CourseId = course.Id,
                     NumberOfRoundsPlayed = $"{numberOfRoundsForCourse.Count} spilte runder",
                     Placement = userPlacement.ToString() ?? "-",
                 };
