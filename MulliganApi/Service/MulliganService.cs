@@ -46,6 +46,43 @@ namespace MulliganApi.Service
             return scoreBoardRoundList.OrderBy(x => x.Score).ToList();
         }
 
+        public List<ScoreBoardCourseCard>? GetDataForScoreBoard(Guid userId)
+        {
+            var allRounds = _repository.GetAllRounds();
+            var courses = _repository.GetAllCourses();
+            var courseCardList = new List<ScoreBoardCourseCard>();
+            foreach (var course in courses)
+            {
+                var numberOfRoundsForCourse = allRounds.Where(x => x.CourseId == course.Id).ToList();
+                var userPlacement = GetUserPlacement(numberOfRoundsForCourse, userId);
+                if (userPlacement == null)
+                {
+                    return null;
+                }
+                var scoreBoardCard = new ScoreBoardCourseCard()
+                {
+                    CourseName = course.CourseName,
+                    NumberOfRoundsPlayed = $"{numberOfRoundsForCourse.Count} spilte runder",
+                    Placement = userPlacement.ToString() ?? "-",
+                };
+                courseCardList.Add(scoreBoardCard);
+            }
+
+            return courseCardList;
+        }
+
+        private double? GetUserPlacement(List<Round> allRoundsForCourse, Guid userId)
+        {
+            var scoresForUser = allRoundsForCourse.Where(x => x.UserId == userId).ToList();
+            if (scoresForUser.Count() == 0)
+            {
+                return null;
+            }
+            var bestScoreObject = scoresForUser.Where(x => x.Strokes == scoresForUser.Min(y => y.Strokes)).FirstOrDefault();   
+            var bestPlacement = allRoundsForCourse.IndexOf(bestScoreObject);
+            return bestPlacement + 1;
+        }
+           
         public  List<CourseInfoDto> GetInfoAboutCourses()
         {
             var courses =  _repository.GetAllCourses();
