@@ -56,7 +56,7 @@ public class Converters : IConverters
         return score >= par +3 ? "Tripple Bogey" : "";
     }
     
-    public  RoundGetDto ToDto(Round round)
+    public RoundGetDto ToDto(Round round)
     {
         var courses =  _repository.GetAllCourses();
         var connectedCourse = courses.FirstOrDefault(x => x.Id == round.CourseId);
@@ -96,6 +96,7 @@ public class Converters : IConverters
         var roundDto = new RoundGetDto()
         {
             CourseId = round.CourseId,
+            RoundId = round.RoundId,
             Strokes = round.Strokes,
             Puts = round.Puts,
             NorwegianDate = norwegianDate,
