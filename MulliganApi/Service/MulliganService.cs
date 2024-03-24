@@ -245,7 +245,7 @@ namespace MulliganApi.Service
                     var score = hole.Score - hole.Par;
                     switch (score)
                     {
-                        case -3:
+                        case <= -3:
                             courseStats.Albatross++;
                             break;
                         case -2:
@@ -263,7 +263,7 @@ namespace MulliganApi.Service
                         case 2:
                             courseStats.DoubleBogey++;
                             break;
-                        case 3:
+                        default:
                             courseStats.TrippleBogey++;
                             break;
                     }
@@ -316,7 +316,7 @@ namespace MulliganApi.Service
                         var score = hole.Score - hole.Par;
                         switch (score)
                         {
-                            case -3:
+                            case <= -3:
                                 stats.Albatross++;
                                 break;
                             case -2:
@@ -334,7 +334,7 @@ namespace MulliganApi.Service
                             case 2:
                                 stats.DoubleBogey++;
                                 break;
-                            case 3:
+                            default:
                                 stats.TrippleBogey++;
                                 break;
                         }
