@@ -14,6 +14,7 @@ namespace MulliganApi.Database.Repository
         //ROUNDS
         public Task<Round> AddRound(Round round);
         Round GetRound(Guid roundId);
+        Task<Guid> DeleteRound(Round round);
         
         //COURSE
         public CourseHole GetHoleById(Guid holeId);

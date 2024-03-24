@@ -27,6 +27,47 @@ namespace MulliganApi.Controller
             _service = service;
             _repository = repository;
         }
+        
+        
+        [HttpGet("GetUserId")]
+        public ActionResult<List<User>> GetUserId(string username)
+        {
+            var registeredUsers = _repository.GetAllUsers();
+            var user = registeredUsers.FirstOrDefault(u => u.Username == username);
+
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+
+            return Ok(registeredUsers);
+        }
+
+        [HttpGet("GetAllUsers")]
+        public ActionResult<List<User>> GetAllUsers()
+        {
+            var registeredUsers = _repository.GetAllUsers();
+            if(registeredUsers.Count == 0)
+            {
+                return BadRequest("No users");
+            }
+
+            return Ok(registeredUsers);
+        }
+        
+        [HttpGet("getAllUserRatings")]
+        public async Task<List<UserRatingsDto>> GetAllUserRatings()
+        {
+            var ratings = await _repository.GetAllUserRatings();
+            var ratingsDto = ratings.Select(x => new UserRatingsDto()
+            {
+                Id = x.Id,
+                Rating = x.Rating,
+                RatingDate = x.RatingDate,
+                UserId = x.User.Id
+            }).ToList();
+            return ratingsDto;
+        }
 
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(UserRegisterRequestDto request)
@@ -200,34 +241,7 @@ namespace MulliganApi.Controller
             
             return Ok(userDto);
         }
-    
-
-        [HttpGet("GetUserId")]
-        public ActionResult<List<User>> GetUserId(string username)
-        {
-            var registeredUsers = _repository.GetAllUsers();
-            var user = registeredUsers.FirstOrDefault(u => u.Username == username);
-
-            if (user == null)
-            {
-                return BadRequest("User not found");
-            }
-
-            return Ok(registeredUsers);
-        }
-
-        [HttpGet("GetAllUsers")]
-        public ActionResult<List<User>> GetAllUsers()
-        {
-            var registeredUsers = _repository.GetAllUsers();
-            if(registeredUsers.Count == 0)
-            {
-                return BadRequest("No users");
-            }
-
-            return Ok(registeredUsers);
-        }
-
+        
         [HttpPost("postUserRating")]
         public async Task<ActionResult> PostRating(Guid userId, RatingEnum rating)
         {
@@ -245,20 +259,6 @@ namespace MulliganApi.Controller
             await _repository.Save();
 
             return Ok();
-        }
-
-        [HttpGet("getAllUserRatings")]
-        public async Task<List<UserRatingsDto>> GetAllUserRatings()
-        {
-            var ratings = await _repository.GetAllUserRatings();
-            var ratingsDto = ratings.Select(x => new UserRatingsDto()
-            {
-                Id = x.Id,
-                Rating = x.Rating,
-                RatingDate = x.RatingDate,
-                UserId = x.User.Id
-            }).ToList();
-            return ratingsDto;
         }
 
         [HttpPost("AddAdminToUser")]

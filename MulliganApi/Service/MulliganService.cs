@@ -137,6 +137,13 @@ namespace MulliganApi.Service
             return round;
         }
 
+        public async Task<Guid> DeleteRound(Guid roundId)
+        {
+            var round = _repository.GetRound(roundId);
+            var deletedRoundId = await _repository.DeleteRound(round);
+            return deletedRoundId;
+        }
+
         public List<RoundGetDto> GetAllRoundsForUser(Guid id)
         {
             var rounds =  _repository.GetAllRoundsForUser(id);

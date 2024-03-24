@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MulliganApi.Authentication;
 using MulliganApi.Database.Models;
+using MulliganApi.Database.Repository;
 using MulliganApi.Dto;
 using MulliganApi.Service;
 
@@ -12,18 +13,14 @@ namespace MulliganApi.Controller
     public class RoundController
     {
         private readonly IMulliganService _service;
-        public RoundController(IMulliganService service)
+        private readonly IMulliganRepository _repository;
+        public RoundController(IMulliganService service, IMulliganRepository repository)
         {
             _service = service;
+            _repository = repository;
         }
-
-        [HttpPost()]
-        public async Task<Round> AddRound(RoundPostDto round)
-        {
-            var output = await _service.AddRound(round);
-            return output;
-        }
-
+        
+        
         [HttpGet("GetAllRoundsForUser")]
         public List<RoundGetDto> GetAllRoundsForUser(Guid id)
         {
@@ -57,6 +54,23 @@ namespace MulliganApi.Controller
         {
             var courseRounds = _service.GetDataForScoreBoard(userId);
             return courseRounds;
+        }
+
+        [HttpPost()]
+        public async Task<Round> AddRound(RoundPostDto round)
+        {
+            var output = await _service.AddRound(round);
+            return output;
+        }
+        
+        [HttpDelete("DeleteRound")]
+        public async Task<ActionResult<Guid>> DeleteRound(Guid roundId)
+        {
+            var round = _repository.GetRound(roundId);
+            var deletedRound = await _repository.DeleteRound(round);
+            await _repository.Save();
+
+            return deletedRound;
         }
     }
 }

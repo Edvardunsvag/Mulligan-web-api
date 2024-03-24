@@ -62,6 +62,13 @@ namespace MulliganApi.Database.Repository
             var rounds =  _dbContext.Round.Include(x => x.Holes).ToList();
             return rounds;
         }
+        
+        public async Task<Guid> DeleteRound(Round round)
+        {
+             _dbContext.Round?.Remove(round);
+            await _dbContext.SaveChangesAsync();
+            return round.RoundId;
+        }
 
         //Note
         public List<Note> GetAllCourseNotes(Guid userId)

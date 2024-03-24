@@ -21,6 +21,7 @@ namespace MulliganApi.Service
         List<RoundGetDto> GetAllRounds();
         RoundGetDto GetRound(Guid roundId);
         Task<Round> AddRound(RoundPostDto round);
+        Task<Guid> DeleteRound(Guid roundId);
 
         //Notes
         List<CourseNoteDto> GetAllNotesForUser(Guid userId);
