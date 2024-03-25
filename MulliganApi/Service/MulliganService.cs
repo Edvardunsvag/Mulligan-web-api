@@ -57,7 +57,7 @@ namespace MulliganApi.Service
                 var userPlacement = GetUserPlacement(numberOfRoundsForCourse, userId);
                 if (userPlacement == null)
                 {
-                    return null;
+                    continue;
                 }
                 var scoreBoardCard = new ScoreBoardCourseCard()
                 {
@@ -75,11 +75,11 @@ namespace MulliganApi.Service
         private double? GetUserPlacement(List<Round> allRoundsForCourse, Guid userId)
         {
             var scoresForUser = allRoundsForCourse.Where(x => x.UserId == userId).ToList();
-            if (scoresForUser.Count() == 0)
+            if (scoresForUser.Count == 0)
             {
                 return null;
             }
-            var bestScoreObject = scoresForUser.Where(x => x.Strokes == scoresForUser.Min(y => y.Strokes)).FirstOrDefault();   
+            var bestScoreObject = scoresForUser.FirstOrDefault(x => x.Strokes == scoresForUser.Min(y => y.Strokes));   
             var bestPlacement = allRoundsForCourse.IndexOf(bestScoreObject);
             return bestPlacement + 1;
         }
