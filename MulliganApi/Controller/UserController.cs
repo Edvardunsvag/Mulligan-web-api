@@ -306,7 +306,7 @@ namespace MulliganApi.Controller
             var allRounds = _repository.GetAllRounds();
             var allusers = _repository.GetAllUsers();
             var allUserIds = allusers.Select(x => x.Id).ToList();
-            var allRoundsWithoutUser = allRounds?.Where(x => allUserIds.Contains(x.UserId)).ToList();
+            var allRoundsWithoutUser = allRounds?.Where(x => !allUserIds.Contains(x.UserId)).ToList();
             foreach (var round in allRoundsWithoutUser)
             {
                 await _repository.DeleteRound(round);
