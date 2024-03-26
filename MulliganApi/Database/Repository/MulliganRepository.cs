@@ -44,12 +44,6 @@ namespace MulliganApi.Database.Repository
             await _dbContext.Round.AddAsync(round);
             return round;
         }
-
-        public List<Round> GetAllRoundsForUser(Guid id)
-        {
-            var rounds = _dbContext.Round.Include(x => x.Holes).Where(x => x.UserId == id).ToList();
-            return rounds;
-        }
         
         public Round GetRound(Guid roundId)
         {
@@ -70,6 +64,13 @@ namespace MulliganApi.Database.Repository
             return round.RoundId;
         }
 
+        public List<Round>? GetAllRoundsForUser(Guid userId)
+        {
+            var rounds = _dbContext.Round.ToList();
+            var allRoundsForUser = rounds.Where(x => x.UserId == userId).ToList();
+            return allRoundsForUser;
+        }
+        
         //Note
         public List<Note> GetAllCourseNotes(Guid userId)
         {
@@ -114,8 +115,8 @@ namespace MulliganApi.Database.Repository
 
         public async Task<User> DeleteUser(User user)
         {
-             _dbContext.User.Remove(user);
-             await _dbContext.SaveChangesAsync(); 
+            _dbContext.User.Remove(user);
+            await _dbContext.SaveChangesAsync(); 
             return user;
         }
 

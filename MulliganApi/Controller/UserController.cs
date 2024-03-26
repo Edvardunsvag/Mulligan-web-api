@@ -288,10 +288,35 @@ namespace MulliganApi.Controller
                 throw new Exception("User not found");
             }
             var deletedUser = await _repository.DeleteUser(activeUser);
+            
+            //Delete all rounds for user
+            var allRoundsForUser = _repository.GetAllRoundsForUser(activeUser.Id);
+            foreach (var round in allRoundsForUser)
+            {
+                await _repository.DeleteRound(round);
+            }
             await _repository.Save();
 
             return deletedUser.Id;
         }
+        
+        [HttpDelete("TempDeleteRoundsForInactiveUsers")]
+        public async Task<ActionResult> TempDeleteRoundsForInactiveUsers()
+        {
+            var allRounds = _repository.GetAllRounds();
+            var allusers = _repository.GetAllUsers();
+            var allUserIds = allusers.Select(x => x.Id).ToList();
+            var allRoundsWithoutUser = allRounds?.Where(x => allUserIds.Contains(x.UserId)).ToList();
+            foreach (var round in allRoundsWithoutUser)
+            {
+                await _repository.DeleteRound(round);
+            }
+            await _repository.Save();
+
+            return Ok("Run ok");
+        }
+        
+        
         
         private static void CreatePasswordHash(string password,
             out byte[] passwordHash, out byte[] passwordSalt)
