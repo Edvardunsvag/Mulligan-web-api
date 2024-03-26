@@ -30,10 +30,11 @@ namespace MulliganApi.Service
                 var activeCourse = courses.First(x => x.Id == round.CourseId);
                 var user = allUsers.FirstOrDefault(x => x.Id == round.UserId);
                 var norwegianFormattedDate = _helper.FormatNorwegianDate(round.Date);
+                var formattedScore = _helper.ScoreBasedOnCoursePar(round.Strokes, activeCourse.Par);
                 var scoreBoardRound = new ScoreBoardRound()
                 {
                     UserId = round.UserId,
-                    Score = round.Strokes.ToString(),
+                    Score = formattedScore,
                     Date = norwegianFormattedDate,
                     CourseName = activeCourse.CourseName,
                     CourseId = activeCourse.Id,

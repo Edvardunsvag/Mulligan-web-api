@@ -278,6 +278,21 @@ namespace MulliganApi.Controller
             return Ok(user);
         }
         
+        [HttpDelete("DeleteUser")]
+        public async Task<ActionResult<Guid>> DeleteUser(Guid userId)
+        {
+            var allUsers = _repository.GetAllUsers();
+            var activeUser = allUsers.FirstOrDefault(x => x.Id == userId);
+            if (activeUser == null)
+            {
+                throw new Exception("User not found");
+            }
+            var deletedUser = await _repository.DeleteUser(activeUser);
+            await _repository.Save();
+
+            return deletedUser.Id;
+        }
+        
         private static void CreatePasswordHash(string password,
             out byte[] passwordHash, out byte[] passwordSalt)
         {

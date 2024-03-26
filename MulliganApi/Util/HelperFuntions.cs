@@ -5,6 +5,7 @@ namespace MulliganApi.Util;
 public interface IHelperFunctions
 {
     string FormatNorwegianDate(DateTime date);
+    string ScoreBasedOnCoursePar(int numStrokes, int par);
 }
 
 public class HelperFuntions : IHelperFunctions
@@ -23,6 +24,26 @@ public class HelperFuntions : IHelperFunctions
         var formattedDate = $"{day}. {monthName}";
 
         return formattedDate;
+    }
+
+    public string ScoreBasedOnCoursePar(int numStrokes, int par)
+    {
+        var score = Math.Abs(numStrokes - par);
+        string formattedScore;
+        if (numStrokes > par)
+        {
+            formattedScore = $"+{score}";
+        }
+        else if (numStrokes < par)
+        {
+            formattedScore = $"-{score}";
+        }
+        else
+        {
+            formattedScore = "E";
+        }
+
+        return formattedScore;
     }
 }
 

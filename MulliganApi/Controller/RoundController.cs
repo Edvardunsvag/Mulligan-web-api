@@ -20,7 +20,6 @@ namespace MulliganApi.Controller
             _repository = repository;
         }
         
-        
         [HttpGet("GetAllRoundsForUser")]
         public List<RoundGetDto> GetAllRoundsForUser(Guid id)
         {

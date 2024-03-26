@@ -112,6 +112,13 @@ namespace MulliganApi.Database.Repository
             await _dbContext.User.AddAsync(user);
         }
 
+        public async Task<User> DeleteUser(User user)
+        {
+             _dbContext.User.Remove(user);
+             await _dbContext.SaveChangesAsync(); 
+            return user;
+        }
+
         public async Task AddUserRating(UserRatings userRating)
         {
             await _dbContext.UserRating.AddAsync(userRating);
