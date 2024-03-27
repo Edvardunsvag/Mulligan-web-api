@@ -64,11 +64,10 @@ namespace MulliganApi.Database.Repository
             return round.RoundId;
         }
 
-        public List<Round>? GetAllRoundsForUser(Guid userId)
+        public List<Round> GetAllRoundsForUser(Guid id)
         {
-            var rounds = _dbContext.Round.ToList();
-            var allRoundsForUser = rounds.Where(x => x.UserId == userId).ToList();
-            return allRoundsForUser;
+            var rounds = _dbContext.Round.Include(x => x.Holes).Where(x => x.UserId == id).ToList();
+            return rounds;
         }
         
         //Note
