@@ -6,6 +6,7 @@
         public Guid? RoundId { get; set; }
         public int Strokes { get; set; }
         public string ScoreAccordingToPar { get; set; }
+        public int CoursePar { get; set; }
         public int Puts { get; set; }
         public string GeneralDescription { get; set; }
         public String CourseName { get; set; }
@@ -13,6 +14,5 @@
         public DateTime Date { get; set; }
         public List<RoundHoleDto> Holes { get; set; }
         public List<HoleGeneralStats>  HoleStats { get; set; }
-
     }
 }

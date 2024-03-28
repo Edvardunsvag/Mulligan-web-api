@@ -100,6 +100,7 @@ public class Converters : IConverters
             RoundId = round.RoundId,
             Strokes = round.Strokes,
             ScoreAccordingToPar = scoreAccordingToPar,
+            CoursePar = connectedCourse.Par,
             Puts = round.Puts,
             NorwegianDate = norwegianDate,
             Date = round.Date,
