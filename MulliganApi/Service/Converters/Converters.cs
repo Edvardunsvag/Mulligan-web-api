@@ -61,6 +61,7 @@ public class Converters : IConverters
         var courses =  _repository.GetAllCourses();
         var connectedCourse = courses.FirstOrDefault(x => x.Id == round.CourseId);
         var norwegianDate = _helper.FormatNorwegianDate(round.Date);
+        var scoreAccordingToPar = _helper.ScoreBasedOnCoursePar(round.Strokes, connectedCourse.Par);
 
         var holeStats = new List<HoleGeneralStats>();
         var totalNumberOfHoles = 0;
@@ -98,11 +99,12 @@ public class Converters : IConverters
             CourseId = round.CourseId,
             RoundId = round.RoundId,
             Strokes = round.Strokes,
+            ScoreAccordingToPar = scoreAccordingToPar,
             Puts = round.Puts,
             NorwegianDate = norwegianDate,
             Date = round.Date,
             CourseName = connectedCourse.CourseName,
-            GeneralDescription = "Denne runden brukte du ${}",
+            GeneralDescription = "Et par timer til på rangen så nærmer du deg Simon sitt nivå!",
             HoleStats = holeStats,
             Holes = round.Holes.Select(x => new RoundHoleDto()
             {

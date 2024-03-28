@@ -206,7 +206,7 @@ namespace MulliganApi.Service
 
         public CourseGeneralStats GetCourseGeneralStats(Guid userId, Guid courseId)
         {
-            var course = _repository.GetAllCourses().First(y => y.Id == courseId);
+            var course = _repository.GetAllCourses().FirstOrDefault(y => y.Id == courseId);
             if (course == null)
             {
                 throw new ArgumentException("CourseId Not found", nameof(userId));

@@ -5,6 +5,7 @@
         public Guid CourseId { get; set; }
         public Guid? RoundId { get; set; }
         public int Strokes { get; set; }
+        public string ScoreAccordingToPar { get; set; }
         public int Puts { get; set; }
         public string GeneralDescription { get; set; }
         public String CourseName { get; set; }
