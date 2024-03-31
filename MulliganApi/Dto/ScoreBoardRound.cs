@@ -9,4 +9,5 @@ public class ScoreBoardRound
     public string CourseName { get; set; }
     public string Score { get; set; }
     public string Date { get; set; }
+    public int Strokes { get; set; }
 }

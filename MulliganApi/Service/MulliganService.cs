@@ -35,6 +35,7 @@ namespace MulliganApi.Service
                 {
                     UserId = round.UserId,
                     Score = formattedScore,
+                    Strokes = round.Strokes,
                     Date = norwegianFormattedDate,
                     CourseName = activeCourse.CourseName,
                     CourseId = activeCourse.Id,
@@ -44,7 +45,7 @@ namespace MulliganApi.Service
                 scoreBoardRoundList.Add(scoreBoardRound);
             }
 
-            return scoreBoardRoundList.OrderBy(x => x.Score).ToList();
+            return scoreBoardRoundList.OrderBy(x => x.Strokes).ToList();
         }
 
         public List<ScoreBoardCourseCard>? GetDataForScoreBoard(Guid userId)
