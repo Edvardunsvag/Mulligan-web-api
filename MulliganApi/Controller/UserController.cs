@@ -147,7 +147,7 @@ namespace MulliganApi.Controller
             if (loginProvider == LoginProviderEnum.Apple)
             {
                 //Add user with first apple login
-                if (userByAuthToken == null && username != null && authToken != null && userByEmail == null)
+                if (userByAuthToken == null && authToken != null)
                 {
                     var newGuid = Guid.NewGuid();
                     var userToAdd = new User
@@ -174,26 +174,6 @@ namespace MulliganApi.Controller
                     {
                         UserId = userByAuthToken.Id,
                         Name = userByAuthToken.Username,
-                    };
-                    return Ok(userDto);
-                }
-
-                //User is already added with google
-                if (userByEmail != null)
-                {
-                    var userToUpdate = new User
-                    {
-                        Id = userByEmail.Id,
-                        Username = userByEmail.Username,
-                        VerificationToken = authToken,
-                        Email = email
-                    };
-                    userByEmail.VerificationToken = authToken;
-                    await _repository.UpdateUser(userToUpdate);
-                    userDto = new UserDto
-                    {
-                        UserId = userByEmail.Id,
-                        Name = userByEmail.Username,
                     };
                     return Ok(userDto);
                 }
