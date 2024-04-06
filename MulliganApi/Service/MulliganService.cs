@@ -77,12 +77,13 @@ namespace MulliganApi.Service
         private double? GetUserPlacement(List<Round> allRoundsForCourse, Guid userId)
         {
             var scoresForUser = allRoundsForCourse.Where(x => x.UserId == userId).ToList();
+            var sortedAllRounds = allRoundsForCourse.OrderBy(x => x.Strokes).ToList();
             if (scoresForUser.Count == 0)
             {
                 return null;
             }
             var bestScoreObject = scoresForUser.FirstOrDefault(x => x.Strokes == scoresForUser.Min(y => y.Strokes));   
-            var bestPlacement = allRoundsForCourse.IndexOf(bestScoreObject);
+            var bestPlacement = sortedAllRounds.IndexOf(bestScoreObject);
             return bestPlacement + 1;
         }
            
