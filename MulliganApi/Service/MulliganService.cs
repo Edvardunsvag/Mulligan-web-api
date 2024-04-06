@@ -106,7 +106,7 @@ namespace MulliganApi.Service
             var correctCourseIdInDto = courses.FirstOrDefault(x => x.Id == dto.CourseId);
             if (correctCourseIdInDto == null)
             {
-                throw new Exception("Course ID added by user is not correct.");
+                throw new Exception("Course ID added by user is not correct!");
             }
          
             var roundId = Guid.NewGuid();
